@@ -47,6 +47,7 @@
         "overline": "Sélection",
         "title": "Pièces Coup de Cœur",
         "description": "Nos créations les plus appréciées, alliant design épuré et confort absolu.",
+        "collection": "all",
         "products_count": 4,
         "btn_text": "Voir Tout",
         "btn_url": "/collections/all",
