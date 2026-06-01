@@ -1,0 +1,29 @@
+{% layout 'theme' %}
+
+<div class="collection-header">
+  <div class="container">
+    <h1 class="collection-header__title">{{ blog.title }}</h1>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid--3">
+      {% for article in blog.articles %}
+        <article>
+          {% if article.image %}
+            <a href="{{ article.url }}" style="display:block;overflow:hidden;aspect-ratio:16/10;margin-bottom:1.25rem;">
+              {{ article.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: article.title, style: 'width:100%;height:100%;object-fit:cover;transition:transform .5s ease;' }}
+            </a>
+          {% endif %}
+          <span style="font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--color-text-muted);">{{ article.published_at | date: '%d %B %Y' }}</span>
+          <h2 style="font-family:var(--font-heading);font-size:1.3rem;margin:.5rem 0 .75rem;"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+          <p style="font-size:.85rem;color:var(--color-text-muted);line-height:1.7;">{{ article.excerpt | strip_html | truncate: 140 }}</p>
+          <a href="{{ article.url }}" style="display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;">
+            Lire la suite <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+{% layout 'theme' %}
+
+<section class="section" style="min-height:60vh;display:flex;align-items:center;">
+  <div class="container--narrow" style="max-width:480px;margin:0 auto;width:100%;">
+    <h1 style="font-family:var(--font-heading);font-size:2rem;margin-bottom:2rem;text-align:center;">Connexion</h1>
+
+    {% form 'customer_login' %}
+      {% if form.errors %}
+        <div style="background:#fff0f0;border:1px solid #fcc;padding:1rem;margin-bottom:1.5rem;font-size:.85rem;color:#b00;">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      <div style="margin-bottom:1.25rem;">
+        <label style="display:block;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;">Email</label>
+        <input type="email" name="customer[email]" autocomplete="email" style="width:100%;padding:.85rem 1rem;border:1px solid var(--color-border);outline:none;font-family:inherit;font-size:.9rem;transition:border-color .2s;" onfocus="this.style.borderColor='#000'" onblur="this.style.borderColor='var(--color-border)'">
+      </div>
+
+      <div style="margin-bottom:1.75rem;">
+        <label style="display:block;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;">Mot de passe</label>
+        <input type="password" name="customer[password]" autocomplete="current-password" style="width:100%;padding:.85rem 1rem;border:1px solid var(--color-border);outline:none;font-family:inherit;font-size:.9rem;transition:border-color .2s;" onfocus="this.style.borderColor='#000'" onblur="this.style.borderColor='var(--color-border)'">
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--full btn--large">Se connecter</button>
+
+      <div style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:var(--color-text-muted);">
+        <a href="{{ routes.account_recover_url }}" style="text-decoration:underline;">Mot de passe oublié ?</a>
+        &nbsp;·&nbsp;
+        <a href="{{ routes.account_register_url }}" style="text-decoration:underline;">Créer un compte</a>
+      </div>
+    {% endform %}
+  </div>
+</section>

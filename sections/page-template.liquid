@@ -1,0 +1,20 @@
+<div class="collection-header">
+  <div class="container">
+    <h1 class="collection-header__title">{{ page.title }}</h1>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container--narrow">
+    <div class="rte" style="font-size:.95rem;line-height:1.8;color:var(--color-text-muted);">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Page",
+  "settings": []
+}
+{% endschema %}

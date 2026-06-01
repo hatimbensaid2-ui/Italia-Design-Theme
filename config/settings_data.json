@@ -1,0 +1,17 @@
+{
+  "current": {
+    "color_primary": "#000000",
+    "color_secondary": "#ffffff",
+    "color_accent": "#c9a96e",
+    "color_body_bg": "#ffffff",
+    "color_body_text": "#1a1a1a",
+    "font_heading": "cormorant_garamond_n4",
+    "font_body": "montserrat_n4",
+    "logo_width": 160,
+    "sticky_header": true,
+    "footer_about": "<p>Italia Design — Mobilier de luxe inspiré de l'Italie, fabriqué pour le Maroc.</p>",
+    "footer_phone": "+212 5XX-XXXXXX",
+    "footer_email": "contact@italiadesign.ma",
+    "footer_address": "Casablanca, Maroc"
+  }
+}

@@ -1,0 +1,49 @@
+{% layout 'theme' %}
+
+<div class="collection-header">
+  <div class="container">
+    <h1 class="collection-header__title">Recherche</h1>
+    {% if search.performed %}
+      <p class="collection-header__desc">{{ search.results_count }} résultat(s) pour "<strong>{{ search.terms | escape }}</strong>"</p>
+    {% endif %}
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <form action="/search" method="get" style="max-width:600px;margin:0 auto 3rem;display:flex;gap:0;">
+      <input type="hidden" name="type" value="product">
+      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Rechercher un meuble…" style="flex:1;padding:.9rem 1.25rem;border:1px solid var(--color-border);border-right:none;outline:none;font-size:.9rem;font-family:inherit;">
+      <button type="submit" class="btn btn--primary">Rechercher</button>
+    </form>
+
+    {% if search.performed %}
+      {% if search.results_count == 0 %}
+        <div class="text-center" style="padding:3rem 0;color:var(--color-text-muted);">
+          <p>Aucun résultat pour "{{ search.terms }}".</p>
+          <p style="margin-top:.75rem;font-size:.85rem;">Essayez avec d'autres mots-clés.</p>
+        </div>
+      {% else %}
+        <div class="products-grid">
+          {% for item in search.results %}
+            {% if item.object_type == 'product' %}
+              <div class="product-card">
+                <div class="product-card__media">
+                  <a href="{{ item.url }}">
+                    {% if item.featured_image %}
+                      {{ item.featured_image | image_url: width: 500 | image_tag: loading: 'lazy', alt: item.title }}
+                    {% endif %}
+                  </a>
+                </div>
+                <div class="product-card__info">
+                  <h2 class="product-card__title"><a href="{{ item.url }}">{{ item.title }}</a></h2>
+                  <div class="product-card__price"><span class="price">{{ item.price | money }}</span></div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</section>

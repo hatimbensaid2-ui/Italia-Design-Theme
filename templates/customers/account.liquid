@@ -1,0 +1,46 @@
+{% layout 'theme' %}
+
+<section class="section">
+  <div class="container--narrow">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3rem;flex-wrap:wrap;gap:1rem;">
+      <h1 style="font-family:var(--font-heading);font-size:2rem;">Mon Compte</h1>
+      <a href="{{ routes.account_logout_url }}" class="btn btn--outline btn--small">Déconnexion</a>
+    </div>
+
+    <div style="margin-bottom:2rem;">
+      <p style="color:var(--color-text-muted);">Bonjour, <strong>{{ customer.first_name }}</strong> !</p>
+    </div>
+
+    <h2 style="font-family:var(--font-heading);font-size:1.5rem;margin-bottom:1.5rem;">Mes commandes</h2>
+
+    {% if customer.orders.size == 0 %}
+      <div style="padding:3rem;text-align:center;background:var(--color-surface);">
+        <p style="color:var(--color-text-muted);">Vous n'avez pas encore passé de commande.</p>
+        <a href="/collections/all" class="btn btn--outline" style="margin-top:1.5rem;">Découvrir nos produits</a>
+      </div>
+    {% else %}
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:2px solid var(--color-border);">
+            <th style="text-align:left;padding:.75rem 0;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;">Commande</th>
+            <th style="text-align:left;padding:.75rem;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;">Date</th>
+            <th style="text-align:left;padding:.75rem;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;">Statut</th>
+            <th style="text-align:right;padding:.75rem 0;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in customer.orders %}
+            <tr style="border-bottom:1px solid var(--color-border);">
+              <td style="padding:1rem 0;"><a href="{{ order.customer_url }}" style="text-decoration:underline;">{{ order.name }}</a></td>
+              <td style="padding:1rem;">{{ order.created_at | date: '%d/%m/%Y' }}</td>
+              <td style="padding:1rem;">
+                <span style="display:inline-block;padding:.2rem .75rem;background:var(--color-surface);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;">{{ order.fulfillment_status_label }}</span>
+              </td>
+              <td style="padding:1rem 0;text-align:right;font-weight:600;">{{ order.total_price | money }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+</section>

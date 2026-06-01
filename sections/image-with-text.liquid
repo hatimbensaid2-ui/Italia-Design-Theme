@@ -1,0 +1,43 @@
+<section class="section{% if section.settings.bg == 'surface' %} bg-surface{% endif %}">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:{% if section.settings.image_width == 'wide' %}3fr 2fr{% elsif section.settings.image_width == 'narrow' %}2fr 3fr{% else %}1fr 1fr{% endif %};gap:4rem;align-items:center;{% if section.settings.reverse %}direction:rtl{% endif %}">
+      <div style="{% if section.settings.reverse %}order:2{% endif %}">
+        {% if section.settings.image %}
+          {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: section.settings.heading, style: 'width:100%;' }}
+        {% endif %}
+      </div>
+      <div style="{% if section.settings.reverse %}order:1{% endif %}">
+        {% if section.settings.overline != blank %}
+          <span class="overline" style="display:block;margin-bottom:.75rem;">{{ section.settings.overline }}</span>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 style="font-family:var(--font-heading);font-size:clamp(1.6rem,3vw,2.5rem);margin-bottom:1.25rem;line-height:1.2;">{{ section.settings.heading }}</h2>
+        {% endif %}
+        {% if section.settings.text != blank %}
+          <div style="font-size:.9rem;color:var(--color-text-muted);line-height:1.8;margin-bottom:2rem;">{{ section.settings.text }}</div>
+        {% endif %}
+        {% if section.settings.btn_text != blank %}
+          <a href="{{ section.settings.btn_url }}" class="btn btn--outline">{{ section.settings.btn_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image avec texte",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "overline", "label": "Surtitre" },
+    { "type": "text", "id": "heading", "label": "Titre" },
+    { "type": "richtext", "id": "text", "label": "Texte" },
+    { "type": "text", "id": "btn_text", "label": "Bouton texte" },
+    { "type": "url", "id": "btn_url", "label": "Bouton lien" },
+    { "type": "select", "id": "image_width", "label": "Largeur image", "options": [{"value":"equal","label":"Égale"},{"value":"wide","label":"Large"},{"value":"narrow","label":"Étroite"}], "default": "equal" },
+    { "type": "checkbox", "id": "reverse", "label": "Inverser", "default": false },
+    { "type": "select", "id": "bg", "label": "Fond", "options": [{"value":"white","label":"Blanc"},{"value":"surface","label":"Gris clair"}], "default": "white" }
+  ],
+  "presets": [{ "name": "Image avec texte" }]
+}
+{% endschema %}

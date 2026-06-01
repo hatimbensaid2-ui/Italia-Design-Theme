@@ -1,0 +1,72 @@
+<section class="section testimonials-section">
+  <div class="container">
+    <div class="section-header reveal">
+      {% if section.settings.overline != blank %}
+        <span class="overline">{{ section.settings.overline }}</span>
+      {% endif %}
+      {% if section.settings.title != blank %}
+        <h2 class="section-header__title">{{ section.settings.title }}</h2>
+      {% endif %}
+    </div>
+
+    <div class="testimonials-grid">
+      {% for block in section.blocks %}
+        <div class="testimonial-card reveal" style="animation-delay:{{ forloop.index0 | times: 100 }}ms;" {{ block.shopify_attributes }}>
+          <div class="testimonial-card__quote">"</div>
+          <p class="testimonial-card__text">{{ block.settings.text }}</p>
+          <div class="testimonial-card__author">
+            {% if block.settings.avatar %}
+              <div class="testimonial-card__avatar">
+                {{ block.settings.avatar | image_url: width: 88 | image_tag: loading: 'lazy', alt: block.settings.name }}
+              </div>
+            {% else %}
+              <div class="testimonial-card__avatar" style="background:var(--color-border);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--color-text-muted);">
+                {{ block.settings.name | slice: 0 }}
+              </div>
+            {% endif %}
+            <div>
+              <div class="testimonial-card__name">{{ block.settings.name }}</div>
+              <div class="testimonial-card__location">{{ block.settings.location }}</div>
+              <div class="stars" style="margin-top:.25rem;">
+                {% for i in (1..5) %}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Avis clients",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "overline", "label": "Surtitre", "default": "Témoignages" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Ce que disent nos clients" }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Avis",
+      "settings": [
+        { "type": "textarea", "id": "text", "label": "Avis", "default": "Des meubles d'une qualité exceptionnelle. Le service de livraison et de montage était parfait. Je recommande vivement Italia Design !" },
+        { "type": "text", "id": "name", "label": "Nom", "default": "Fatima B." },
+        { "type": "text", "id": "location", "label": "Ville", "default": "Casablanca" },
+        { "type": "image_picker", "id": "avatar", "label": "Photo (optionnel)" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Avis clients",
+    "blocks": [
+      { "type": "testimonial", "settings": { "text": "Des meubles d'une qualité exceptionnelle. Le service de livraison et de montage était parfait. Je recommande vivement Italia Design !", "name": "Fatima B.", "location": "Casablanca" } },
+      { "type": "testimonial", "settings": { "text": "Notre salon a été complètement transformé grâce à Italia Design. L'équipe est professionnelle et le suivi impeccable.", "name": "Youssef A.", "location": "Rabat" } },
+      { "type": "testimonial", "settings": { "text": "Je cherchais des meubles haut de gamme au Maroc depuis longtemps. Enfin trouvé ! La qualité est vraiment au rendez-vous.", "name": "Nadia M.", "location": "Marrakech" } }
+    ]
+  }]
+}
+{% endschema %}

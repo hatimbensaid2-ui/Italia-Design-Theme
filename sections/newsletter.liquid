@@ -1,0 +1,34 @@
+<section class="newsletter-section">
+  <div class="container--narrow">
+    {% if section.settings.overline != blank %}
+      <span class="overline">{{ section.settings.overline }}</span>
+    {% endif %}
+    <h2 class="newsletter-section__title">{{ section.settings.title }}</h2>
+    <p class="newsletter-section__desc">{{ section.settings.description }}</p>
+
+    {% form 'customer', id: 'newsletter-form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <div class="newsletter-form">
+        <input type="email" name="contact[email]" placeholder="{{ section.settings.placeholder | default: 'Votre adresse email' }}" required>
+        <button type="submit">{{ section.settings.btn_text | default: 'S\'inscrire' }}</button>
+      </div>
+      {% if form.posted_successfully? %}
+        <p style="color:var(--color-accent);margin-top:1rem;font-size:.85rem;">Merci ! Vous êtes bien inscrit(e).</p>
+      {% endif %}
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "overline", "label": "Surtitre", "default": "Restez Informé" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Nouveautés & Offres Exclusives" },
+    { "type": "text", "id": "description", "label": "Description", "default": "Inscrivez-vous pour recevoir nos nouvelles collections et bénéficier d'offres réservées à nos abonnés." },
+    { "type": "text", "id": "placeholder", "label": "Placeholder email", "default": "Votre adresse email" },
+    { "type": "text", "id": "btn_text", "label": "Bouton", "default": "S'inscrire" }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

@@ -1,0 +1,37 @@
+{% if section.settings.show_bar %}
+  <div class="announcement-bar" role="complementary">
+    {% assign messages = section.settings.messages | split: '|' %}
+    {% if messages.size > 1 %}
+      <div class="marquee-section" style="padding:.55rem 0;">
+        <div class="marquee-track">
+          {% for m in messages %}{% for m in messages %}
+            <span class="marquee-item">{{ m | strip }}</span>
+          {% endfor %}{% endfor %}
+        </div>
+      </div>
+    {% else %}
+      {{ section.settings.messages }}
+    {% endif %}
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Barre d'annonce",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_bar",
+      "label": "Afficher la barre",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "messages",
+      "label": "Messages (séparer par |)",
+      "default": "Livraison gratuite au Maroc | Fabrication sur mesure | Showroom à Casablanca | Paiement en plusieurs fois"
+    }
+  ],
+  "presets": [{"name": "Barre d'annonce"}]
+}
+{% endschema %}

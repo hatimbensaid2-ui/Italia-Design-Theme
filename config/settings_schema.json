@@ -1,0 +1,137 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Italia Design",
+    "theme_version": "1.0.0",
+    "theme_author": "Italia Design",
+    "theme_documentation_url": "https://italiadesign.ma",
+    "theme_support_url": "https://italiadesign.ma"
+  },
+  {
+    "name": "Couleurs",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Couleur principale",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Couleur secondaire",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Couleur d'accent",
+        "default": "#c9a96e"
+      },
+      {
+        "type": "color",
+        "id": "color_body_bg",
+        "label": "Fond de page",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_body_text",
+        "label": "Texte principal",
+        "default": "#1a1a1a"
+      }
+    ]
+  },
+  {
+    "name": "Typographie",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Police des titres",
+        "default": "cormorant_garamond_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Police du corps",
+        "default": "montserrat_n4"
+      }
+    ]
+  },
+  {
+    "name": "En-tête",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 80,
+        "max": 300,
+        "step": 10,
+        "default": 160,
+        "unit": "px",
+        "label": "Largeur du logo"
+      },
+      {
+        "type": "checkbox",
+        "id": "sticky_header",
+        "label": "En-tête fixe",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Pied de page",
+    "settings": [
+      {
+        "type": "richtext",
+        "id": "footer_about",
+        "label": "À propos",
+        "default": "<p>Italia Design — Mobilier de luxe inspiré de l'Italie, fabriqué pour le Maroc.</p>"
+      },
+      {
+        "type": "text",
+        "id": "footer_phone",
+        "label": "Téléphone",
+        "default": "+212 5XX-XXXXXX"
+      },
+      {
+        "type": "text",
+        "id": "footer_email",
+        "label": "Email",
+        "default": "contact@italiadesign.ma"
+      },
+      {
+        "type": "text",
+        "id": "footer_address",
+        "label": "Adresse",
+        "default": "Casablanca, Maroc"
+      }
+    ]
+  },
+  {
+    "name": "Réseaux sociaux",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook",
+        "label": "Facebook URL"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok",
+        "label": "TikTok URL"
+      }
+    ]
+  }
+]

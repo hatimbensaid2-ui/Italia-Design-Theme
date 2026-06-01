@@ -1,0 +1,50 @@
+{% if product.collections.first %}
+  <section class="section bg-surface">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-header__title">{{ section.settings.title | default: 'Vous aimerez aussi' }}</h2>
+      </div>
+      <div class="grid grid--4">
+        {% assign related = product.collections.first.products %}
+        {% assign shown = 0 %}
+        {% for p in related %}
+          {% if p.id != product.id and shown < section.settings.products_to_show %}
+            {% assign shown = shown | plus: 1 %}
+            <div class="product-card">
+              <div class="product-card__media">
+                <a href="{{ p.url }}">
+                  {% if p.featured_image %}
+                    {{ p.featured_image | image_url: width: 500 | image_tag: loading: 'lazy', alt: p.title }}
+                  {% endif %}
+                </a>
+                <div class="product-card__actions">
+                  <button class="product-card__quick-add" onclick="CartDrawer.addItem({{ p.variants.first.id }})">Ajouter au panier</button>
+                </div>
+              </div>
+              <div class="product-card__info">
+                <h3 class="product-card__title"><a href="{{ p.url }}">{{ p.title }}</a></h3>
+                <div class="product-card__price">
+                  <span class="price">{{ p.price | money }}</span>
+                  {% if p.compare_at_price > p.price %}
+                    <span class="price price--compare">{{ p.compare_at_price | money }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Produits similaires",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "Vous aimerez aussi" },
+    { "type": "range", "id": "products_to_show", "min": 2, "max": 6, "step": 1, "default": 4, "label": "Nombre de produits" }
+  ],
+  "presets": [{ "name": "Produits similaires" }]
+}
+{% endschema %}

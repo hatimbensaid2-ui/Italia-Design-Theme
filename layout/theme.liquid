@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="fr" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <title>
+    {{ page_title }}{% unless page_title == shop.name %} — {{ shop.name }}{% endunless %}
+  </title>
+  <meta name="description" content="{{ page_description | escape }}">
+
+  {% if settings.logo %}
+    <link rel="icon" type="image/png" href="{{ settings.logo | img_url: '32x32' }}">
+  {% endif %}
+
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  {{ content_for_header }}
+
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  <style>
+    :root {
+      --color-primary: {{ settings.color_primary }};
+      --color-secondary: {{ settings.color_secondary }};
+      --color-accent: {{ settings.color_accent }};
+      --color-bg: {{ settings.color_body_bg }};
+      --color-text: {{ settings.color_body_text }};
+    }
+  </style>
+</head>
+
+<body class="template-{{ template | split: '.' | first }}{% if template.suffix %} template-{{ template.suffix }}{% endif %}">
+
+  <!-- Announcement Bar -->
+  {% section 'announcement-bar' %}
+
+  <!-- Header -->
+  {% section 'header' %}
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" aria-hidden="true"></div>
+
+  <!-- Mobile Menu -->
+  <nav class="mobile-menu" aria-label="Menu principal">
+    <div class="mobile-menu-header">
+      <span class="header-logo-text">ITALIA DESIGN</span>
+      <button class="mobile-menu-close" aria-label="Fermer">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu-nav">
+      {% for link in linklists.main-menu.links %}
+        <a href="{{ link.url }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a>
+      {% endfor %}
+    </div>
+    <div class="mobile-menu-footer">
+      {% if settings.footer_phone != blank %}
+        <p style="font-size:.8rem;color:var(--color-text-muted);margin-bottom:.5rem;">📞 {{ settings.footer_phone }}</p>
+      {% endif %}
+      {% if settings.footer_email != blank %}
+        <p style="font-size:.8rem;color:var(--color-text-muted);">✉ {{ settings.footer_email }}</p>
+      {% endif %}
+    </div>
+  </nav>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" role="dialog" aria-modal="true" aria-label="Recherche">
+    <button class="search-overlay__close" aria-label="Fermer">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <div class="search-overlay__inner">
+      <form class="search-overlay__form" action="/search" method="get">
+        <input class="search-overlay__input" type="search" name="q" placeholder="Rechercher des meubles…" autocomplete="off">
+        <button class="search-overlay__submit" type="submit" aria-label="Rechercher">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Cart Drawer -->
+  <div class="cart-drawer" role="dialog" aria-modal="true" aria-label="Panier">
+    <div class="cart-drawer__header">
+      <div>
+        <span style="font-family:var(--font-heading);font-size:1.2rem;">Votre panier</span>
+        <span class="cart-drawer__count">({{ cart.item_count }})</span>
+      </div>
+      <button class="cart-drawer__close header-icon-btn" aria-label="Fermer le panier">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="cart-drawer__body">
+      {% if cart.item_count == 0 %}
+        <div class="cart-drawer__empty">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 7H4l1-7z"/></svg>
+          <p>Votre panier est vide</p>
+          <button class="btn btn--outline btn--small" onclick="CartDrawer.close()">Continuer mes achats</button>
+        </div>
+      {% else %}
+        {% for item in cart.items %}
+          <div class="cart-item" data-key="{{ item.key }}">
+            <a href="{{ item.url }}" class="cart-item__image">
+              {{ item | img_url: '160x160' | img_tag: item.product.title, 'loading="lazy"' }}
+            </a>
+            <div class="cart-item__info">
+              <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
+              {% if item.variant.title != 'Default Title' %}
+                <div class="cart-item__variant">{{ item.variant.title }}</div>
+              {% endif %}
+              <div class="cart-item__actions">
+                <div class="cart-item__qty">
+                  <button class="cart-item__qty-btn" data-key="{{ item.key }}" data-qty="{{ item.quantity | minus: 1 }}" aria-label="Diminuer">−</button>
+                  <input class="cart-item__qty-input" type="number" value="{{ item.quantity }}" min="0" readonly>
+                  <button class="cart-item__qty-btn" data-key="{{ item.key }}" data-qty="{{ item.quantity | plus: 1 }}" aria-label="Augmenter">+</button>
+                </div>
+                <span class="cart-item__price">{{ item.final_line_price | money }}</span>
+              </div>
+              <button class="cart-item__remove" data-key="{{ item.key }}" data-qty="0">Retirer</button>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+    <div class="cart-drawer__footer">
+      <div class="cart-subtotal">
+        <span class="cart-subtotal__label">Sous-total</span>
+        <span class="cart-subtotal__value">{{ cart.total_price | money }}</span>
+      </div>
+      <p class="cart-note">Livraison calculée à la caisse</p>
+      <a href="/checkout" class="cart-checkout-btn">Commander →</a>
+      <button class="cart-continue" onclick="CartDrawer.close()">Continuer mes achats</button>
+    </div>
+  </div>
+  <div class="cart-drawer__overlay"></div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" aria-live="polite"></div>
+
+  <!-- Main Content -->
+  <main id="main-content" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  <!-- Footer -->
+  {% section 'footer' %}
+
+  {{ 'theme.js' | asset_url | script_tag }}
+
+</body>
+</html>

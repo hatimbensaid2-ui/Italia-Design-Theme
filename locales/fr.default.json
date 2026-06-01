@@ -1,0 +1,102 @@
+{
+  "general": {
+    "search": {
+      "placeholder": "Rechercher...",
+      "submit": "Rechercher",
+      "no_results": "Aucun résultat pour \"{{ terms }}\"."
+    },
+    "newsletter_form": {
+      "placeholder": "Votre adresse email",
+      "submit": "S'inscrire",
+      "success": "Merci pour votre inscription !"
+    },
+    "pagination": {
+      "previous": "Précédent",
+      "next": "Suivant"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Ajouter au panier",
+      "sold_out": "Épuisé",
+      "unavailable": "Indisponible",
+      "quantity": "Quantité",
+      "vendor": "Marque",
+      "sku": "Référence",
+      "from": "À partir de",
+      "quick_view": "Aperçu rapide",
+      "view_details": "Voir les détails"
+    },
+    "general": {
+      "collection_label": "Collection"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Votre panier",
+      "empty": "Votre panier est vide.",
+      "continue_shopping": "Continuer mes achats",
+      "checkout": "Commander",
+      "subtotal": "Sous-total",
+      "remove": "Retirer",
+      "update": "Mettre à jour"
+    }
+  },
+  "collections": {
+    "general": {
+      "title": "Nos Collections",
+      "sort_by": "Trier par",
+      "filter_by": "Filtrer",
+      "products_found": "produits trouvés"
+    }
+  },
+  "layout": {
+    "navigation": {
+      "home": "Accueil",
+      "collections": "Collections",
+      "about": "À propos",
+      "contact": "Contact"
+    },
+    "footer": {
+      "navigation": "Navigation",
+      "social": "Suivez-nous",
+      "newsletter": "Newsletter",
+      "newsletter_desc": "Recevez nos dernières collections et offres exclusives.",
+      "copyright": "© {{ year }} Italia Design. Tous droits réservés."
+    }
+  },
+  "customer": {
+    "login": {
+      "title": "Connexion",
+      "email": "Email",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "forgot_password": "Mot de passe oublié ?",
+      "create_account": "Créer un compte"
+    },
+    "register": {
+      "title": "Créer un compte",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "email": "Email",
+      "password": "Mot de passe",
+      "submit": "Créer un compte"
+    },
+    "account": {
+      "title": "Mon compte",
+      "orders": "Mes commandes",
+      "logout": "Déconnexion"
+    },
+    "addresses": {
+      "title": "Mes adresses"
+    },
+    "orders": {
+      "title": "Historique des commandes",
+      "order_number": "Commande #{{ number }}",
+      "date": "Date",
+      "payment_status": "Paiement",
+      "fulfillment_status": "Livraison",
+      "total": "Total"
+    }
+  }
+}

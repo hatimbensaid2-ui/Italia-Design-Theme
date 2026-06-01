@@ -1,0 +1,52 @@
+{% layout 'theme' %}
+
+<section class="section">
+  <div class="container--narrow">
+    <div style="margin-bottom:2rem;">
+      <a href="{{ routes.account_url }}" style="font-size:.75rem;color:var(--color-text-muted);text-decoration:underline;">← Retour à mon compte</a>
+    </div>
+    <h1 style="font-family:var(--font-heading);font-size:2rem;margin-bottom:.5rem;">Commande {{ order.name }}</h1>
+    <p style="color:var(--color-text-muted);font-size:.85rem;margin-bottom:2.5rem;">{{ order.created_at | date: '%d %B %Y' }}</p>
+
+    <table style="width:100%;border-collapse:collapse;margin-bottom:2rem;">
+      <thead>
+        <tr style="border-bottom:2px solid var(--color-border);">
+          <th style="text-align:left;padding:.75rem 0;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;">Produit</th>
+          <th style="text-align:center;padding:.75rem;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;">Qté</th>
+          <th style="text-align:right;padding:.75rem 0;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for line_item in order.line_items %}
+          <tr style="border-bottom:1px solid var(--color-border);">
+            <td style="padding:1rem 0;">
+              {{ line_item.title }}
+              {% if line_item.variant.title != 'Default Title' %}
+                <br><small style="color:var(--color-text-muted);">{{ line_item.variant.title }}</small>
+              {% endif %}
+            </td>
+            <td style="text-align:center;padding:1rem;">{{ line_item.quantity }}</td>
+            <td style="text-align:right;padding:1rem 0;font-weight:600;">{{ line_item.final_line_price | money }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div style="display:flex;justify-content:flex-end;">
+      <div style="min-width:240px;">
+        <div style="display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--color-border);font-size:.85rem;">
+          <span style="color:var(--color-text-muted);">Sous-total</span>
+          <span>{{ order.subtotal_price | money }}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.5rem 0;font-size:.85rem;">
+          <span style="color:var(--color-text-muted);">Livraison</span>
+          <span>{{ order.shipping_price | money }}</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:.75rem 0;font-weight:700;font-size:1rem;">
+          <span>Total</span>
+          <span>{{ order.total_price | money }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

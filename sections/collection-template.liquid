@@ -1,0 +1,128 @@
+<!-- Collection Header -->
+<div class="collection-header">
+  <div class="container">
+    {% if collection.image %}
+      <div style="margin-bottom:1.5rem;">
+        {{ collection.image | image_url: width: 1400 | image_tag: loading: 'eager', alt: collection.title, style: 'max-height:300px;width:100%;object-fit:cover;' }}
+      </div>
+    {% endif %}
+    <h1 class="collection-header__title">{{ collection.title }}</h1>
+    {% if collection.description != blank %}
+      <div class="collection-header__desc">{{ collection.description }}</div>
+    {% endif %}
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <!-- Toolbar -->
+    <div class="collection-toolbar">
+      <span class="collection-count">{{ collection.products_count }} produits</span>
+      <div class="collection-sort">
+        <span>Trier par</span>
+        <select class="sort-select" onchange="window.location.href='?sort_by=' + this.value">
+          <option value="manual"{% if collection.sort_by == 'manual' %} selected{% endif %}>Recommandés</option>
+          <option value="best-selling"{% if collection.sort_by == 'best-selling' %} selected{% endif %}>Meilleures ventes</option>
+          <option value="title-ascending"{% if collection.sort_by == 'title-ascending' %} selected{% endif %}>A – Z</option>
+          <option value="title-descending"{% if collection.sort_by == 'title-descending' %} selected{% endif %}>Z – A</option>
+          <option value="price-ascending"{% if collection.sort_by == 'price-ascending' %} selected{% endif %}>Prix croissant</option>
+          <option value="price-descending"{% if collection.sort_by == 'price-descending' %} selected{% endif %}>Prix décroissant</option>
+          <option value="created-descending"{% if collection.sort_by == 'created-descending' %} selected{% endif %}>Nouveautés</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid">
+      {% for product in collection.products %}
+        <div class="product-card reveal" style="animation-delay:{{ forloop.index0 | modulo: 4 | times: 60 }}ms;">
+          <div class="product-card__media">
+            <a href="{{ product.url }}">
+              {% if product.featured_image %}
+                {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
+              {% else %}
+                <div style="background:var(--color-surface);aspect-ratio:3/4;"></div>
+              {% endif %}
+              {% if product.images[1] %}
+                <div class="product-card__media-secondary">
+                  {{ product.images[1] | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
+                </div>
+              {% endif %}
+            </a>
+
+            <div class="product-card__badges">
+              {% if product.available == false %}
+                <span class="badge badge--sold">Épuisé</span>
+              {% endif %}
+              {% if product.compare_at_price > product.price %}
+                {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+                <span class="badge badge--sale">-{{ discount }}%</span>
+              {% endif %}
+            </div>
+
+            <div class="product-card__actions">
+              {% if product.available %}
+                <button class="product-card__quick-add" onclick="CartDrawer.addItem({{ product.variants.first.id }})">
+                  Ajouter au panier
+                </button>
+              {% else %}
+                <button class="product-card__quick-add" disabled style="opacity:.5;cursor:not-allowed;">Épuisé</button>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="product-card__info">
+            {% if product.vendor != blank %}
+              <div class="product-card__vendor">{{ product.vendor }}</div>
+            {% endif %}
+            <h2 class="product-card__title">
+              <a href="{{ product.url }}">{{ product.title }}</a>
+            </h2>
+            <div class="product-card__price">
+              <span class="price{% if product.compare_at_price > product.price %} price--sale{% endif %}">
+                {{ product.price | money }}
+              </span>
+              {% if product.compare_at_price > product.price %}
+                <span class="price price--compare">{{ product.compare_at_price | money }}</span>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <div class="text-center" style="grid-column:1/-1;padding:4rem;color:var(--color-text-muted);">
+          <p>Aucun produit dans cette collection pour l'instant.</p>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if paginate.pages > 1 %}
+      <div class="pagination">
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="pagination__item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          </a>
+        {% endif %}
+        {% for part in paginate.parts %}
+          {% if part.is_link %}
+            <a href="{{ part.url }}" class="pagination__item">{{ part.title }}</a>
+          {% else %}
+            <span class="pagination__item{% if part.title == paginate.current_page %} active{% endif %}">{{ part.title }}</span>
+          {% endif %}
+        {% endfor %}
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="pagination__item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": []
+}
+{% endschema %}

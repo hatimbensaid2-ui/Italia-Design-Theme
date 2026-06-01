@@ -1,0 +1,72 @@
+<section class="hero{% if section.settings.full_height %} hero--full{% endif %}" style="min-height:{{ section.settings.min_height }}vh;">
+
+  <div class="hero__media">
+    {% if section.settings.video_url != blank %}
+      <video autoplay muted loop playsinline>
+        <source src="{{ section.settings.video_url }}" type="video/mp4">
+      </video>
+    {% elsif section.settings.image %}
+      {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', alt: section.settings.heading }}
+    {% else %}
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);"></div>
+    {% endif %}
+  </div>
+
+  <div class="hero__overlay" style="background:{{ section.settings.overlay_color }};opacity:{{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+
+  <div class="container">
+    <div class="hero__content{% if section.settings.alignment == 'left' %} hero__content--left{% endif %}">
+      {% if section.settings.overline != blank %}
+        <span class="overline hero__overline">{{ section.settings.overline }}</span>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h1 class="hero__title">{{ section.settings.heading }}</h1>
+      {% endif %}
+
+      {% if section.settings.subheading != blank %}
+        <p class="hero__subtitle">{{ section.settings.subheading }}</p>
+      {% endif %}
+
+      <div class="hero__actions">
+        {% if section.settings.btn1_text != blank %}
+          <a href="{{ section.settings.btn1_url }}" class="btn btn--primary btn--large">{{ section.settings.btn1_text }}</a>
+        {% endif %}
+        {% if section.settings.btn2_text != blank %}
+          <a href="{{ section.settings.btn2_url }}" class="btn btn--secondary btn--large">{{ section.settings.btn2_text }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.show_scroll %}
+    <div class="hero__scroll">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"/></svg>
+    </div>
+  {% endif %}
+
+</section>
+
+{% schema %}
+{
+  "name": "Bannière héro",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "video_url", "label": "URL vidéo (.mp4)" },
+    { "type": "text", "id": "overline", "label": "Surtitre", "default": "Collection 2025" },
+    { "type": "textarea", "id": "heading", "label": "Titre", "default": "L'Art du\nMobilier Italien" },
+    { "type": "textarea", "id": "subheading", "label": "Sous-titre", "default": "Découvrez notre collection exclusive de meubles de luxe — élégance intemporelle, artisanat d'exception." },
+    { "type": "text", "id": "btn1_text", "label": "Bouton 1 texte", "default": "Explorer la Collection" },
+    { "type": "url", "id": "btn1_url", "label": "Bouton 1 lien" },
+    { "type": "text", "id": "btn2_text", "label": "Bouton 2 texte", "default": "Notre Showroom" },
+    { "type": "url", "id": "btn2_url", "label": "Bouton 2 lien" },
+    { "type": "select", "id": "alignment", "label": "Alignement", "options": [{"value":"center","label":"Centre"},{"value":"left","label":"Gauche"}], "default": "center" },
+    { "type": "color", "id": "overlay_color", "label": "Couleur overlay", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 80, "step": 5, "default": 45, "label": "Opacité overlay", "unit": "%" },
+    { "type": "range", "id": "min_height", "min": 50, "max": 100, "step": 5, "default": 85, "label": "Hauteur minimale", "unit": "vh" },
+    { "type": "checkbox", "id": "full_height", "label": "Pleine hauteur", "default": false },
+    { "type": "checkbox", "id": "show_scroll", "label": "Indicateur de défilement", "default": true }
+  ],
+  "presets": [{ "name": "Bannière héro" }]
+}
+{% endschema %}

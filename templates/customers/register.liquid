@@ -1,0 +1,45 @@
+{% layout 'theme' %}
+
+<section class="section" style="min-height:60vh;display:flex;align-items:center;">
+  <div class="container--narrow" style="max-width:480px;margin:0 auto;width:100%;">
+    <h1 style="font-family:var(--font-heading);font-size:2rem;margin-bottom:2rem;text-align:center;">Créer un compte</h1>
+
+    {% form 'create_customer' %}
+      {% if form.errors %}
+        <div style="background:#fff0f0;border:1px solid #fcc;padding:1rem;margin-bottom:1.5rem;font-size:.85rem;color:#b00;">
+          {{ form.errors | default_errors }}
+        </div>
+      {% endif %}
+
+      {% assign input_style = 'width:100%;padding:.85rem 1rem;border:1px solid var(--color-border);outline:none;font-family:inherit;font-size:.9rem;' %}
+      {% assign label_style = 'display:block;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;' %}
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem;">
+        <div>
+          <label style="{{ label_style }}">Prénom</label>
+          <input type="text" name="customer[first_name]" autocomplete="given-name" style="{{ input_style }}">
+        </div>
+        <div>
+          <label style="{{ label_style }}">Nom</label>
+          <input type="text" name="customer[last_name]" autocomplete="family-name" style="{{ input_style }}">
+        </div>
+      </div>
+
+      <div style="margin-bottom:1.25rem;">
+        <label style="{{ label_style }}">Email</label>
+        <input type="email" name="customer[email]" autocomplete="email" style="{{ input_style }}">
+      </div>
+
+      <div style="margin-bottom:1.75rem;">
+        <label style="{{ label_style }}">Mot de passe</label>
+        <input type="password" name="customer[password]" autocomplete="new-password" style="{{ input_style }}">
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--full btn--large">Créer mon compte</button>
+
+      <div style="text-align:center;margin-top:1.5rem;font-size:.8rem;color:var(--color-text-muted);">
+        Déjà un compte ? <a href="{{ routes.account_login_url }}" style="text-decoration:underline;">Se connecter</a>
+      </div>
+    {% endform %}
+  </div>
+</section>
