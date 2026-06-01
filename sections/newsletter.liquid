@@ -1,32 +1,21 @@
-<section style="background:{{ section.settings.bg_color }};padding-top:{{ section.settings.padding_top }}rem;padding-bottom:{{ section.settings.padding_bottom }}rem;text-align:center;">
+<section class="newsletter-section">
   <div class="container--narrow">
     {% if section.settings.overline != blank %}
-      <span class="overline" style="display:block;margin-bottom:.75rem;color:{{ section.settings.accent_color }};">{{ section.settings.overline }}</span>
+      <span class="overline">{{ section.settings.overline }}</span>
     {% endif %}
-    {% if section.settings.title != blank %}
-      <h2 style="font-family:var(--font-heading);font-size:clamp(1.8rem,3.5vw,3rem);color:{{ section.settings.text_color }};margin-bottom:1rem;">{{ section.settings.title }}</h2>
-    {% endif %}
-    {% if section.settings.description != blank %}
-      <p style="font-size:.9rem;color:{{ section.settings.text_color }};opacity:.65;margin-bottom:2.5rem;line-height:1.7;">{{ section.settings.description }}</p>
-    {% endif %}
+    <h2 class="newsletter-section__title">{{ section.settings.title }}</h2>
+    <p class="newsletter-section__desc">{{ section.settings.description }}</p>
 
     {% form 'customer', id: 'newsletter-form' %}
       <input type="hidden" name="contact[tags]" value="newsletter">
-      <div style="display:flex;max-width:480px;margin:0 auto;">
-        <input type="email" name="contact[email]" placeholder="{{ section.settings.placeholder | default: 'Votre adresse email' }}" required
-          style="flex:1;padding:.9rem 1.25rem;background:{{ section.settings.input_bg }};border:1px solid {{ section.settings.input_border }};border-right:none;color:{{ section.settings.text_color }};font-size:.85rem;outline:none;font-family:inherit;">
-        <button type="submit" style="padding:.9rem 1.75rem;background:{{ section.settings.btn_bg }};color:{{ section.settings.btn_text_color }};font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border:1px solid {{ section.settings.btn_bg }};cursor:pointer;white-space:nowrap;font-family:inherit;transition:opacity .2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
-          {{ section.settings.btn_text | default: 'S\'inscrire' }}
-        </button>
+      <div class="newsletter-form">
+        <input type="email" name="contact[email]" placeholder="{{ section.settings.placeholder | default: 'Votre adresse email' }}" required>
+        <button type="submit">{{ section.settings.btn_text | default: 'S\'inscrire' }}</button>
       </div>
       {% if form.posted_successfully? %}
-        <p style="color:{{ section.settings.accent_color }};margin-top:1rem;font-size:.85rem;">✓ Merci ! Vous êtes bien inscrit(e).</p>
+        <p style="color:var(--color-accent);margin-top:1rem;font-size:.85rem;">Merci ! Vous êtes bien inscrit(e).</p>
       {% endif %}
     {% endform %}
-
-    {% if section.settings.note != blank %}
-      <p style="font-size:.75rem;color:{{ section.settings.text_color }};opacity:.4;margin-top:1.25rem;">{{ section.settings.note }}</p>
-    {% endif %}
   </div>
 </section>
 
@@ -36,19 +25,9 @@
   "settings": [
     { "type": "text", "id": "overline", "label": "Surtitre", "default": "Restez Informé" },
     { "type": "text", "id": "title", "label": "Titre", "default": "Nouveautés & Offres Exclusives" },
-    { "type": "textarea", "id": "description", "label": "Description", "default": "Inscrivez-vous pour recevoir nos nouvelles collections et bénéficier d'offres réservées à nos abonnés." },
-    { "type": "text", "id": "placeholder", "label": "Texte placeholder", "default": "Votre adresse email" },
-    { "type": "text", "id": "btn_text", "label": "Texte du bouton", "default": "S'inscrire" },
-    { "type": "text", "id": "note", "label": "Note de bas (confidentialité)", "default": "Pas de spam. Désabonnement en 1 clic." },
-    { "type": "color", "id": "bg_color", "label": "Fond de section", "default": "#000000" },
-    { "type": "color", "id": "text_color", "label": "Couleur du texte", "default": "#ffffff" },
-    { "type": "color", "id": "accent_color", "label": "Couleur du surtitre", "default": "#c9a96e" },
-    { "type": "color", "id": "input_bg", "label": "Fond du champ email", "default": "#1a1a1a" },
-    { "type": "color", "id": "input_border", "label": "Bordure du champ email", "default": "#333333" },
-    { "type": "color", "id": "btn_bg", "label": "Fond du bouton", "default": "#c9a96e" },
-    { "type": "color", "id": "btn_text_color", "label": "Couleur texte du bouton", "default": "#ffffff" },
-    { "type": "range", "id": "padding_top", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement haut", "unit": "rem" },
-    { "type": "range", "id": "padding_bottom", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement bas", "unit": "rem" }
+    { "type": "text", "id": "description", "label": "Description", "default": "Inscrivez-vous pour recevoir nos nouvelles collections et bénéficier d'offres réservées à nos abonnés." },
+    { "type": "text", "id": "placeholder", "label": "Placeholder email", "default": "Votre adresse email" },
+    { "type": "text", "id": "btn_text", "label": "Bouton", "default": "S'inscrire" }
   ],
   "presets": [{ "name": "Newsletter" }]
 }

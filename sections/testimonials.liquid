@@ -1,67 +1,52 @@
-<section style="background:{{ section.settings.bg_color }};padding-top:{{ section.settings.padding_top }}rem;padding-bottom:{{ section.settings.padding_bottom }}rem;">
+<section class="section testimonials-section">
   <div class="container">
-
-    <div class="section-header reveal" style="text-align:center;margin-bottom:3.5rem;">
+    <div class="section-header reveal">
       {% if section.settings.overline != blank %}
         <span class="overline">{{ section.settings.overline }}</span>
       {% endif %}
       {% if section.settings.title != blank %}
-        <h2 class="section-header__title" style="color:{{ section.settings.text_color }};">{{ section.settings.title }}</h2>
+        <h2 class="section-header__title">{{ section.settings.title }}</h2>
       {% endif %}
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat({{ section.settings.columns }},1fr);gap:{{ section.settings.gap }}px;">
+    <div class="testimonials-grid">
       {% for block in section.blocks %}
-        <div style="background:{{ section.settings.card_bg }};padding:{{ section.settings.card_padding }}px;border:1px solid {{ section.settings.border_color }};position:relative;" class="reveal" style="animation-delay:{{ forloop.index0 | times: 100 }}ms;" {{ block.shopify_attributes }}>
-          <div class="testimonial-card__quote" style="color:{{ section.settings.quote_color }};">"</div>
-          <p style="font-size:{{ section.settings.text_size }}px;line-height:1.75;color:{{ section.settings.text_color }};opacity:.75;margin-bottom:1.75rem;font-style:italic;">{{ block.settings.text }}</p>
-          <div style="display:flex;align-items:center;gap:1rem;">
+        <div class="testimonial-card reveal" style="animation-delay:{{ forloop.index0 | times: 100 }}ms;" {{ block.shopify_attributes }}>
+          <div class="testimonial-card__quote">"</div>
+          <p class="testimonial-card__text">{{ block.settings.text }}</p>
+          <div class="testimonial-card__author">
             {% if block.settings.avatar %}
-              <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+              <div class="testimonial-card__avatar">
                 {{ block.settings.avatar | image_url: width: 88 | image_tag: loading: 'lazy', alt: block.settings.name }}
               </div>
             {% else %}
-              <div style="width:44px;height:44px;border-radius:50%;background:var(--color-surface);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;color:{{ section.settings.text_color }};flex-shrink:0;">{{ block.settings.name | slice: 0 }}</div>
+              <div class="testimonial-card__avatar" style="background:var(--color-border);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--color-text-muted);">
+                {{ block.settings.name | slice: 0 }}
+              </div>
             {% endif %}
             <div>
-              <div style="font-size:.85rem;font-weight:700;color:{{ section.settings.text_color }};">{{ block.settings.name }}</div>
-              <div style="font-size:.75rem;color:{{ section.settings.text_color }};opacity:.55;">{{ block.settings.location }}</div>
-              {% if section.settings.show_stars %}
-                <div style="display:flex;gap:2px;margin-top:.25rem;color:{{ section.settings.star_color }};">
-                  {% for i in (1..block.settings.rating) %}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
-                  {% endfor %}
-                </div>
-              {% endif %}
+              <div class="testimonial-card__name">{{ block.settings.name }}</div>
+              <div class="testimonial-card__location">{{ block.settings.location }}</div>
+              <div class="stars" style="margin-top:.25rem;">
+                {% for i in (1..5) %}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                {% endfor %}
+              </div>
             </div>
           </div>
         </div>
       {% endfor %}
     </div>
-
   </div>
 </section>
 
 {% schema %}
 {
   "name": "Avis clients",
-  "max_blocks": 9,
+  "max_blocks": 6,
   "settings": [
     { "type": "text", "id": "overline", "label": "Surtitre", "default": "Témoignages" },
-    { "type": "text", "id": "title", "label": "Titre", "default": "Ce que disent nos clients" },
-    { "type": "range", "id": "columns", "min": 1, "max": 4, "step": 1, "default": 3, "label": "Colonnes" },
-    { "type": "range", "id": "gap", "min": 8, "max": 48, "step": 4, "default": 24, "label": "Espacement (px)" },
-    { "type": "range", "id": "card_padding", "min": 16, "max": 56, "step": 4, "default": 36, "label": "Padding carte (px)" },
-    { "type": "range", "id": "text_size", "min": 13, "max": 20, "step": 1, "default": 15, "label": "Taille du texte", "unit": "px" },
-    { "type": "checkbox", "id": "show_stars", "label": "Afficher les étoiles", "default": true },
-    { "type": "color", "id": "bg_color", "label": "Fond de section", "default": "#f8f8f8" },
-    { "type": "color", "id": "card_bg", "label": "Fond des cartes", "default": "#ffffff" },
-    { "type": "color", "id": "border_color", "label": "Couleur bordure", "default": "#e5e5e5" },
-    { "type": "color", "id": "text_color", "label": "Couleur texte", "default": "#1a1a1a" },
-    { "type": "color", "id": "quote_color", "label": "Couleur guillemets", "default": "#c9a96e" },
-    { "type": "color", "id": "star_color", "label": "Couleur étoiles", "default": "#c9a96e" },
-    { "type": "range", "id": "padding_top", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement haut", "unit": "rem" },
-    { "type": "range", "id": "padding_bottom", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement bas", "unit": "rem" }
+    { "type": "text", "id": "title", "label": "Titre", "default": "Ce que disent nos clients" }
   ],
   "blocks": [
     {
@@ -71,20 +56,17 @@
         { "type": "textarea", "id": "text", "label": "Avis", "default": "Des meubles d'une qualité exceptionnelle. Le service de livraison et de montage était parfait. Je recommande vivement Italia Design !" },
         { "type": "text", "id": "name", "label": "Nom", "default": "Fatima B." },
         { "type": "text", "id": "location", "label": "Ville", "default": "Casablanca" },
-        { "type": "image_picker", "id": "avatar", "label": "Photo (optionnel)" },
-        { "type": "range", "id": "rating", "min": 1, "max": 5, "step": 1, "default": 5, "label": "Note (étoiles)" }
+        { "type": "image_picker", "id": "avatar", "label": "Photo (optionnel)" }
       ]
     }
   ],
-  "presets": [
-    {
-      "name": "Avis clients",
-      "blocks": [
-        { "type": "testimonial", "settings": { "text": "Des meubles d'une qualité exceptionnelle. Le service de livraison et de montage était parfait.", "name": "Fatima B.", "location": "Casablanca", "rating": 5 } },
-        { "type": "testimonial", "settings": { "text": "Notre salon a été complètement transformé. L'équipe est professionnelle et le suivi est impeccable.", "name": "Youssef A.", "location": "Rabat", "rating": 5 } },
-        { "type": "testimonial", "settings": { "text": "Je cherchais des meubles haut de gamme depuis longtemps. Enfin trouvé ! La qualité est vraiment au rendez-vous.", "name": "Nadia M.", "location": "Marrakech", "rating": 5 } }
-      ]
-    }
-  ]
+  "presets": [{
+    "name": "Avis clients",
+    "blocks": [
+      { "type": "testimonial", "settings": { "text": "Des meubles d'une qualité exceptionnelle. Le service de livraison et de montage était parfait. Je recommande vivement Italia Design !", "name": "Fatima B.", "location": "Casablanca" } },
+      { "type": "testimonial", "settings": { "text": "Notre salon a été complètement transformé grâce à Italia Design. L'équipe est professionnelle et le suivi impeccable.", "name": "Youssef A.", "location": "Rabat" } },
+      { "type": "testimonial", "settings": { "text": "Je cherchais des meubles haut de gamme au Maroc depuis longtemps. Enfin trouvé ! La qualité est vraiment au rendez-vous.", "name": "Nadia M.", "location": "Marrakech" } }
+    ]
+  }]
 }
 {% endschema %}

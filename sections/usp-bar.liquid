@@ -1,23 +1,24 @@
-<div style="border-top:{{ section.settings.border_width }}px solid {{ section.settings.border_color }};border-bottom:{{ section.settings.border_width }}px solid {{ section.settings.border_color }};background:{{ section.settings.bg_color }};padding:{{ section.settings.padding }}rem 0;">
+<div class="usp-bar">
   <div class="container">
-    <div style="display:grid;grid-template-columns:repeat({{ section.blocks.size }},1fr);">
+    <div class="usp-grid">
       {% for block in section.blocks %}
-        <div style="display:flex;flex-direction:{{ section.settings.direction }};align-items:center;{% if section.settings.direction == 'row' %}gap:1rem;{% else %}gap:.75rem;text-align:center;{% endif %}padding:0 {{ section.settings.item_padding }}rem;{% unless forloop.last %}border-right:1px solid {{ section.settings.border_color }};{% endunless %}" {{ block.shopify_attributes }}>
-          <div style="color:{{ section.settings.icon_color }};flex-shrink:0;">
+        <div class="usp-item" {{ block.shopify_attributes }}>
+          <div class="usp-item__icon">
             {% case block.settings.icon %}
-              {% when 'truck' %}<svg xmlns="http://www.w3.org/2000/svg" width="{{ section.settings.icon_size }}" height="{{ section.settings.icon_size }}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
-              {% when 'shield' %}<svg xmlns="http://www.w3.org/2000/svg" width="{{ section.settings.icon_size }}" height="{{ section.settings.icon_size }}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-              {% when 'phone' %}<svg xmlns="http://www.w3.org/2000/svg" width="{{ section.settings.icon_size }}" height="{{ section.settings.icon_size }}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-              {% when 'star' %}<svg xmlns="http://www.w3.org/2000/svg" width="{{ section.settings.icon_size }}" height="{{ section.settings.icon_size }}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
-              {% else %}<svg xmlns="http://www.w3.org/2000/svg" width="{{ section.settings.icon_size }}" height="{{ section.settings.icon_size }}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+              {% when 'truck' %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
+              {% when 'shield' %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              {% when 'phone' %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              {% when 'star' %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+              {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
             {% endcase %}
           </div>
-          <div>
-            <div style="font-size:{{ section.settings.title_size }}px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:{{ section.settings.text_color }};margin-bottom:.2rem;">{{ block.settings.title }}</div>
-            {% if block.settings.description != blank %}
-              <div style="font-size:{{ section.settings.desc_size }}px;color:{{ section.settings.text_color }};opacity:.6;line-height:1.4;">{{ block.settings.description }}</div>
-            {% endif %}
-          </div>
+          <div class="usp-item__title">{{ block.settings.title }}</div>
+          <div class="usp-item__desc">{{ block.settings.description }}</div>
         </div>
       {% endfor %}
     </div>
@@ -26,42 +27,28 @@
 
 {% schema %}
 {
-  "name": "Barre d'avantages",
-  "max_blocks": 5,
-  "settings": [
-    { "type": "range", "id": "padding", "min": 1, "max": 5, "step": 0.5, "default": 2, "label": "Espacement vertical", "unit": "rem" },
-    { "type": "range", "id": "item_padding", "min": 0, "max": 4, "step": 0.5, "default": 1, "label": "Espacement horizontal par item", "unit": "rem" },
-    { "type": "select", "id": "direction", "label": "Disposition des items", "options": [{"value":"row","label":"Icône + texte côte à côte"},{"value":"column","label":"Icône au-dessus"}], "default": "row" },
-    { "type": "range", "id": "icon_size", "min": 16, "max": 48, "step": 4, "default": 24, "label": "Taille icône", "unit": "px" },
-    { "type": "range", "id": "title_size", "min": 10, "max": 16, "step": 1, "default": 11, "label": "Taille titre", "unit": "px" },
-    { "type": "range", "id": "desc_size", "min": 10, "max": 16, "step": 1, "default": 12, "label": "Taille description", "unit": "px" },
-    { "type": "color", "id": "bg_color", "label": "Fond", "default": "#ffffff" },
-    { "type": "color", "id": "text_color", "label": "Couleur texte", "default": "#1a1a1a" },
-    { "type": "color", "id": "icon_color", "label": "Couleur icônes", "default": "#000000" },
-    { "type": "color", "id": "border_color", "label": "Couleur bordures", "default": "#e5e5e5" },
-    { "type": "range", "id": "border_width", "min": 0, "max": 2, "step": 1, "default": 1, "label": "Épaisseur bordures", "unit": "px" }
-  ],
+  "name": "Avantages",
+  "max_blocks": 4,
+  "settings": [],
   "blocks": [
     {
       "type": "usp",
       "name": "Avantage",
       "settings": [
-        { "type": "select", "id": "icon", "label": "Icône", "options": [{"value":"truck","label":"Livraison"},{"value":"shield","label":"Garantie"},{"value":"phone","label":"Téléphone"},{"value":"star","label":"Qualité"},{"value":"default","label":"Étincelle"}], "default": "truck" },
+        { "type": "select", "id": "icon", "label": "Icône", "options": [{"value":"truck","label":"Livraison"},{"value":"shield","label":"Garantie"},{"value":"phone","label":"Support"},{"value":"star","label":"Qualité"},{"value":"custom","label":"Autre"}], "default": "truck" },
         { "type": "text", "id": "title", "label": "Titre", "default": "Livraison Gratuite" },
         { "type": "text", "id": "description", "label": "Description", "default": "Partout au Maroc" }
       ]
     }
   ],
-  "presets": [
-    {
-      "name": "Barre d'avantages",
-      "blocks": [
-        { "type": "usp", "settings": { "icon": "truck", "title": "Livraison Gratuite", "description": "Partout au Maroc dès 5 000 MAD" } },
-        { "type": "usp", "settings": { "icon": "shield", "title": "Garantie 5 Ans", "description": "Sur tous nos produits" } },
-        { "type": "usp", "settings": { "icon": "phone", "title": "Support 7j/7", "description": "WhatsApp & Téléphone" } },
-        { "type": "usp", "settings": { "icon": "star", "title": "Qualité Premium", "description": "Matériaux haut de gamme" } }
-      ]
-    }
-  ]
+  "presets": [{
+    "name": "Avantages",
+    "blocks": [
+      { "type": "usp", "settings": { "icon": "truck", "title": "Livraison Gratuite", "description": "Partout au Maroc dès 5 000 MAD" } },
+      { "type": "usp", "settings": { "icon": "shield", "title": "Garantie 5 Ans", "description": "Sur tous nos produits" } },
+      { "type": "usp", "settings": { "icon": "phone", "title": "Conseils d'Experts", "description": "7j/7 par téléphone et WhatsApp" } },
+      { "type": "usp", "settings": { "icon": "star", "title": "Fabrication Haut de Gamme", "description": "Matériaux premium sélectionnés" } }
+    ]
+  }]
 }
 {% endschema %}

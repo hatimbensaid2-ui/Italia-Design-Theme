@@ -1,126 +1,89 @@
-<section class="section" style="background:{{ section.settings.bg_color }};padding-top:{{ section.settings.padding_top }}rem;padding-bottom:{{ section.settings.padding_bottom }}rem;">
+<section class="section{% if section.settings.bg == 'surface' %} bg-surface{% endif %}">
   <div class="container">
+    <div class="section-header reveal">
+      {% if section.settings.overline != blank %}
+        <span class="overline">{{ section.settings.overline }}</span>
+      {% endif %}
+      {% if section.settings.title != blank %}
+        <h2 class="section-header__title">{{ section.settings.title }}</h2>
+      {% endif %}
+      {% if section.settings.description != blank %}
+        <p class="section-header__desc">{{ section.settings.description }}</p>
+      {% endif %}
+    </div>
 
-    {% if section.settings.title != blank or section.settings.overline != blank %}
-      <div class="section-header reveal" style="text-align:{{ section.settings.header_align }};">
-        {% if section.settings.overline != blank %}
-          <span class="overline">{{ section.settings.overline }}</span>
-        {% endif %}
-        {% if section.settings.title != blank %}
-          <h2 class="section-header__title">{{ section.settings.title }}</h2>
-        {% endif %}
-        {% if section.settings.description != blank %}
-          <p class="section-header__desc">{{ section.settings.description }}</p>
-        {% endif %}
-      </div>
-    {% endif %}
-
-    <div style="display:grid;grid-template-columns:repeat({{ section.settings.columns }},1fr);gap:{{ section.settings.gap }}px;">
+    <div class="collections-grid">
       {% for block in section.blocks %}
         {% assign col = collections[block.settings.collection] %}
-        <a href="{{ col.url | default: block.settings.custom_url | default: '#' }}"
-           class="collection-card reveal"
-           style="aspect-ratio:{{ block.settings.aspect_ratio | default: '4/5' }};animation-delay:{{ forloop.index0 | times: 80 }}ms;"
-           {{ block.shopify_attributes }}>
+        <a href="{{ col.url | default: block.settings.url | default: '#' }}" class="collection-card{% if forloop.index == 1 and section.settings.first_featured %} collection-card--featured{% endif %} reveal" style="animation-delay:{{ forloop.index0 | times: 80 }}ms;">
           <div class="collection-card__media">
             {% if block.settings.image %}
-              {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: block.settings.title }}
+              {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: block.settings.title }}
             {% elsif col.image %}
-              {{ col.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: col.title }}
+              {{ col.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: col.title }}
             {% else %}
               <div style="background:#f0f0f0;width:100%;height:100%;"></div>
             {% endif %}
           </div>
-          <div class="collection-card__overlay" style="background:linear-gradient(to top,rgba(0,0,0,{{ block.settings.overlay | default: 0.65 }}) 0%,transparent 60%);"></div>
+          <div class="collection-card__overlay"></div>
           <div class="collection-card__content">
             {% if block.settings.overline != blank %}
-              <span class="overline" style="display:block;margin-bottom:.5rem;color:var(--color-accent);">{{ block.settings.overline }}</span>
+              <span class="overline" style="color:var(--color-accent);display:block;margin-bottom:.5rem;">{{ block.settings.overline }}</span>
             {% endif %}
-            <h3 class="collection-card__title" style="font-size:{{ section.settings.card_title_size }}px;">{{ block.settings.title | default: col.title }}</h3>
-            {% if section.settings.show_count and col != blank %}
+            <h3 class="collection-card__title">{{ block.settings.title | default: col.title }}</h3>
+            {% if col != blank %}
               <span class="collection-card__count">{{ col.all_products_count }} produits</span>
             {% endif %}
-            {% if block.settings.btn_label != blank %}
-              <span class="collection-card__link">
-                {{ block.settings.btn_label }}
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-              </span>
-            {% endif %}
+            <span class="collection-card__link">
+              Découvrir
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </span>
           </div>
         </a>
       {% endfor %}
     </div>
 
     {% if section.settings.btn_text != blank %}
-      <div style="text-align:center;margin-top:3rem;">
-        <a href="{{ section.settings.btn_url | default: '/collections/all' }}" class="btn btn--{{ section.settings.btn_style }}">{{ section.settings.btn_text }}</a>
+      <div class="text-center" style="margin-top:3rem;">
+        <a href="{{ section.settings.btn_url | default: '/collections/all' }}" class="btn btn--outline">{{ section.settings.btn_text }}</a>
       </div>
     {% endif %}
-
   </div>
 </section>
 
 {% schema %}
 {
   "name": "Collections vedettes",
-  "max_blocks": 8,
+  "max_blocks": 6,
   "settings": [
-    {
-      "type": "header",
-      "content": "En-tête de section"
-    },
     { "type": "text", "id": "overline", "label": "Surtitre", "default": "Nos Univers" },
     { "type": "text", "id": "title", "label": "Titre", "default": "Explorez nos Collections" },
-    { "type": "textarea", "id": "description", "label": "Description" },
-    { "type": "select", "id": "header_align", "label": "Alignement en-tête", "options": [{"value":"center","label":"Centré"},{"value":"left","label":"Gauche"}], "default": "center" },
-    {
-      "type": "header",
-      "content": "Grille"
-    },
-    { "type": "range", "id": "columns", "min": 1, "max": 4, "step": 1, "default": 3, "label": "Colonnes (desktop)" },
-    { "type": "range", "id": "gap", "min": 0, "max": 40, "step": 4, "default": 16, "label": "Espacement (px)" },
-    { "type": "range", "id": "card_title_size", "min": 14, "max": 40, "step": 2, "default": 24, "label": "Taille titre carte", "unit": "px" },
-    { "type": "checkbox", "id": "show_count", "label": "Afficher le nombre de produits", "default": true },
-    {
-      "type": "header",
-      "content": "Bouton global"
-    },
-    { "type": "text", "id": "btn_text", "label": "Texte du bouton" },
-    { "type": "url", "id": "btn_url", "label": "Lien du bouton" },
-    { "type": "select", "id": "btn_style", "label": "Style du bouton", "options": [{"value":"outline","label":"Contour"},{"value":"primary","label":"Plein"}], "default": "outline" },
-    {
-      "type": "header",
-      "content": "Couleurs & Espacement"
-    },
-    { "type": "color", "id": "bg_color", "label": "Couleur de fond", "default": "#ffffff" },
-    { "type": "range", "id": "padding_top", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement haut", "unit": "rem" },
-    { "type": "range", "id": "padding_bottom", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement bas", "unit": "rem" }
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Du salon à la chambre, découvrez des espaces conçus pour sublimer votre intérieur." },
+    { "type": "checkbox", "id": "first_featured", "label": "Première collection en vedette", "default": false },
+    { "type": "text", "id": "btn_text", "label": "Bouton texte", "default": "Toutes les Collections" },
+    { "type": "url", "id": "btn_url", "label": "Bouton lien" },
+    { "type": "select", "id": "bg", "label": "Fond", "options": [{"value":"white","label":"Blanc"},{"value":"surface","label":"Gris clair"}], "default": "white" }
   ],
   "blocks": [
     {
       "type": "collection",
       "name": "Collection",
       "settings": [
-        { "type": "collection", "id": "collection", "label": "Collection Shopify" },
-        { "type": "image_picker", "id": "image", "label": "Image personnalisée" },
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Image (optionnel)" },
         { "type": "text", "id": "overline", "label": "Surtitre" },
-        { "type": "text", "id": "title", "label": "Titre (remplace le nom de la collection)" },
-        { "type": "text", "id": "btn_label", "label": "Texte du lien", "default": "Découvrir" },
-        { "type": "url", "id": "custom_url", "label": "Lien personnalisé (si pas de collection)" },
-        { "type": "select", "id": "aspect_ratio", "label": "Format de l'image", "options": [{"value":"3/4","label":"Portrait (3:4)"},{"value":"4/5","label":"Portrait (4:5)"},{"value":"1/1","label":"Carré"},{"value":"4/3","label":"Paysage (4:3)"},{"value":"16/9","label":"Paysage (16:9)"}], "default": "4/5" },
-        { "type": "range", "id": "overlay", "min": 0.1, "max": 0.9, "step": 0.1, "default": 0.6, "label": "Intensité overlay" }
+        { "type": "text", "id": "title", "label": "Titre (optionnel)" },
+        { "type": "url", "id": "url", "label": "Lien (si pas de collection)" }
       ]
     }
   ],
-  "presets": [
-    {
-      "name": "Collections vedettes",
-      "blocks": [
-        { "type": "collection", "settings": { "title": "Salon & Séjour", "overline": "Espace Vie", "btn_label": "Découvrir" } },
-        { "type": "collection", "settings": { "title": "Chambre", "overline": "Espace Nuit", "btn_label": "Découvrir" } },
-        { "type": "collection", "settings": { "title": "Salle à Manger", "overline": "Espace Repas", "btn_label": "Découvrir" } }
-      ]
-    }
-  ]
+  "presets": [{
+    "name": "Collections vedettes",
+    "blocks": [
+      { "type": "collection", "settings": { "title": "Salon", "overline": "Espace Détente" } },
+      { "type": "collection", "settings": { "title": "Chambre", "overline": "Espace Nuit" } },
+      { "type": "collection", "settings": { "title": "Salle à Manger", "overline": "Espace Repas" } }
+    ]
+  }]
 }
 {% endschema %}

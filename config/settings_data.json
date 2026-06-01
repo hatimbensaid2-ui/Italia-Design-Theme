@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "current": {
     "color_primary": "#000000",
@@ -21,79 +12,6 @@
     "footer_about": "<p>Italia Design — Mobilier de luxe inspiré de l'Italie, fabriqué pour le Maroc.</p>",
     "footer_phone": "+212 5XX-XXXXXX",
     "footer_email": "contact@italiadesign.ma",
-    "footer_address": "Casablanca, Maroc",
-    "sections": {
-      "announcement-bar": {
-        "type": "announcement-bar",
-        "settings": {
-          "show_bar": true,
-          "messages": "Livraison gratuite au Maroc | Fabrication sur mesure | Showroom à Casablanca | Paiement en plusieurs fois",
-          "bg_color": "#c9a96e",
-          "text_color": "#ffffff",
-          "speed": 25
-        }
-      },
-      "header": {
-        "type": "header",
-        "settings": {
-          "logo_width": 160,
-          "logo_text": "ITALIA DESIGN",
-          "logo_text_size": 22,
-          "nav_menu": "main-menu",
-          "nav_font_size": 11,
-          "show_search": true,
-          "show_account": true,
-          "show_top_bar": false,
-          "top_bar_message": "Livraison gratuite au Maroc dès 5 000 MAD",
-          "top_bar_bg": "#c9a96e",
-          "top_bar_text": "#ffffff",
-          "bg_color": "#ffffff",
-          "text_color": "#1a1a1a",
-          "border_color": "#e5e5e5",
-          "border_width": 1,
-          "header_height": 72,
-          "sticky": true
-        }
-      },
-      "footer": {
-        "type": "footer",
-        "settings": {
-          "brand_name": "ITALIA DESIGN",
-          "brand_name_size": 22,
-          "logo_filter": "brightness(0) invert(1)",
-          "about": "Italia Design — Mobilier de luxe inspiré de l'Italie, fabriqué pour le Maroc.",
-          "social_instagram": "",
-          "social_facebook": "",
-          "social_tiktok": "",
-          "social_whatsapp": "+212600000000",
-          "show_nav_col": true,
-          "nav_col_title": "Navigation",
-          "footer_menu": "main-menu",
-          "info_col_title": "Informations",
-          "footer_info_menu": "footer",
-          "contact_col_title": "Contact",
-          "phone": "+212 6XX-XXXXXX",
-          "email": "contact@italiadesign.ma",
-          "address": "Casablanca, Maroc",
-          "hours": "Lun – Sam : 9h – 19h\nDimanche : 10h – 17h",
-          "show_newsletter": false,
-          "newsletter_label": "Newsletter",
-          "copyright_text": "Tous droits réservés.",
-          "show_payment_icons": true,
-          "payment_methods": "VISA, Mastercard, CMI, Virement, COD",
-          "layout": "4col",
-          "col_gap": 4,
-          "bg_color": "#0a0a0a",
-          "text_color": "#888888",
-          "heading_color": "#ffffff",
-          "border_color": "#222222",
-          "accent_color": "#c9a96e",
-          "padding_top": 5,
-          "padding_bottom": 4,
-          "bottom_padding": 1.5
-        }
-      }
-    },
-    "content_for_index": []
+    "footer_address": "Casablanca, Maroc"
   }
 }

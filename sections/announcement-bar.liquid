@@ -1,30 +1,37 @@
 {% if section.settings.show_bar %}
-<div class="announcement-bar" style="background:{{ section.settings.bg_color }};color:{{ section.settings.text_color }};">
-  {% assign messages = section.settings.messages | split: '|' %}
-  {% if messages.size > 1 %}
-    <div style="overflow:hidden;padding:0;">
-      <div class="marquee-track" style="animation-duration:{{ section.settings.speed }}s;">
-        {% for m in messages %}{% for m in messages %}
-          <span class="marquee-item" style="color:{{ section.settings.text_color }};">{{ m | strip }}</span>
-        {% endfor %}{% endfor %}
+  <div class="announcement-bar" role="complementary">
+    {% assign messages = section.settings.messages | split: '|' %}
+    {% if messages.size > 1 %}
+      <div class="marquee-section" style="padding:.55rem 0;">
+        <div class="marquee-track">
+          {% for m in messages %}{% for m in messages %}
+            <span class="marquee-item">{{ m | strip }}</span>
+          {% endfor %}{% endfor %}
+        </div>
       </div>
-    </div>
-  {% else %}
-    <span>{{ section.settings.messages }}</span>
-  {% endif %}
-</div>
+    {% else %}
+      {{ section.settings.messages }}
+    {% endif %}
+  </div>
 {% endif %}
 
 {% schema %}
 {
   "name": "Barre d'annonce",
   "settings": [
-    { "type": "checkbox", "id": "show_bar", "label": "Afficher", "default": true },
-    { "type": "text", "id": "messages", "label": "Messages (séparer par |)", "default": "Livraison gratuite au Maroc | Fabrication sur mesure | Showroom à Casablanca | Paiement en plusieurs fois" },
-    { "type": "color", "id": "bg_color", "label": "Couleur de fond", "default": "#000000" },
-    { "type": "color", "id": "text_color", "label": "Couleur du texte", "default": "#ffffff" },
-    { "type": "range", "id": "speed", "min": 10, "max": 60, "step": 5, "default": 25, "label": "Vitesse de défilement", "unit": "s" }
+    {
+      "type": "checkbox",
+      "id": "show_bar",
+      "label": "Afficher la barre",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "messages",
+      "label": "Messages (séparer par |)",
+      "default": "Livraison gratuite au Maroc | Fabrication sur mesure | Showroom à Casablanca | Paiement en plusieurs fois"
+    }
   ],
-  "presets": [{ "name": "Barre d'annonce" }]
+  "presets": [{"name": "Barre d'annonce"}]
 }
 {% endschema %}

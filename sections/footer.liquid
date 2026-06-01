@@ -1,439 +1,106 @@
-{% assign footer_bg = section.settings.bg_color | default: '#0a0a0a' %}
-{% assign footer_text = section.settings.text_color | default: 'rgba(255,255,255,0.5)' %}
-{% assign footer_heading = section.settings.heading_color | default: '#ffffff' %}
-{% assign footer_border = section.settings.border_color | default: 'rgba(255,255,255,0.1)' %}
-
-<footer style="background:{{ footer_bg }};color:{{ footer_text }};padding:{{ section.settings.padding_top }}rem 0 0;" role="contentinfo">
+<footer class="site-footer" role="contentinfo">
   <div class="container">
-    <div style="display:grid;grid-template-columns:{% if section.settings.layout == '4col' %}2fr 1fr 1fr 1.5fr{% elsif section.settings.layout == '3col' %}2fr 1fr 2fr{% else %}1fr 1fr{% endif %};gap:{{ section.settings.col_gap }}rem;padding-bottom:{{ section.settings.padding_bottom }}rem;border-bottom:1px solid {{ footer_border }};">
+    <div class="footer-grid">
 
       <!-- Brand Column -->
-      <div>
-        <div style="margin-bottom:1.25rem;">
-          {% if section.settings.logo %}
-            {{ section.settings.logo | image_url: width: 160 | image_tag: alt: shop.name, style: 'max-width:140px;height:auto;filter:' | append: section.settings.logo_filter | append: ';' }}
+      <div class="footer-brand">
+        <div class="footer-brand__logo">
+          {% if settings.logo %}
+            {{ settings.logo | image_url: width: 120 | image_tag: alt: shop.name, style: 'filter:brightness(0)invert(1);max-width:120px;margin-bottom:1.25rem;' }}
           {% else %}
-            <span style="font-family:var(--font-heading);font-size:{{ section.settings.brand_name_size }}px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:{{ footer_heading }};">{{ section.settings.brand_name | default: shop.name }}</span>
+            {{ shop.name | upcase }}
           {% endif %}
         </div>
-
-        {% if section.settings.about != blank %}
-          <p style="font-size:.85rem;line-height:1.75;color:{{ footer_text }};margin-bottom:1.75rem;max-width:280px;">{{ section.settings.about }}</p>
-        {% endif %}
-
-        <!-- Social Icons -->
-        <div style="display:flex;gap:.65rem;">
-          {% if section.settings.social_instagram != blank %}
-            <a href="{{ section.settings.social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram"
-               style="width:36px;height:36px;border:1px solid {{ footer_border }};display:flex;align-items:center;justify-content:center;color:{{ footer_text }};transition:all .3s;"
-               onmouseover="this.style.borderColor='{{ section.settings.accent_color }}';this.style.color='{{ section.settings.accent_color }}';"
-               onmouseout="this.style.borderColor='{{ footer_border }}';this.style.color='{{ footer_text }}';">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        <div class="footer-brand__desc">{{ settings.footer_about }}</div>
+        <div class="footer-social">
+          {% if settings.social_instagram != blank %}
+            <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             </a>
           {% endif %}
-          {% if section.settings.social_facebook != blank %}
-            <a href="{{ section.settings.social_facebook }}" target="_blank" rel="noopener" aria-label="Facebook"
-               style="width:36px;height:36px;border:1px solid {{ footer_border }};display:flex;align-items:center;justify-content:center;color:{{ footer_text }};transition:all .3s;"
-               onmouseover="this.style.borderColor='{{ section.settings.accent_color }}';this.style.color='{{ section.settings.accent_color }}';"
-               onmouseout="this.style.borderColor='{{ footer_border }}';this.style.color='{{ footer_text }}';">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          {% if settings.social_facebook != blank %}
+            <a href="{{ settings.social_facebook }}" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
             </a>
           {% endif %}
-          {% if section.settings.social_tiktok != blank %}
-            <a href="{{ section.settings.social_tiktok }}" target="_blank" rel="noopener" aria-label="TikTok"
-               style="width:36px;height:36px;border:1px solid {{ footer_border }};display:flex;align-items:center;justify-content:center;color:{{ footer_text }};transition:all .3s;"
-               onmouseover="this.style.borderColor='{{ section.settings.accent_color }}';this.style.color='{{ section.settings.accent_color }}';"
-               onmouseout="this.style.borderColor='{{ footer_border }}';this.style.color='{{ footer_text }}';">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/></svg>
-            </a>
-          {% endif %}
-          {% if section.settings.social_whatsapp != blank %}
-            <a href="https://wa.me/{{ section.settings.social_whatsapp | remove: '+' | remove: ' ' | remove: '-' }}" target="_blank" rel="noopener" aria-label="WhatsApp"
-               style="width:36px;height:36px;border:1px solid {{ footer_border }};display:flex;align-items:center;justify-content:center;color:{{ footer_text }};transition:all .3s;"
-               onmouseover="this.style.borderColor='{{ section.settings.accent_color }}';this.style.color='{{ section.settings.accent_color }}';"
-               onmouseout="this.style.borderColor='{{ footer_border }}';this.style.color='{{ footer_text }}';">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          {% if settings.social_tiktok != blank %}
+            <a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener" aria-label="TikTok">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/></svg>
             </a>
           {% endif %}
         </div>
       </div>
 
-      <!-- Navigation Column -->
-      {% if section.settings.show_nav_col %}
-        <div>
-          <h3 style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:{{ footer_heading }};margin-bottom:1.5rem;">{{ section.settings.nav_col_title | default: 'Navigation' }}</h3>
-          <ul style="display:flex;flex-direction:column;gap:.75rem;">
-            {% assign nav_links = linklists[section.settings.footer_menu] %}
-            {% if nav_links.links.size > 0 %}
-              {% for link in nav_links.links %}
-                <li><a href="{{ link.url }}" style="font-size:.85rem;color:{{ footer_text }};transition:color .2s;" onmouseover="this.style.color='{{ footer_heading }}';" onmouseout="this.style.color='{{ footer_text }}';">{{ link.title }}</a></li>
-              {% endfor %}
-            {% else %}
-              <li><a href="/" style="font-size:.85rem;color:{{ footer_text }};">Accueil</a></li>
-              <li><a href="/collections/all" style="font-size:.85rem;color:{{ footer_text }};">Collections</a></li>
-              <li><a href="/pages/about" style="font-size:.85rem;color:{{ footer_text }};">À propos</a></li>
-              <li><a href="/pages/contact" style="font-size:.85rem;color:{{ footer_text }};">Contact</a></li>
-            {% endif %}
-          </ul>
-        </div>
-      {% endif %}
-
-      <!-- Info Column (only in 4col / 3col) -->
-      {% if section.settings.layout == '4col' %}
-        <div>
-          <h3 style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:{{ footer_heading }};margin-bottom:1.5rem;">{{ section.settings.info_col_title | default: 'Informations' }}</h3>
-          <ul style="display:flex;flex-direction:column;gap:.75rem;">
-            {% assign info_links = linklists[section.settings.footer_info_menu] %}
-            {% if info_links.links.size > 0 %}
-              {% for link in info_links.links %}
-                <li><a href="{{ link.url }}" style="font-size:.85rem;color:{{ footer_text }};transition:color .2s;" onmouseover="this.style.color='{{ footer_heading }}';" onmouseout="this.style.color='{{ footer_text }}';">{{ link.title }}</a></li>
-              {% endfor %}
-            {% else %}
-              <li><a href="/policies/shipping-policy" style="font-size:.85rem;color:{{ footer_text }};">Livraison</a></li>
-              <li><a href="/policies/return-policy" style="font-size:.85rem;color:{{ footer_text }};">Retours</a></li>
-              <li><a href="/policies/privacy-policy" style="font-size:.85rem;color:{{ footer_text }};">Confidentialité</a></li>
-              <li><a href="/pages/faq" style="font-size:.85rem;color:{{ footer_text }};">FAQ</a></li>
-            {% endif %}
-          </ul>
-        </div>
-      {% endif %}
-
-      <!-- Contact Column -->
-      <div>
-        <h3 style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:{{ footer_heading }};margin-bottom:1.5rem;">{{ section.settings.contact_col_title | default: 'Contact' }}</h3>
-
-        {% if section.settings.address != blank %}
-          <div style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:1rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="{{ section.settings.accent_color }}" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            <span style="font-size:.85rem;color:{{ footer_text }};line-height:1.5;">{{ section.settings.address }}</span>
-          </div>
-        {% endif %}
-
-        {% if section.settings.phone != blank %}
-          <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="{{ section.settings.accent_color }}"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-            <a href="tel:{{ section.settings.phone | remove: ' ' }}" style="font-size:.85rem;color:{{ footer_text }};">{{ section.settings.phone }}</a>
-          </div>
-        {% endif %}
-
-        {% if section.settings.email != blank %}
-          <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="{{ section.settings.accent_color }}"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            <a href="mailto:{{ section.settings.email }}" style="font-size:.85rem;color:{{ footer_text }};">{{ section.settings.email }}</a>
-          </div>
-        {% endif %}
-
-        {% if section.settings.hours != blank %}
-          <div style="display:flex;align-items:flex-start;gap:.75rem;margin-top:.5rem;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="{{ section.settings.accent_color }}" style="flex-shrink:0;margin-top:2px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <span style="font-size:.8rem;color:{{ footer_text }};line-height:1.6;opacity:.7;">{{ section.settings.hours }}</span>
-          </div>
-        {% endif %}
-
-        {% if section.settings.show_newsletter %}
-          <div style="margin-top:1.75rem;">
-            <p style="font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:{{ footer_heading }};margin-bottom:.75rem;">{{ section.settings.newsletter_label | default: 'Newsletter' }}</p>
-            {% form 'customer', id: 'footer-newsletter' %}
-              <input type="hidden" name="contact[tags]" value="newsletter">
-              <div style="display:flex;">
-                <input type="email" name="contact[email]" placeholder="Votre email" required
-                  style="flex:1;padding:.65rem .9rem;background:rgba(255,255,255,.06);border:1px solid {{ footer_border }};border-right:none;color:{{ footer_heading }};font-size:.8rem;outline:none;font-family:inherit;">
-                <button type="submit"
-                  style="padding:.65rem 1rem;background:{{ section.settings.accent_color }};color:#fff;font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;white-space:nowrap;">
-                  OK
-                </button>
-              </div>
-              {% if form.posted_successfully? %}
-                <p style="color:{{ section.settings.accent_color }};font-size:.75rem;margin-top:.5rem;">✓ Inscrit(e) !</p>
-              {% endif %}
-            {% endform %}
-          </div>
-        {% endif %}
-      </div>
-
-    </div>
-
-    <!-- Footer Bottom -->
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding:{{ section.settings.bottom_padding }}rem 0;">
-      <p style="font-size:.75rem;color:{{ footer_text }};opacity:.45;">
-        &copy; {{ 'now' | date: '%Y' }} {{ section.settings.brand_name | default: shop.name }}. {{ section.settings.copyright_text | default: 'Tous droits réservés.' }}
-      </p>
-      {% if section.settings.show_payment_icons %}
-        <div style="display:flex;align-items:center;gap:.4rem;">
-          {% assign payment_icons = section.settings.payment_methods | split: ',' %}
-          {% for icon in payment_icons %}
-            <span style="background:rgba(255,255,255,.1);border-radius:3px;padding:3px 8px;font-size:.6rem;color:{{ footer_text }};font-weight:600;letter-spacing:.05em;">{{ icon | strip }}</span>
+      <!-- Navigation -->
+      <div class="footer-col">
+        <h3 class="footer-col__title">Navigation</h3>
+        <ul class="footer-col__links">
+          {% for link in linklists.footer.links %}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
           {% endfor %}
+          <li><a href="{{ routes.root_url }}">Accueil</a></li>
+          <li><a href="/collections/all">Collections</a></li>
+          <li><a href="/pages/about">À propos</a></li>
+          <li><a href="/pages/contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Info -->
+      <div class="footer-col">
+        <h3 class="footer-col__title">Informations</h3>
+        <ul class="footer-col__links">
+          <li><a href="/policies/shipping-policy">Livraison</a></li>
+          <li><a href="/policies/return-policy">Retours</a></li>
+          <li><a href="/policies/privacy-policy">Confidentialité</a></li>
+          <li><a href="/policies/terms-of-service">Conditions</a></li>
+          <li><a href="/pages/faq">FAQ</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="footer-col">
+        <h3 class="footer-col__title">Contact</h3>
+        {% if settings.footer_address != blank %}
+          <div class="footer-contact-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            <span>{{ settings.footer_address }}</span>
+          </div>
+        {% endif %}
+        {% if settings.footer_phone != blank %}
+          <div class="footer-contact-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            <span><a href="tel:{{ settings.footer_phone | remove: ' ' }}" style="color:inherit;">{{ settings.footer_phone }}</a></span>
+          </div>
+        {% endif %}
+        {% if settings.footer_email != blank %}
+          <div class="footer-contact-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <span><a href="mailto:{{ settings.footer_email }}" style="color:inherit;">{{ settings.footer_email }}</a></span>
+          </div>
+        {% endif %}
+        <div style="margin-top:1.5rem;">
+          <p style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:.75rem;">Horaires</p>
+          <p style="font-size:.8rem;color:rgba(255,255,255,.4);line-height:1.6;">Lun – Sam : 9h – 19h<br>Dimanche : 10h – 17h</p>
         </div>
-      {% endif %}
+      </div>
+
     </div>
 
+    <div class="footer-bottom">
+      <p class="footer-copyright">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. Tous droits réservés.</p>
+      <div class="footer-payments">
+        <span class="payment-icon">VISA</span>
+        <span class="payment-icon">MC</span>
+        <span class="payment-icon">CMI</span>
+        <span class="payment-icon">COD</span>
+      </div>
+    </div>
   </div>
 </footer>
 
 {% schema %}
 {
   "name": "Pied de page",
-  "settings": [
-    {
-      "type": "header",
-      "content": "Logo & Marque"
-    },
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Logo (version claire pour fond sombre)"
-    },
-    {
-      "type": "text",
-      "id": "brand_name",
-      "label": "Nom de la marque (si pas de logo)",
-      "default": "ITALIA DESIGN"
-    },
-    {
-      "type": "range",
-      "id": "brand_name_size",
-      "min": 12,
-      "max": 32,
-      "step": 1,
-      "default": 22,
-      "label": "Taille du nom",
-      "unit": "px"
-    },
-    {
-      "type": "select",
-      "id": "logo_filter",
-      "label": "Filtre logo (pour fond sombre)",
-      "options": [
-        {"value": "none", "label": "Aucun"},
-        {"value": "brightness(0) invert(1)", "label": "Blanc"},
-        {"value": "brightness(0)", "label": "Noir"},
-        {"value": "grayscale(1) brightness(2)", "label": "Gris clair"}
-      ],
-      "default": "brightness(0) invert(1)"
-    },
-    {
-      "type": "textarea",
-      "id": "about",
-      "label": "Texte à propos",
-      "default": "Italia Design — Mobilier de luxe inspiré de l'Italie, fabriqué pour le Maroc."
-    },
-    {
-      "type": "header",
-      "content": "Réseaux sociaux"
-    },
-    {
-      "type": "text",
-      "id": "social_instagram",
-      "label": "Instagram (URL complète)"
-    },
-    {
-      "type": "text",
-      "id": "social_facebook",
-      "label": "Facebook (URL complète)"
-    },
-    {
-      "type": "text",
-      "id": "social_tiktok",
-      "label": "TikTok (URL complète)"
-    },
-    {
-      "type": "text",
-      "id": "social_whatsapp",
-      "label": "WhatsApp (numéro avec indicatif)",
-      "default": "+212600000000",
-      "info": "Ex: +212612345678"
-    },
-    {
-      "type": "header",
-      "content": "Colonnes de navigation"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_nav_col",
-      "label": "Afficher la colonne navigation",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "nav_col_title",
-      "label": "Titre — colonne navigation",
-      "default": "Navigation"
-    },
-    {
-      "type": "link_list",
-      "id": "footer_menu",
-      "label": "Menu navigation du pied de page",
-      "default": "footer"
-    },
-    {
-      "type": "text",
-      "id": "info_col_title",
-      "label": "Titre — colonne informations",
-      "default": "Informations"
-    },
-    {
-      "type": "link_list",
-      "id": "footer_info_menu",
-      "label": "Menu informations du pied de page"
-    },
-    {
-      "type": "header",
-      "content": "Colonne contact"
-    },
-    {
-      "type": "text",
-      "id": "contact_col_title",
-      "label": "Titre — colonne contact",
-      "default": "Contact"
-    },
-    {
-      "type": "text",
-      "id": "phone",
-      "label": "Téléphone",
-      "default": "+212 6XX-XXXXXX"
-    },
-    {
-      "type": "text",
-      "id": "email",
-      "label": "Email",
-      "default": "contact@italiadesign.ma"
-    },
-    {
-      "type": "textarea",
-      "id": "address",
-      "label": "Adresse",
-      "default": "Casablanca, Maroc"
-    },
-    {
-      "type": "textarea",
-      "id": "hours",
-      "label": "Horaires",
-      "default": "Lun – Sam : 9h – 19h\nDimanche : 10h – 17h"
-    },
-    {
-      "type": "header",
-      "content": "Newsletter dans le pied de page"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_newsletter",
-      "label": "Afficher le formulaire newsletter",
-      "default": false
-    },
-    {
-      "type": "text",
-      "id": "newsletter_label",
-      "label": "Label newsletter",
-      "default": "Newsletter"
-    },
-    {
-      "type": "header",
-      "content": "Barre du bas"
-    },
-    {
-      "type": "text",
-      "id": "copyright_text",
-      "label": "Texte copyright",
-      "default": "Tous droits réservés."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "Afficher les icônes de paiement",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "payment_methods",
-      "label": "Méthodes de paiement (séparées par virgules)",
-      "default": "VISA, Mastercard, CMI, Virement, COD"
-    },
-    {
-      "type": "header",
-      "content": "Mise en page & Couleurs"
-    },
-    {
-      "type": "select",
-      "id": "layout",
-      "label": "Nombre de colonnes",
-      "options": [
-        {"value": "4col", "label": "4 colonnes (logo, nav, info, contact)"},
-        {"value": "3col", "label": "3 colonnes (logo, nav, contact)"},
-        {"value": "2col", "label": "2 colonnes (logo, contact)"}
-      ],
-      "default": "4col"
-    },
-    {
-      "type": "range",
-      "id": "col_gap",
-      "min": 1,
-      "max": 8,
-      "step": 0.5,
-      "default": 4,
-      "label": "Espacement entre colonnes",
-      "unit": "rem"
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Couleur de fond",
-      "default": "#0a0a0a"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Couleur du texte",
-      "default": "#888888"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Couleur des titres",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "border_color",
-      "label": "Couleur des séparateurs",
-      "default": "#222222"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Couleur d'accent (icônes, newsletter)",
-      "default": "#c9a96e"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 2,
-      "max": 10,
-      "step": 1,
-      "default": 5,
-      "label": "Espacement haut",
-      "unit": "rem"
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 2,
-      "max": 8,
-      "step": 1,
-      "default": 4,
-      "label": "Espacement bas (colonnes)",
-      "unit": "rem"
-    },
-    {
-      "type": "range",
-      "id": "bottom_padding",
-      "min": 1,
-      "max": 4,
-      "step": 0.5,
-      "default": 1.5,
-      "label": "Espacement barre du bas",
-      "unit": "rem"
-    }
-  ]
+  "settings": []
 }
 {% endschema %}
