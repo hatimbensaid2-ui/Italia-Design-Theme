@@ -45,8 +45,6 @@
               <div class="product-card__badges">
                 {% if product.available == false %}
                   <span class="badge badge--sold">Épuisé</span>
-                {% elsif product.created_at > 'now' | date: '%s' | minus: 2592000 %}
-                  <span class="badge badge--new">Nouveau</span>
                 {% endif %}
                 {% if product.compare_at_price > product.price %}
                   {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}

@@ -573,7 +573,7 @@ body.header-is-fixed main > div:first-child {
   position: relative;
   overflow: hidden;
   background: var(--color-surface);
-  aspect-ratio: 3/4;
+  aspect-ratio: 1 / 1;
 }
 
 .product-card__media img {
