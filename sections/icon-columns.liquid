@@ -1,0 +1,132 @@
+<section style="background:{{ section.settings.bg_color }};padding-top:{{ section.settings.padding_top }}rem;padding-bottom:{{ section.settings.padding_bottom }}rem;">
+  <div class="container">
+
+    {% if section.settings.title != blank %}
+      <div class="section-header reveal" style="text-align:center;margin-bottom:{{ section.settings.header_gap }}rem;">
+        {% if section.settings.overline != blank %}
+          <span class="overline">{{ section.settings.overline }}</span>
+        {% endif %}
+        <h2 class="section-header__title">{{ section.settings.title }}</h2>
+        {% if section.settings.description != blank %}
+          <p class="section-header__desc">{{ section.settings.description }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div style="display:grid;grid-template-columns:repeat({{ section.settings.columns }},1fr);gap:{{ section.settings.gap }}px;">
+      {% for block in section.blocks %}
+        <div style="text-align:{{ section.settings.align }};padding:{{ section.settings.item_padding }}px;{% if section.settings.show_border %}border:1px solid var(--color-border);{% endif %}{% if section.settings.bg_item != blank %}background:{{ section.settings.bg_item }};{% endif %}" class="reveal" style="animation-delay:{{ forloop.index0 | times: 80 }}ms;" {{ block.shopify_attributes }}>
+
+          {% if block.settings.image %}
+            <div style="margin:0 auto {{ section.settings.icon_gap }}px;width:{{ block.settings.icon_size }}px;height:{{ block.settings.icon_size }}px;overflow:hidden;{% if section.settings.icon_shape == 'circle' %}border-radius:50%;{% elsif section.settings.icon_shape == 'rounded' %}border-radius:8px;{% endif %}">
+              {{ block.settings.image | image_url: width: 160 | image_tag: loading: 'lazy', alt: block.settings.title, style: 'width:100%;height:100%;object-fit:cover;' }}
+            </div>
+          {% elsif block.settings.icon != blank %}
+            <div style="display:flex;align-items:center;justify-content:center;width:{{ block.settings.icon_size }}px;height:{{ block.settings.icon_size }}px;margin:0 auto {{ section.settings.icon_gap }}px;background:{{ block.settings.icon_bg | default: 'transparent' }};{% if section.settings.icon_shape == 'circle' %}border-radius:50%;{% elsif section.settings.icon_shape == 'rounded' %}border-radius:8px;{% elsif section.settings.icon_shape == 'square' %}border:1px solid var(--color-border);{% endif %}color:{{ block.settings.icon_color | default: section.settings.icon_color }};">
+              {% case block.settings.icon %}
+                {% when 'truck' %}<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/></svg>
+                {% when 'shield' %}<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                {% when 'star' %}<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                {% when 'phone' %}<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                {% when 'heart' %}<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                {% when 'tool' %}<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                {% when 'home' %}<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                {% else %}<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+              {% endcase %}
+            </div>
+          {% endif %}
+
+          {% if block.settings.title != blank %}
+            <h3 style="font-family:var(--font-heading);font-size:{{ section.settings.item_title_size }}px;font-weight:400;margin-bottom:.75rem;color:{{ section.settings.text_color }};">{{ block.settings.title }}</h3>
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <p style="font-size:.85rem;line-height:1.7;color:{{ section.settings.text_color }};opacity:.7;">{{ block.settings.text }}</p>
+          {% endif %}
+          {% if block.settings.link_text != blank %}
+            <a href="{{ block.settings.link_url }}" style="display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:{{ section.settings.text_color }};">
+              {{ block.settings.link_text }}
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Colonnes icônes",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "header",
+      "content": "En-tête"
+    },
+    { "type": "text", "id": "overline", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "textarea", "id": "description", "label": "Description" },
+    { "type": "range", "id": "header_gap", "min": 1, "max": 6, "step": 1, "default": 3, "label": "Espace après l'en-tête", "unit": "rem" },
+    {
+      "type": "header",
+      "content": "Grille"
+    },
+    { "type": "range", "id": "columns", "min": 1, "max": 6, "step": 1, "default": 4, "label": "Colonnes (desktop)" },
+    { "type": "range", "id": "gap", "min": 8, "max": 64, "step": 8, "default": 32, "label": "Espacement (px)" },
+    { "type": "range", "id": "item_padding", "min": 0, "max": 48, "step": 4, "default": 24, "label": "Padding des items (px)" },
+    { "type": "select", "id": "align", "label": "Alignement", "options": [{"value":"center","label":"Centré"},{"value":"left","label":"Gauche"}], "default": "center" },
+    { "type": "checkbox", "id": "show_border", "label": "Bordure autour des items", "default": false },
+    {
+      "type": "header",
+      "content": "Icônes"
+    },
+    { "type": "range", "id": "icon_gap", "min": 8, "max": 32, "step": 4, "default": 20, "label": "Espace icône-titre (px)" },
+    { "type": "color", "id": "icon_color", "label": "Couleur icône par défaut", "default": "#000000" },
+    { "type": "select", "id": "icon_shape", "label": "Forme de l'icône", "options": [{"value":"none","label":"Sans fond"},{"value":"circle","label":"Cercle"},{"value":"rounded","label":"Arrondi"},{"value":"square","label":"Carré (bordure)"}], "default": "none" },
+    {
+      "type": "header",
+      "content": "Typographie & Couleurs"
+    },
+    { "type": "range", "id": "item_title_size", "min": 14, "max": 32, "step": 1, "default": 22, "label": "Taille titre item", "unit": "px" },
+    { "type": "color", "id": "bg_color", "label": "Fond de section", "default": "#ffffff" },
+    { "type": "color", "id": "bg_item", "label": "Fond des items (optionnel)" },
+    { "type": "color", "id": "text_color", "label": "Couleur du texte", "default": "#1a1a1a" },
+    {
+      "type": "header",
+      "content": "Espacement"
+    },
+    { "type": "range", "id": "padding_top", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement haut", "unit": "rem" },
+    { "type": "range", "id": "padding_bottom", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement bas", "unit": "rem" }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Colonne",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icône", "options": [{"value":"truck","label":"Livraison"},{"value":"shield","label":"Garantie"},{"value":"star","label":"Étoile"},{"value":"phone","label":"Téléphone"},{"value":"heart","label":"Cœur"},{"value":"tool","label":"Paramètres"},{"value":"home","label":"Maison"},{"value":"custom","label":"Autre"}], "default": "star" },
+        { "type": "color", "id": "icon_color", "label": "Couleur icône (remplace la couleur globale)" },
+        { "type": "color", "id": "icon_bg", "label": "Fond de l'icône" },
+        { "type": "range", "id": "icon_size", "min": 32, "max": 100, "step": 4, "default": 56, "label": "Taille icône (px)" },
+        { "type": "image_picker", "id": "image", "label": "Image (remplace l'icône)" },
+        { "type": "text", "id": "title", "label": "Titre", "default": "Titre" },
+        { "type": "textarea", "id": "text", "label": "Texte descriptif" },
+        { "type": "text", "id": "link_text", "label": "Lien — Texte" },
+        { "type": "url", "id": "link_url", "label": "Lien — URL" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Colonnes icônes",
+      "settings": { "title": "Nos engagements", "columns": 4 },
+      "blocks": [
+        { "type": "column", "settings": { "icon": "truck", "title": "Livraison Gratuite", "text": "Partout au Maroc dès 5 000 MAD d'achat" } },
+        { "type": "column", "settings": { "icon": "shield", "title": "Garantie 5 Ans", "text": "Sur tous nos produits, pièces et main d'œuvre" } },
+        { "type": "column", "settings": { "icon": "tool", "title": "Montage Inclus", "text": "Notre équipe installe vos meubles chez vous" } },
+        { "type": "column", "settings": { "icon": "phone", "title": "Support 7j/7", "text": "Disponibles par téléphone et WhatsApp" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

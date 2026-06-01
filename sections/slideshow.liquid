@@ -1,0 +1,117 @@
+<section class="slideshow" style="position:relative;overflow:hidden;min-height:{{ section.settings.height }}vh;" data-slideshow>
+
+  <div class="slideshow__track" style="display:flex;transition:transform 0.7s cubic-bezier(0.4,0,0.2,1);">
+    {% for block in section.blocks %}
+      <div class="slideshow__slide" style="min-width:100%;position:relative;min-height:{{ section.settings.height }}vh;" {{ block.shopify_attributes }}>
+        <div style="position:absolute;inset:0;overflow:hidden;">
+          {% if block.settings.image %}
+            {{ block.settings.image | image_url: width: 2000 | image_tag: loading: 'lazy', alt: block.settings.heading, style: 'width:100%;height:100%;object-fit:cover;' }}
+          {% else %}
+            <div style="background:linear-gradient(135deg,#1a1a1a,#333);width:100%;height:100%;"></div>
+          {% endif %}
+        </div>
+        <div style="position:absolute;inset:0;background:{{ block.settings.overlay_color | default: '#000' }};opacity:{{ block.settings.overlay_opacity | default: 40 | divided_by: 100.0 }};"></div>
+        <div style="position:relative;z-index:2;height:100%;display:flex;align-items:center;justify-content:{{ section.settings.text_align | replace: 'left','flex-start' | replace: 'right','flex-end' | replace: 'center','center' }};">
+          <div style="text-align:{{ section.settings.text_align }};padding:4rem 2rem;max-width:700px;{% if section.settings.text_align == 'left' %}margin-left:0;{% endif %}">
+            {% if block.settings.overline != blank %}
+              <span class="overline" style="display:block;margin-bottom:1rem;color:var(--color-accent);">{{ block.settings.overline }}</span>
+            {% endif %}
+            {% if block.settings.heading != blank %}
+              <h2 class="hero__title">{{ block.settings.heading }}</h2>
+            {% endif %}
+            {% if block.settings.subheading != blank %}
+              <p class="hero__subtitle">{{ block.settings.subheading }}</p>
+            {% endif %}
+            {% if block.settings.btn_text != blank %}
+              <a href="{{ block.settings.btn_url }}" class="btn btn--{{ block.settings.btn_style | default: 'primary' }} btn--large">{{ block.settings.btn_text }}</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if section.blocks.size > 1 %}
+    <!-- Arrows -->
+    <button class="slideshow-prev" style="position:absolute;left:1.5rem;top:50%;transform:translateY(-50%);z-index:10;width:48px;height:48px;background:rgba(255,255,255,0.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.3);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s;" aria-label="Précédent">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <button class="slideshow-next" style="position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);z-index:10;width:48px;height:48px;background:rgba(255,255,255,0.15);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.3);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s;" aria-label="Suivant">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <!-- Dots -->
+    <div style="position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:.5rem;" class="slideshow-dots">
+      {% for block in section.blocks %}
+        <button class="slideshow-dot{% if forloop.first %} active{% endif %}" data-index="{{ forloop.index0 }}" style="width:{% if forloop.first %}24px{% else %}8px{% endif %};height:8px;border-radius:4px;background:rgba(255,255,255,{% if forloop.first %}0.9{% else %}0.4{% endif %});border:none;cursor:pointer;transition:all .3s;" aria-label="Slide {{ forloop.index }}"></button>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+</section>
+
+<script>
+(function(){
+  const el = document.querySelector('[data-slideshow]');
+  if (!el) return;
+  const track = el.querySelector('.slideshow__track');
+  const dots = el.querySelectorAll('.slideshow-dot');
+  let current = 0;
+  const total = {{ section.blocks.size }};
+  {% if section.settings.autoplay %}const interval = setInterval(next, {{ section.settings.autoplay_speed | times: 1000 }});{% endif %}
+
+  function goTo(n) {
+    current = (n + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+      d.style.width = i === current ? '24px' : '8px';
+      d.style.background = i === current ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.4)';
+    });
+  }
+  function next() { goTo(current + 1); }
+
+  el.querySelector('.slideshow-prev')?.addEventListener('click', () => goTo(current - 1));
+  el.querySelector('.slideshow-next')?.addEventListener('click', next);
+  dots.forEach(d => d.addEventListener('click', () => goTo(parseInt(d.dataset.index))));
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Diaporama",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "range", "id": "height", "min": 40, "max": 100, "step": 5, "default": 85, "label": "Hauteur", "unit": "vh" },
+    { "type": "select", "id": "text_align", "label": "Alignement texte", "options": [{"value":"center","label":"Centré"},{"value":"left","label":"Gauche"}], "default": "center" },
+    { "type": "checkbox", "id": "autoplay", "label": "Lecture automatique", "default": true },
+    { "type": "range", "id": "autoplay_speed", "min": 2, "max": 10, "step": 1, "default": 5, "label": "Délai entre slides", "unit": "s" }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "overline", "label": "Surtitre" },
+        { "type": "text", "id": "heading", "label": "Titre", "default": "Nouvelle Collection" },
+        { "type": "text", "id": "subheading", "label": "Sous-titre" },
+        { "type": "text", "id": "btn_text", "label": "Bouton — Texte", "default": "Découvrir" },
+        { "type": "url", "id": "btn_url", "label": "Bouton — Lien" },
+        { "type": "select", "id": "btn_style", "label": "Bouton — Style", "options": [{"value":"primary","label":"Plein"},{"value":"secondary","label":"Contour blanc"},{"value":"accent","label":"Doré"}], "default": "secondary" },
+        { "type": "color", "id": "overlay_color", "label": "Couleur overlay", "default": "#000000" },
+        { "type": "range", "id": "overlay_opacity", "min": 0, "max": 80, "step": 5, "default": 40, "label": "Opacité overlay", "unit": "%" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Diaporama",
+      "blocks": [
+        { "type": "slide", "settings": { "heading": "Collection Salon", "subheading": "Élégance & Confort", "btn_text": "Voir la collection" } },
+        { "type": "slide", "settings": { "heading": "Collection Chambre", "subheading": "Douceur & Raffinement", "btn_text": "Découvrir" } },
+        { "type": "slide", "settings": { "heading": "Collection Salle à Manger", "subheading": "Style & Convivialité", "btn_text": "Explorer" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

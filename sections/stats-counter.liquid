@@ -1,0 +1,84 @@
+<section style="background:{{ section.settings.bg_color }};padding-top:{{ section.settings.padding_top }}rem;padding-bottom:{{ section.settings.padding_bottom }}rem;">
+  <div class="container">
+    {% if section.settings.title != blank %}
+      <div style="text-align:center;margin-bottom:3rem;">
+        {% if section.settings.overline != blank %}
+          <span class="overline" style="display:block;margin-bottom:.75rem;">{{ section.settings.overline }}</span>
+        {% endif %}
+        <h2 style="font-family:var(--font-heading);font-size:clamp(1.8rem,3vw,2.8rem);color:{{ section.settings.text_color }};">{{ section.settings.title }}</h2>
+      </div>
+    {% endif %}
+
+    <div style="display:grid;grid-template-columns:repeat({{ section.settings.columns }},1fr);gap:{{ section.settings.gap }}px;text-align:center;">
+      {% for block in section.blocks %}
+        <div style="padding:{{ section.settings.item_padding }}px;{% if section.settings.show_divider and forloop.last == false %}border-right:1px solid {{ section.settings.divider_color }};{% endif %}" {{ block.shopify_attributes }}>
+          {% if block.settings.icon != blank %}
+            <div style="display:flex;justify-content:center;margin-bottom:1rem;color:{{ section.settings.accent_color }};">
+              {% case block.settings.icon %}
+                {% when 'users' %}<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                {% when 'star' %}<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                {% when 'bag' %}<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 7H4l1-7z"/></svg>
+                {% when 'home' %}<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+              {% endcase %}
+            </div>
+          {% endif %}
+          <div style="font-family:var(--font-heading);font-size:{{ section.settings.number_size }}px;font-weight:400;color:{{ section.settings.number_color }};line-height:1;margin-bottom:.5rem;" data-counter="{{ block.settings.number }}">
+            {{ block.settings.prefix }}{{ block.settings.number }}{{ block.settings.suffix }}
+          </div>
+          <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:{{ section.settings.text_color }};margin-bottom:.5rem;">{{ block.settings.label }}</div>
+          {% if block.settings.description != blank %}
+            <p style="font-size:.8rem;color:{{ section.settings.text_color }};opacity:.6;line-height:1.6;">{{ block.settings.description }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Chiffres clés",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "overline", "label": "Surtitre" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "range", "id": "columns", "min": 2, "max": 6, "step": 1, "default": 4, "label": "Colonnes" },
+    { "type": "range", "id": "gap", "min": 0, "max": 64, "step": 8, "default": 0, "label": "Espacement", "unit": "px" },
+    { "type": "range", "id": "item_padding", "min": 16, "max": 64, "step": 8, "default": 32, "label": "Padding items", "unit": "px" },
+    { "type": "checkbox", "id": "show_divider", "label": "Séparateur entre items", "default": true },
+    { "type": "range", "id": "number_size", "min": 36, "max": 96, "step": 4, "default": 64, "label": "Taille des chiffres", "unit": "px" },
+    { "type": "color", "id": "bg_color", "label": "Fond", "default": "#f8f8f8" },
+    { "type": "color", "id": "number_color", "label": "Couleur des chiffres", "default": "#000000" },
+    { "type": "color", "id": "text_color", "label": "Couleur du texte", "default": "#1a1a1a" },
+    { "type": "color", "id": "accent_color", "label": "Couleur des icônes", "default": "#c9a96e" },
+    { "type": "color", "id": "divider_color", "label": "Couleur séparateur", "default": "#e5e5e5" },
+    { "type": "range", "id": "padding_top", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement haut", "unit": "rem" },
+    { "type": "range", "id": "padding_bottom", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement bas", "unit": "rem" }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Chiffre",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icône", "options": [{"value":"none","label":"Aucune"},{"value":"users","label":"Clients"},{"value":"star","label":"Étoile"},{"value":"bag","label":"Commandes"},{"value":"home","label":"Maison"}], "default": "none" },
+        { "type": "text", "id": "prefix", "label": "Préfixe (ex: +)" },
+        { "type": "text", "id": "number", "label": "Chiffre", "default": "500" },
+        { "type": "text", "id": "suffix", "label": "Suffixe (ex: +, k, %)", "default": "+" },
+        { "type": "text", "id": "label", "label": "Étiquette", "default": "Clients satisfaits" },
+        { "type": "text", "id": "description", "label": "Description (optionnel)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Chiffres clés",
+      "blocks": [
+        { "type": "stat", "settings": { "number": "500", "suffix": "+", "label": "Clients satisfaits" } },
+        { "type": "stat", "settings": { "number": "5", "suffix": " ans", "label": "D'expérience" } },
+        { "type": "stat", "settings": { "number": "20", "suffix": "+", "label": "Villes livrées" } },
+        { "type": "stat", "settings": { "number": "100", "suffix": "%", "label": "Garantie qualité" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

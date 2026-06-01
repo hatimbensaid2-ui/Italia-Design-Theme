@@ -1,81 +1,79 @@
-<section class="section{% if section.settings.bg == 'surface' %} bg-surface{% endif %}">
+<section style="background:{{ section.settings.bg_color }};padding-top:{{ section.settings.padding_top }}rem;padding-bottom:{{ section.settings.padding_bottom }}rem;">
   <div class="container">
-    <div class="section-header reveal">
-      {% if section.settings.overline != blank %}
-        <span class="overline">{{ section.settings.overline }}</span>
-      {% endif %}
-      {% if section.settings.title != blank %}
-        <h2 class="section-header__title">{{ section.settings.title }}</h2>
-      {% endif %}
-      {% if section.settings.description != blank %}
-        <p class="section-header__desc">{{ section.settings.description }}</p>
-      {% endif %}
-    </div>
+
+    {% if section.settings.title != blank or section.settings.overline != blank %}
+      <div class="section-header reveal" style="text-align:{{ section.settings.header_align }};">
+        {% if section.settings.overline != blank %}
+          <span class="overline">{{ section.settings.overline }}</span>
+        {% endif %}
+        {% if section.settings.title != blank %}
+          <h2 class="section-header__title">{{ section.settings.title }}</h2>
+        {% endif %}
+        {% if section.settings.description != blank %}
+          <p class="section-header__desc">{{ section.settings.description }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
 
     {% assign col = collections[section.settings.collection] %}
-    {% if section.settings.collection != blank and col != blank %}
-      {% assign products_list = col.products | limit: section.settings.products_count %}
+    {% if col != blank %}
+      {% assign products_list = col.products %}
     {% else %}
       {% assign products_list = section.blocks %}
     {% endif %}
 
-    <div class="grid grid--4 reveal">
+    <div style="display:grid;grid-template-columns:repeat({{ section.settings.columns }},1fr);gap:{{ section.settings.gap }}px;">
       {% for item in products_list limit: section.settings.products_count %}
-        {% if section.settings.collection != blank %}
+        {% if col != blank %}
           {% assign product = item %}
         {% else %}
           {% assign product = all_products[item.settings.product] %}
         {% endif %}
         {% if product %}
-          <div class="product-card" style="animation-delay:{{ forloop.index0 | times: 60 }}ms;">
-            <div class="product-card__media">
+          <div class="product-card reveal" style="animation-delay:{{ forloop.index0 | modulo: section.settings.columns | times: 60 }}ms;">
+            <div class="product-card__media" style="aspect-ratio:{{ section.settings.card_ratio }};">
               <a href="{{ product.url }}">
                 {% if product.featured_image %}
-                  {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
+                  {{ product.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: product.title }}
                 {% else %}
                   <div style="background:var(--color-surface);width:100%;height:100%;"></div>
                 {% endif %}
-                {% if product.images[1] %}
+                {% if section.settings.show_second_image and product.images[1] %}
                   <div class="product-card__media-secondary">
-                    {{ product.images[1] | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
+                    {{ product.images[1] | image_url: width: 700 | image_tag: loading: 'lazy', alt: product.title }}
                   </div>
                 {% endif %}
               </a>
-
               <div class="product-card__badges">
                 {% if product.available == false %}
                   <span class="badge badge--sold">Épuisé</span>
-                {% elsif product.created_at > 'now' | date: '%s' | minus: 2592000 %}
-                  <span class="badge badge--new">Nouveau</span>
                 {% endif %}
                 {% if product.compare_at_price > product.price %}
                   {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
                   <span class="badge badge--sale">-{{ discount }}%</span>
                 {% endif %}
               </div>
-
-              <div class="product-card__actions">
-                <button class="product-card__quick-add" data-product-id="{{ product.variants.first.id }}" onclick="CartDrawer.addItem({{ product.variants.first.id }})">
-                  Ajouter au panier
-                </button>
-              </div>
+              {% if section.settings.show_quick_add and product.available %}
+                <div class="product-card__actions">
+                  <button class="product-card__quick-add" onclick="CartDrawer.addItem({{ product.variants.first.id }})">Ajouter au panier</button>
+                </div>
+              {% endif %}
             </div>
-
-            <div class="product-card__info">
-              {% if product.vendor != blank %}
+            <div class="product-card__info" style="padding-top:{{ section.settings.info_padding }}px;">
+              {% if section.settings.show_vendor and product.vendor != blank %}
                 <div class="product-card__vendor">{{ product.vendor }}</div>
               {% endif %}
-              <h3 class="product-card__title">
+              <h3 class="product-card__title" style="font-size:{{ section.settings.title_size }}px;">
                 <a href="{{ product.url }}">{{ product.title }}</a>
               </h3>
-              <div class="product-card__price">
-                <span class="price{% if product.compare_at_price > product.price %} price--sale{% endif %}">
-                  {{ product.price | money }}
-                </span>
-                {% if product.compare_at_price > product.price %}
-                  <span class="price price--compare">{{ product.compare_at_price | money }}</span>
-                {% endif %}
-              </div>
+              {% if section.settings.show_price %}
+                <div class="product-card__price">
+                  <span class="price{% if product.compare_at_price > product.price %} price--sale{% endif %}">{{ product.price | money }}</span>
+                  {% if product.compare_at_price > product.price %}
+                    <span class="price price--compare">{{ product.compare_at_price | money }}</span>
+                  {% endif %}
+                </div>
+              {% endif %}
             </div>
           </div>
         {% endif %}
@@ -83,26 +81,64 @@
     </div>
 
     {% if section.settings.btn_text != blank %}
-      <div class="text-center" style="margin-top:3rem;">
-        <a href="{{ section.settings.btn_url | default: '/collections/all' }}" class="btn btn--outline">{{ section.settings.btn_text }}</a>
+      <div style="text-align:center;margin-top:3rem;">
+        <a href="{{ section.settings.btn_url | default: '/collections/all' }}" class="btn btn--{{ section.settings.btn_style }}">{{ section.settings.btn_text }}</a>
       </div>
     {% endif %}
+
   </div>
 </section>
 
 {% schema %}
 {
   "name": "Produits vedettes",
-  "max_blocks": 8,
+  "max_blocks": 12,
   "settings": [
+    {
+      "type": "header",
+      "content": "En-tête"
+    },
     { "type": "text", "id": "overline", "label": "Surtitre", "default": "Sélection" },
     { "type": "text", "id": "title", "label": "Titre", "default": "Pièces Coup de Cœur" },
     { "type": "textarea", "id": "description", "label": "Description" },
-    { "type": "collection", "id": "collection", "label": "Collection source (optionnel)" },
-    { "type": "range", "id": "products_count", "min": 2, "max": 8, "step": 1, "default": 4, "label": "Nombre de produits" },
-    { "type": "text", "id": "btn_text", "label": "Bouton texte", "default": "Voir Tout" },
-    { "type": "url", "id": "btn_url", "label": "Bouton lien" },
-    { "type": "select", "id": "bg", "label": "Fond", "options": [{"value":"white","label":"Blanc"},{"value":"surface","label":"Gris clair"}], "default": "white" }
+    { "type": "select", "id": "header_align", "label": "Alignement en-tête", "options": [{"value":"center","label":"Centré"},{"value":"left","label":"Gauche"}], "default": "center" },
+    {
+      "type": "header",
+      "content": "Source des produits"
+    },
+    { "type": "collection", "id": "collection", "label": "Collection Shopify (automatique)" },
+    { "type": "range", "id": "products_count", "min": 2, "max": 12, "step": 1, "default": 4, "label": "Nombre de produits" },
+    {
+      "type": "header",
+      "content": "Grille"
+    },
+    { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "default": 4, "label": "Colonnes (desktop)" },
+    { "type": "range", "id": "gap", "min": 8, "max": 48, "step": 4, "default": 24, "label": "Espacement (px)" },
+    { "type": "select", "id": "card_ratio", "label": "Format des cartes", "options": [{"value":"3/4","label":"Portrait (3:4)"},{"value":"4/5","label":"Portrait (4:5)"},{"value":"1/1","label":"Carré"},{"value":"4/3","label":"Paysage"}], "default": "3/4" },
+    {
+      "type": "header",
+      "content": "Informations produit"
+    },
+    { "type": "checkbox", "id": "show_vendor", "label": "Afficher la marque", "default": false },
+    { "type": "checkbox", "id": "show_price", "label": "Afficher le prix", "default": true },
+    { "type": "checkbox", "id": "show_second_image", "label": "Afficher 2ème image au survol", "default": true },
+    { "type": "checkbox", "id": "show_quick_add", "label": "Bouton ajout rapide", "default": true },
+    { "type": "range", "id": "title_size", "min": 12, "max": 24, "step": 1, "default": 16, "label": "Taille du titre", "unit": "px" },
+    { "type": "range", "id": "info_padding", "min": 8, "max": 24, "step": 2, "default": 16, "label": "Espacement info (px)" },
+    {
+      "type": "header",
+      "content": "Bouton"
+    },
+    { "type": "text", "id": "btn_text", "label": "Texte du bouton", "default": "Voir Tout" },
+    { "type": "url", "id": "btn_url", "label": "Lien du bouton" },
+    { "type": "select", "id": "btn_style", "label": "Style du bouton", "options": [{"value":"outline","label":"Contour"},{"value":"primary","label":"Plein"}], "default": "outline" },
+    {
+      "type": "header",
+      "content": "Couleurs & Espacement"
+    },
+    { "type": "color", "id": "bg_color", "label": "Couleur de fond", "default": "#ffffff" },
+    { "type": "range", "id": "padding_top", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement haut", "unit": "rem" },
+    { "type": "range", "id": "padding_bottom", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement bas", "unit": "rem" }
   ],
   "blocks": [
     {
@@ -113,6 +149,11 @@
       ]
     }
   ],
-  "presets": [{ "name": "Produits vedettes" }]
+  "presets": [
+    {
+      "name": "Produits vedettes",
+      "settings": { "title": "Pièces Coup de Cœur", "overline": "Sélection" }
+    }
+  ]
 }
 {% endschema %}

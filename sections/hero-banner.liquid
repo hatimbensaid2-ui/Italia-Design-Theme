@@ -8,32 +8,29 @@
     {% elsif section.settings.image %}
       {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', alt: section.settings.heading }}
     {% else %}
-      <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1a 0%,#333 100%);"></div>
     {% endif %}
   </div>
 
   <div class="hero__overlay" style="background:{{ section.settings.overlay_color }};opacity:{{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
 
   <div class="container">
-    <div class="hero__content{% if section.settings.alignment == 'left' %} hero__content--left{% endif %}">
+    <div class="hero__content" style="text-align:{{ section.settings.text_align }};">
       {% if section.settings.overline != blank %}
         <span class="overline hero__overline">{{ section.settings.overline }}</span>
       {% endif %}
-
       {% if section.settings.heading != blank %}
-        <h1 class="hero__title">{{ section.settings.heading }}</h1>
+        <h1 class="hero__title" style="font-size:{{ section.settings.heading_size }}px;">{{ section.settings.heading }}</h1>
       {% endif %}
-
       {% if section.settings.subheading != blank %}
         <p class="hero__subtitle">{{ section.settings.subheading }}</p>
       {% endif %}
-
-      <div class="hero__actions">
+      <div class="hero__actions" style="justify-content:{{ section.settings.text_align | replace: 'left', 'flex-start' | replace: 'right', 'flex-end' | replace: 'center', 'center' }};">
         {% if section.settings.btn1_text != blank %}
-          <a href="{{ section.settings.btn1_url }}" class="btn btn--primary btn--large">{{ section.settings.btn1_text }}</a>
+          <a href="{{ section.settings.btn1_url }}" class="btn btn--{{ section.settings.btn1_style }} btn--large">{{ section.settings.btn1_text }}</a>
         {% endif %}
         {% if section.settings.btn2_text != blank %}
-          <a href="{{ section.settings.btn2_url }}" class="btn btn--secondary btn--large">{{ section.settings.btn2_text }}</a>
+          <a href="{{ section.settings.btn2_url }}" class="btn btn--{{ section.settings.btn2_style }} btn--large">{{ section.settings.btn2_text }}</a>
         {% endif %}
       </div>
     </div>
@@ -51,22 +48,55 @@
 {
   "name": "Bannière héro",
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "text", "id": "video_url", "label": "URL vidéo (.mp4)" },
+    {
+      "type": "header",
+      "content": "Média"
+    },
+    { "type": "image_picker", "id": "image", "label": "Image de fond" },
+    { "type": "text", "id": "video_url", "label": "URL vidéo .mp4 (remplace l'image)", "info": "Copiez l'URL directe d'une vidéo .mp4" },
+    {
+      "type": "header",
+      "content": "Contenu"
+    },
     { "type": "text", "id": "overline", "label": "Surtitre", "default": "Collection 2025" },
-    { "type": "textarea", "id": "heading", "label": "Titre", "default": "L'Art du\nMobilier Italien" },
+    { "type": "textarea", "id": "heading", "label": "Titre principal", "default": "L'Art du Mobilier Italien" },
+    { "type": "range", "id": "heading_size", "min": 28, "max": 100, "step": 2, "default": 64, "label": "Taille du titre", "unit": "px" },
     { "type": "textarea", "id": "subheading", "label": "Sous-titre", "default": "Découvrez notre collection exclusive de meubles de luxe — élégance intemporelle, artisanat d'exception." },
-    { "type": "text", "id": "btn1_text", "label": "Bouton 1 texte", "default": "Explorer la Collection" },
-    { "type": "url", "id": "btn1_url", "label": "Bouton 1 lien" },
-    { "type": "text", "id": "btn2_text", "label": "Bouton 2 texte", "default": "Notre Showroom" },
-    { "type": "url", "id": "btn2_url", "label": "Bouton 2 lien" },
-    { "type": "select", "id": "alignment", "label": "Alignement", "options": [{"value":"center","label":"Centre"},{"value":"left","label":"Gauche"}], "default": "center" },
+    {
+      "type": "header",
+      "content": "Boutons"
+    },
+    { "type": "text", "id": "btn1_text", "label": "Bouton 1 — Texte", "default": "Explorer la Collection" },
+    { "type": "url", "id": "btn1_url", "label": "Bouton 1 — Lien" },
+    { "type": "select", "id": "btn1_style", "label": "Bouton 1 — Style", "options": [{"value":"primary","label":"Plein noir"},{"value":"secondary","label":"Contour blanc"},{"value":"accent","label":"Doré"}], "default": "primary" },
+    { "type": "text", "id": "btn2_text", "label": "Bouton 2 — Texte", "default": "Notre Showroom" },
+    { "type": "url", "id": "btn2_url", "label": "Bouton 2 — Lien" },
+    { "type": "select", "id": "btn2_style", "label": "Bouton 2 — Style", "options": [{"value":"primary","label":"Plein noir"},{"value":"secondary","label":"Contour blanc"},{"value":"accent","label":"Doré"}], "default": "secondary" },
+    {
+      "type": "header",
+      "content": "Mise en page"
+    },
+    { "type": "select", "id": "text_align", "label": "Alignement du texte", "options": [{"value":"center","label":"Centré"},{"value":"left","label":"Gauche"},{"value":"right","label":"Droite"}], "default": "center" },
+    { "type": "range", "id": "min_height", "min": 40, "max": 100, "step": 5, "default": 88, "label": "Hauteur minimale", "unit": "vh" },
+    { "type": "checkbox", "id": "full_height", "label": "Pleine hauteur (100vh)", "default": false },
+    { "type": "checkbox", "id": "show_scroll", "label": "Indicateur de défilement", "default": true },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
     { "type": "color", "id": "overlay_color", "label": "Couleur overlay", "default": "#000000" },
-    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 80, "step": 5, "default": 45, "label": "Opacité overlay", "unit": "%" },
-    { "type": "range", "id": "min_height", "min": 50, "max": 100, "step": 5, "default": 85, "label": "Hauteur minimale", "unit": "vh" },
-    { "type": "checkbox", "id": "full_height", "label": "Pleine hauteur", "default": false },
-    { "type": "checkbox", "id": "show_scroll", "label": "Indicateur de défilement", "default": true }
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 85, "step": 5, "default": 45, "label": "Opacité overlay", "unit": "%" }
   ],
-  "presets": [{ "name": "Bannière héro" }]
+  "presets": [
+    {
+      "name": "Bannière héro",
+      "settings": {
+        "heading": "L'Art du Mobilier Italien",
+        "subheading": "Découvrez notre collection exclusive.",
+        "btn1_text": "Explorer la Collection",
+        "btn2_text": "Notre Showroom"
+      }
+    }
+  ]
 }
 {% endschema %}

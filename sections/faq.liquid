@@ -1,0 +1,92 @@
+<section style="background:{{ section.settings.bg_color }};padding-top:{{ section.settings.padding_top }}rem;padding-bottom:{{ section.settings.padding_bottom }}rem;">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:{% if section.settings.layout == 'two-col' %}1fr 1fr{% else %}1fr{% endif %};gap:4rem;align-items:start;">
+
+      <div>
+        {% if section.settings.overline != blank %}
+          <span class="overline" style="display:block;margin-bottom:.75rem;">{{ section.settings.overline }}</span>
+        {% endif %}
+        {% if section.settings.title != blank %}
+          <h2 style="font-family:var(--font-heading);font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:1.25rem;color:{{ section.settings.text_color }};">{{ section.settings.title }}</h2>
+        {% endif %}
+        {% if section.settings.description != blank %}
+          <p style="font-size:.9rem;color:{{ section.settings.text_color }};opacity:.65;line-height:1.7;margin-bottom:2rem;">{{ section.settings.description }}</p>
+        {% endif %}
+        {% if section.settings.btn_text != blank %}
+          <a href="{{ section.settings.btn_url }}" class="btn btn--outline">{{ section.settings.btn_text }}</a>
+        {% endif %}
+      </div>
+
+      <div class="product-accordion" style="{% if section.settings.layout == 'one-col' %}max-width:720px;margin:0 auto;width:100%;{% endif %}">
+        {% for block in section.blocks %}
+          <div class="accordion-item" {{ block.shopify_attributes }}>
+            <button class="accordion-trigger" type="button" style="color:{{ section.settings.text_color }};">
+              <span style="font-size:{{ section.settings.question_size }}px;font-weight:600;letter-spacing:0;text-transform:none;font-family:var(--font-body);">{{ block.settings.question }}</span>
+              <span class="accordion-icon" style="color:{{ section.settings.text_color }};">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              </span>
+            </button>
+            <div class="accordion-content" style="color:{{ section.settings.text_color }};opacity:.7;">
+              {{ block.settings.answer }}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "max_blocks": 20,
+  "settings": [
+    {
+      "type": "header",
+      "content": "En-tête"
+    },
+    { "type": "text", "id": "overline", "label": "Surtitre", "default": "Questions Fréquentes" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Tout ce que vous devez savoir" },
+    { "type": "textarea", "id": "description", "label": "Description" },
+    { "type": "text", "id": "btn_text", "label": "Bouton — Texte" },
+    { "type": "url", "id": "btn_url", "label": "Bouton — Lien" },
+    {
+      "type": "header",
+      "content": "Mise en page"
+    },
+    { "type": "select", "id": "layout", "label": "Disposition", "options": [{"value":"one-col","label":"Une colonne (texte + accordéon centré)"},{"value":"two-col","label":"Deux colonnes (texte | accordéon)"}], "default": "one-col" },
+    { "type": "range", "id": "question_size", "min": 13, "max": 20, "step": 1, "default": 15, "label": "Taille des questions", "unit": "px" },
+    {
+      "type": "header",
+      "content": "Couleurs & Espacement"
+    },
+    { "type": "color", "id": "bg_color", "label": "Fond", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Couleur texte", "default": "#1a1a1a" },
+    { "type": "range", "id": "padding_top", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement haut", "unit": "rem" },
+    { "type": "range", "id": "padding_bottom", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement bas", "unit": "rem" }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Quels sont vos délais de livraison ?" },
+        { "type": "richtext", "id": "answer", "label": "Réponse", "default": "<p>Nos délais de livraison sont généralement de 7 à 21 jours ouvrés selon votre région au Maroc. Nous vous contactons pour convenir d'un créneau de livraison.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "question", "settings": { "question": "Quels sont vos délais de livraison ?", "answer": "<p>Nos délais de livraison sont généralement de 7 à 21 jours ouvrés selon votre région au Maroc.</p>" } },
+        { "type": "question", "settings": { "question": "Proposez-vous un service de montage ?", "answer": "<p>Oui, nous proposons un service de montage professionnel dans toutes les grandes villes du Maroc. Ce service est disponible à un tarif préférentiel.</p>" } },
+        { "type": "question", "settings": { "question": "Quelle est votre politique de retour ?", "answer": "<p>Vous disposez de 14 jours après réception pour retourner un article dans son emballage d'origine. Contactez-nous pour organiser le retour.</p>" } },
+        { "type": "question", "settings": { "question": "Proposez-vous des meubles sur mesure ?", "answer": "<p>Oui, nous réalisons des pièces sur mesure selon vos dimensions et vos préférences. Contactez-nous avec vos spécifications pour un devis personnalisé.</p>" } },
+        { "type": "question", "settings": { "question": "Quels modes de paiement acceptez-vous ?", "answer": "<p>Nous acceptons les paiements par carte bancaire, virement, CMI, et paiement à la livraison (COD) dans certaines villes.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

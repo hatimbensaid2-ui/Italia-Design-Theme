@@ -1,0 +1,82 @@
+<section style="{% if section.settings.contained %}padding:{{ section.settings.padding_top }}rem 2rem {{ section.settings.padding_bottom }}rem;max-width:1440px;margin:0 auto;{% else %}padding:0;{% endif %}">
+  <div style="position:relative;overflow:hidden;{% if section.settings.contained %}border-radius:{{ section.settings.border_radius }}px;{% endif %}aspect-ratio:{% if section.settings.aspect == 'custom' %}auto{% else %}{{ section.settings.aspect | replace: '-', '/' }}{% endif %};{% if section.settings.aspect == 'custom' %}min-height:{{ section.settings.height }}px;{% endif %}">
+
+    {% if section.settings.image %}
+      {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'lazy', alt: section.settings.heading, style: 'width:100%;height:100%;object-fit:cover;position:absolute;inset:0;' }}
+    {% else %}
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1a,#444);"></div>
+    {% endif %}
+
+    {% if section.settings.overlay_opacity > 0 %}
+      <div style="position:absolute;inset:0;background:{{ section.settings.overlay_color }};opacity:{{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+    {% endif %}
+
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:{{ section.settings.h_align }};justify-content:{{ section.settings.v_align }};padding:{{ section.settings.content_padding }}rem;text-align:{{ section.settings.text_align }};">
+      {% if section.settings.overline != blank %}
+        <span class="overline" style="display:block;margin-bottom:1rem;color:{{ section.settings.overline_color }};">{{ section.settings.overline }}</span>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 style="font-family:var(--font-heading);font-size:{{ section.settings.heading_size }}px;color:{{ section.settings.text_color }};font-weight:300;line-height:1.1;margin-bottom:1rem;max-width:700px;">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.subheading != blank %}
+        <p style="font-size:.95rem;color:{{ section.settings.text_color }};opacity:.8;margin-bottom:2rem;max-width:500px;">{{ section.settings.subheading }}</p>
+      {% endif %}
+      {% if section.settings.btn_text != blank %}
+        <a href="{{ section.settings.btn_url }}" class="btn btn--{{ section.settings.btn_style }} btn--large">{{ section.settings.btn_text }}</a>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bannière image",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "select", "id": "aspect", "label": "Format", "options": [{"value":"21-9","label":"Cinémascope (21:9)"},{"value":"16-9","label":"Paysage (16:9)"},{"value":"3-1","label":"Très large (3:1)"},{"value":"4-1","label":"Bandeau (4:1)"},{"value":"custom","label":"Hauteur fixe"}], "default": "16-9" },
+    { "type": "range", "id": "height", "min": 200, "max": 800, "step": 50, "default": 400, "label": "Hauteur fixe (px)", "unit": "px" },
+    {
+      "type": "header",
+      "content": "Contenu"
+    },
+    { "type": "text", "id": "overline", "label": "Surtitre" },
+    { "type": "color", "id": "overline_color", "label": "Couleur surtitre", "default": "#c9a96e" },
+    { "type": "text", "id": "heading", "label": "Titre", "default": "Titre de la bannière" },
+    { "type": "range", "id": "heading_size", "min": 24, "max": 80, "step": 2, "default": 48, "label": "Taille du titre", "unit": "px" },
+    { "type": "text", "id": "subheading", "label": "Sous-titre" },
+    { "type": "text", "id": "btn_text", "label": "Bouton — Texte" },
+    { "type": "url", "id": "btn_url", "label": "Bouton — Lien" },
+    { "type": "select", "id": "btn_style", "label": "Bouton — Style", "options": [{"value":"primary","label":"Plein noir"},{"value":"secondary","label":"Contour blanc"},{"value":"accent","label":"Doré"}], "default": "secondary" },
+    {
+      "type": "header",
+      "content": "Position du contenu"
+    },
+    { "type": "select", "id": "text_align", "label": "Alignement texte", "options": [{"value":"center","label":"Centré"},{"value":"left","label":"Gauche"},{"value":"right","label":"Droite"}], "default": "center" },
+    { "type": "select", "id": "h_align", "label": "Position horizontale", "options": [{"value":"center","label":"Centre"},{"value":"flex-start","label":"Gauche"},{"value":"flex-end","label":"Droite"}], "default": "center" },
+    { "type": "select", "id": "v_align", "label": "Position verticale", "options": [{"value":"center","label":"Milieu"},{"value":"flex-start","label":"Haut"},{"value":"flex-end","label":"Bas"}], "default": "center" },
+    { "type": "range", "id": "content_padding", "min": 1, "max": 8, "step": 1, "default": 3, "label": "Padding contenu", "unit": "rem" },
+    {
+      "type": "header",
+      "content": "Overlay & Mise en page"
+    },
+    { "type": "color", "id": "overlay_color", "label": "Couleur overlay", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 80, "step": 5, "default": 35, "label": "Opacité overlay", "unit": "%" },
+    { "type": "color", "id": "text_color", "label": "Couleur du texte", "default": "#ffffff" },
+    { "type": "checkbox", "id": "contained", "label": "Contenu dans le container (avec marges)", "default": false },
+    { "type": "range", "id": "border_radius", "min": 0, "max": 24, "step": 2, "default": 0, "label": "Arrondi des coins", "unit": "px" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 8, "step": 1, "default": 0, "label": "Espacement haut", "unit": "rem" },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 8, "step": 1, "default": 0, "label": "Espacement bas", "unit": "rem" }
+  ],
+  "presets": [
+    {
+      "name": "Bannière image",
+      "settings": { "heading": "Découvrez notre Showroom", "btn_text": "Prendre RDV" }
+    }
+  ]
+}
+{% endschema %}

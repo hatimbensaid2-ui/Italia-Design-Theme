@@ -1,0 +1,81 @@
+<section style="background:{{ section.settings.bg_color }};padding-top:{{ section.settings.padding_top }}rem;padding-bottom:{{ section.settings.padding_bottom }}rem;text-align:center;">
+  <div class="container--narrow">
+    {% if section.settings.overline != blank %}
+      <span class="overline" style="display:block;margin-bottom:.75rem;color:{{ section.settings.accent_color }};">{{ section.settings.overline }}</span>
+    {% endif %}
+    {% if section.settings.title != blank %}
+      <h2 style="font-family:var(--font-heading);font-size:clamp(1.8rem,3vw,3rem);color:{{ section.settings.text_color }};margin-bottom:1rem;">{{ section.settings.title }}</h2>
+    {% endif %}
+    {% if section.settings.description != blank %}
+      <p style="font-size:.9rem;color:{{ section.settings.text_color }};opacity:.65;margin-bottom:2.5rem;">{{ section.settings.description }}</p>
+    {% endif %}
+
+    <div id="countdown-{{ section.id }}" style="display:flex;justify-content:center;gap:1.5rem;margin-bottom:2.5rem;">
+      {% assign units = 'days,hours,minutes,seconds' | split: ',' %}
+      {% assign labels = 'Jours,Heures,Minutes,Secondes' | split: ',' %}
+      {% for unit in units %}
+        <div style="text-align:center;">
+          <div class="countdown-num" data-unit="{{ unit }}" style="font-family:var(--font-heading);font-size:{{ section.settings.number_size }}px;font-weight:400;color:{{ section.settings.number_color }};background:{{ section.settings.box_bg }};width:{{ section.settings.box_size }}px;height:{{ section.settings.box_size }}px;display:flex;align-items:center;justify-content:center;border:1px solid {{ section.settings.box_border }};">00</div>
+          <div style="font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:{{ section.settings.text_color }};opacity:.6;margin-top:.5rem;">{{ labels[forloop.index0] }}</div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if section.settings.btn_text != blank %}
+      <a href="{{ section.settings.btn_url }}" class="btn btn--{{ section.settings.btn_style }} btn--large">{{ section.settings.btn_text }}</a>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+(function(){
+  const end = new Date('{{ section.settings.end_date }}T{{ section.settings.end_time }}:00').getTime();
+  const section = document.getElementById('countdown-{{ section.id }}');
+  if (!section) return;
+  function update() {
+    const now = Date.now();
+    const diff = Math.max(0, end - now);
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    const pad = n => String(n).padStart(2,'0');
+    const vals = { days: pad(d), hours: pad(h), minutes: pad(m), seconds: pad(s) };
+    section.querySelectorAll('[data-unit]').forEach(el => el.textContent = vals[el.dataset.unit] || '00');
+    if (diff > 0) requestAnimationFrame(update);
+  }
+  update();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Compte à rebours",
+  "settings": [
+    { "type": "text", "id": "overline", "label": "Surtitre", "default": "Offre Limitée" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "La vente se termine dans" },
+    { "type": "textarea", "id": "description", "label": "Description" },
+    { "type": "text", "id": "end_date", "label": "Date de fin (YYYY-MM-DD)", "default": "2025-12-31", "info": "Format: 2025-12-31" },
+    { "type": "text", "id": "end_time", "label": "Heure de fin (HH:MM)", "default": "23:59", "info": "Format 24h: 23:59" },
+    { "type": "text", "id": "btn_text", "label": "Bouton — Texte", "default": "Profiter de l'offre" },
+    { "type": "url", "id": "btn_url", "label": "Bouton — Lien" },
+    { "type": "select", "id": "btn_style", "label": "Bouton — Style", "options": [{"value":"primary","label":"Plein"},{"value":"outline","label":"Contour"},{"value":"accent","label":"Doré"}], "default": "primary" },
+    { "type": "range", "id": "number_size", "min": 28, "max": 72, "step": 4, "default": 48, "label": "Taille des chiffres", "unit": "px" },
+    { "type": "range", "id": "box_size", "min": 64, "max": 160, "step": 8, "default": 96, "label": "Taille des cases", "unit": "px" },
+    { "type": "color", "id": "bg_color", "label": "Fond de section", "default": "#f8f8f8" },
+    { "type": "color", "id": "text_color", "label": "Couleur texte", "default": "#1a1a1a" },
+    { "type": "color", "id": "accent_color", "label": "Couleur surtitre", "default": "#c9a96e" },
+    { "type": "color", "id": "number_color", "label": "Couleur chiffres", "default": "#000000" },
+    { "type": "color", "id": "box_bg", "label": "Fond cases", "default": "#ffffff" },
+    { "type": "color", "id": "box_border", "label": "Bordure cases", "default": "#e5e5e5" },
+    { "type": "range", "id": "padding_top", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement haut", "unit": "rem" },
+    { "type": "range", "id": "padding_bottom", "min": 2, "max": 12, "step": 1, "default": 5, "label": "Espacement bas", "unit": "rem" }
+  ],
+  "presets": [
+    {
+      "name": "Compte à rebours",
+      "settings": { "title": "Offre spéciale se termine dans", "btn_text": "Profiter de l'offre" }
+    }
+  ]
+}
+{% endschema %}

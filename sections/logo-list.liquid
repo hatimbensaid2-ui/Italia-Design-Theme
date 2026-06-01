@@ -1,0 +1,65 @@
+<section style="background:{{ section.settings.bg_color }};padding-top:{{ section.settings.padding_top }}rem;padding-bottom:{{ section.settings.padding_bottom }}rem;{% if section.settings.show_border %}border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border);{% endif %}">
+  <div class="container">
+    {% if section.settings.title != blank %}
+      <p style="text-align:center;font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:{{ section.settings.text_color }};opacity:.45;margin-bottom:2rem;">{{ section.settings.title }}</p>
+    {% endif %}
+    <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:{{ section.settings.gap }}px;">
+      {% for block in section.blocks %}
+        <div style="opacity:{{ section.settings.logo_opacity }};transition:opacity .3s;{% if section.settings.grayscale %}filter:grayscale(1);{% endif %}" onmouseover="this.style.opacity='1';{% if section.settings.grayscale %}this.style.filter='none';{% endif %}" onmouseout="this.style.opacity='{{ section.settings.logo_opacity }}';{% if section.settings.grayscale %}this.style.filter='grayscale(1)';{% endif %}" {{ block.shopify_attributes }}>
+          {% if block.settings.logo %}
+            {% if block.settings.link != blank %}
+              <a href="{{ block.settings.link }}" target="_blank" rel="noopener">
+                {{ block.settings.logo | image_url: height: section.settings.logo_height | image_tag: loading: 'lazy', alt: block.settings.name, style: 'height:' | append: section.settings.logo_height | append: 'px;width:auto;' }}
+              </a>
+            {% else %}
+              {{ block.settings.logo | image_url: height: section.settings.logo_height | image_tag: loading: 'lazy', alt: block.settings.name, style: 'height:' | append: section.settings.logo_height | append: 'px;width:auto;' }}
+            {% endif %}
+          {% elsif block.settings.name != blank %}
+            <span style="font-family:var(--font-heading);font-size:1.2rem;font-weight:600;letter-spacing:.1em;color:{{ section.settings.text_color }};">{{ block.settings.name }}</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Liste de logos",
+  "max_blocks": 10,
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre (optionnel)", "default": "Ils nous font confiance" },
+    { "type": "range", "id": "logo_height", "min": 24, "max": 80, "step": 4, "default": 40, "label": "Hauteur des logos", "unit": "px" },
+    { "type": "range", "id": "gap", "min": 16, "max": 80, "step": 8, "default": 48, "label": "Espacement entre logos", "unit": "px" },
+    { "type": "range", "id": "logo_opacity", "min": 0.2, "max": 1.0, "step": 0.1, "default": 0.5, "label": "Opacité (au repos)" },
+    { "type": "checkbox", "id": "grayscale", "label": "Logos en niveaux de gris", "default": true },
+    { "type": "checkbox", "id": "show_border", "label": "Bordure haut et bas", "default": true },
+    { "type": "color", "id": "bg_color", "label": "Fond", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Couleur texte/noms", "default": "#1a1a1a" },
+    { "type": "range", "id": "padding_top", "min": 1, "max": 8, "step": 1, "default": 3, "label": "Espacement haut", "unit": "rem" },
+    { "type": "range", "id": "padding_bottom", "min": 1, "max": 8, "step": 1, "default": 3, "label": "Espacement bas", "unit": "rem" }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        { "type": "image_picker", "id": "logo", "label": "Image du logo" },
+        { "type": "text", "id": "name", "label": "Nom (si pas d'image)" },
+        { "type": "url", "id": "link", "label": "Lien (optionnel)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Liste de logos",
+      "blocks": [
+        { "type": "logo", "settings": { "name": "Partenaire 1" } },
+        { "type": "logo", "settings": { "name": "Partenaire 2" } },
+        { "type": "logo", "settings": { "name": "Partenaire 3" } },
+        { "type": "logo", "settings": { "name": "Partenaire 4" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
