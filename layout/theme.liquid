@@ -10,7 +10,7 @@
   <meta name="description" content="{{ page_description | escape }}">
 
   {% if settings.logo %}
-    <link rel="icon" type="image/png" href="{{ settings.logo | img_url: '32x32' }}">
+    <link rel="icon" type="image/png" href="{{ settings.logo | image_url: width: 32, height: 32 }}">
   {% endif %}
 
   <link rel="canonical" href="{{ canonical_url }}">
@@ -104,7 +104,9 @@
         {% for item in cart.items %}
           <div class="cart-item" data-key="{{ item.key }}">
             <a href="{{ item.url }}" class="cart-item__image">
-              {{ item | img_url: '160x160' | img_tag: item.product.title, 'loading="lazy"' }}
+              {% if item.image %}
+                {{ item.image | image_url: width: 160 | image_tag: alt: item.product.title, loading: 'lazy' }}
+              {% endif %}
             </a>
             <div class="cart-item__info">
               <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>

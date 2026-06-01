@@ -128,7 +128,7 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 1px solid var(--color-border);
   position: relative;
   z-index: 200;
-  transition: box-shadow var(--transition);
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .site-header.sticky {
@@ -137,7 +137,45 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .site-header.scrolled {
-  box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+}
+
+/* Transparent header (overlays hero) */
+.site-header[data-transparent] {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  width: 100%;
+  background: transparent !important;
+  border-bottom-color: transparent !important;
+}
+
+.site-header[data-transparent].scrolled {
+  background: var(--color-secondary, #ffffff) !important;
+  border-bottom-color: var(--color-border, #e8e6e1) !important;
+  box-shadow: 0 2px 24px rgba(0,0,0,.08);
+}
+
+.site-header[data-transparent]:not(.scrolled) .header-nav a,
+.site-header[data-transparent]:not(.scrolled) .header-actions a,
+.site-header[data-transparent]:not(.scrolled) .header-icon-btn,
+.site-header[data-transparent]:not(.scrolled) .header-logo-text {
+  color: #ffffff !important;
+}
+
+.site-header[data-transparent]:not(.scrolled) .header-logo__img {
+  filter: brightness(0) invert(1);
+  transition: filter 0.35s ease;
+}
+
+/* Push body content below fixed transparent header */
+body.header-is-fixed {
+  padding-top: var(--header-height, 72px);
+}
+
+/* First section slides behind the transparent header */
+body.header-is-fixed main > section:first-child,
+body.header-is-fixed main > div:first-child {
+  margin-top: calc(-1 * var(--header-height, 72px));
 }
 
 .header-inner {

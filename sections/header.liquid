@@ -1,4 +1,6 @@
-<header class="site-header{% if settings.sticky_header %} sticky{% endif %}" role="banner">
+<header class="site-header{% if settings.sticky_header %} sticky{% endif %}"
+  {% if section.settings.transparent_on_hero %}data-transparent{% endif %}
+  role="banner">
   <div class="header-inner">
 
     <!-- Left Nav -->
@@ -12,7 +14,7 @@
     <div class="header-logo">
       <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
         {% if settings.logo %}
-          {{ settings.logo | image_url: width: settings.logo_width | image_tag: loading: 'eager', alt: shop.name, style: 'max-width:' | append: settings.logo_width | append: 'px;' }}
+          {{ settings.logo | image_url: width: settings.logo_width | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img', style: 'max-width:' | append: settings.logo_width | append: 'px;' }}
         {% else %}
           <span class="header-logo-text">{{ shop.name | upcase }}</span>
         {% endif %}
@@ -49,6 +51,28 @@
 {% schema %}
 {
   "name": "En-tête",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu principal",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent_on_hero",
+      "label": "Transparent sur la bannière hero",
+      "info": "L'en-tête commence transparent avec texte blanc, puis devient blanc au défilement.",
+      "default": true
+    }
+  ]
 }
 {% endschema %}

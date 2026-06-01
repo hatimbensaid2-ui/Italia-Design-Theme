@@ -13,6 +13,19 @@
   }, { passive: true });
 })();
 
+/* ---- Transparent Header Layout ---- */
+(function () {
+  const header = document.querySelector('.site-header[data-transparent]');
+  if (!header) return;
+  const update = () => {
+    const h = header.offsetHeight;
+    document.documentElement.style.setProperty('--header-height', h + 'px');
+  };
+  update();
+  document.body.classList.add('header-is-fixed');
+  window.addEventListener('resize', update, { passive: true });
+})();
+
 /* ---- Mobile Menu ---- */
 (function () {
   const btn = document.querySelector('.mobile-menu-btn');

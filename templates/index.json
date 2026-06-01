@@ -52,7 +52,8 @@
         "btn_url": "/collections/all",
         "bg": "surface"
       },
-      "blocks": {}
+      "blocks": {},
+      "block_order": []
     },
     "split_about": {
       "type": "split-content",
