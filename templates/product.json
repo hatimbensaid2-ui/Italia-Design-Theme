@@ -1,10 +1,10 @@
 {
   "sections": {
-    "product_main": {
+    "main": {
       "type": "product-template",
       "settings": {}
     },
-    "related_products": {
+    "related": {
       "type": "related-products",
       "settings": {
         "title": "Vous aimerez aussi",
@@ -12,5 +12,5 @@
       }
     }
   },
-  "order": ["product_main", "related_products"]
+  "order": ["main", "related"]
 }
