@@ -27,7 +27,7 @@
         {% if col != blank %}
           {% assign product = item %}
         {% else %}
-          {% assign product = all_products[item.settings.product] %}
+          {% assign product = item.settings.product %}
         {% endif %}
         {% if product %}
           <div class="product-card reveal" style="animation-delay:{{ forloop.index0 | modulo: section.settings.columns | times: 60 }}ms;">

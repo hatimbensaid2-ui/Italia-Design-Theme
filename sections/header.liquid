@@ -1,18 +1,7 @@
-{% assign header_bg = section.settings.bg_color | default: '#ffffff' %}
-{% assign header_text = section.settings.text_color | default: '#1a1a1a' %}
-{% assign nav_list = section.settings.nav_menu | default: 'main-menu' %}
-
-<header class="site-header{% if section.settings.sticky %} sticky{% endif %}"
-  style="background:{{ header_bg }};border-bottom:{{ section.settings.border_width }}px solid {{ section.settings.border_color }};"
+<header class="site-header{% if settings.sticky_header %} sticky{% endif %}"
+  {% if section.settings.transparent_on_hero %}data-transparent{% endif %}
   role="banner">
-
-  {% if section.settings.show_top_bar %}
-    <div style="background:{{ section.settings.top_bar_bg }};text-align:center;padding:.45rem 1rem;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:{{ section.settings.top_bar_text }};">
-      {{ section.settings.top_bar_message }}
-    </div>
-  {% endif %}
-
-  <div class="header-inner" style="height:{{ section.settings.header_height }}px;">
+  <div class="header-inner">
 
     <!-- Left Nav -->
     <nav class="header-nav" aria-label="Navigation principale">
@@ -29,13 +18,8 @@
     <!-- Logo -->
     <div class="header-logo">
       <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-        {% if section.settings.logo %}
-          {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag:
-              loading: 'eager',
-              alt: shop.name,
-              style: 'max-width:' | append: section.settings.logo_width | append: 'px;height:auto;' }}
-        {% elsif section.settings.logo_text != blank %}
-          <span style="font-family:var(--font-heading);font-size:{{ section.settings.logo_text_size }}px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:{{ header_text }};">{{ section.settings.logo_text }}</span>
+        {% if settings.logo %}
+          {{ settings.logo | image_url: width: settings.logo_width | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img', style: 'max-width:' | append: settings.logo_width | append: 'px;' }}
         {% else %}
           <span style="font-family:var(--font-heading);font-size:{{ section.settings.logo_text_size }}px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:{{ header_text }};">{{ shop.name | upcase }}</span>
         {% endif %}
@@ -79,150 +63,23 @@
   "settings": [
     {
       "type": "header",
-      "content": "Logo"
-    },
-    {
-      "type": "image_picker",
-      "id": "logo",
-      "label": "Image du logo"
-    },
-    {
-      "type": "range",
-      "id": "logo_width",
-      "min": 60,
-      "max": 300,
-      "step": 10,
-      "default": 160,
-      "label": "Largeur du logo",
-      "unit": "px"
-    },
-    {
-      "type": "text",
-      "id": "logo_text",
-      "label": "Texte du logo (si pas d'image)",
-      "default": "ITALIA DESIGN"
-    },
-    {
-      "type": "range",
-      "id": "logo_text_size",
-      "min": 12,
-      "max": 36,
-      "step": 1,
-      "default": 22,
-      "label": "Taille du texte logo",
-      "unit": "px"
-    },
-    {
-      "type": "header",
       "content": "Navigation"
     },
     {
       "type": "link_list",
-      "id": "nav_menu",
-      "label": "Menu de navigation",
+      "id": "menu",
+      "label": "Menu principal",
       "default": "main-menu"
-    },
-    {
-      "type": "range",
-      "id": "nav_font_size",
-      "min": 10,
-      "max": 16,
-      "step": 1,
-      "default": 11,
-      "label": "Taille des liens",
-      "unit": "px"
-    },
-    {
-      "type": "header",
-      "content": "Icônes d'action"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_search",
-      "label": "Afficher la recherche",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_account",
-      "label": "Afficher le compte client",
-      "default": true
-    },
-    {
-      "type": "header",
-      "content": "Barre supérieure (optionnelle)"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_top_bar",
-      "label": "Afficher la barre supérieure",
-      "default": false,
-      "info": "Distincte de la barre d'annonce défilante"
-    },
-    {
-      "type": "text",
-      "id": "top_bar_message",
-      "label": "Message",
-      "default": "Livraison gratuite au Maroc dès 5 000 MAD"
-    },
-    {
-      "type": "color",
-      "id": "top_bar_bg",
-      "label": "Fond de la barre",
-      "default": "#c9a96e"
-    },
-    {
-      "type": "color",
-      "id": "top_bar_text",
-      "label": "Couleur du texte",
-      "default": "#ffffff"
     },
     {
       "type": "header",
       "content": "Apparence"
     },
     {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Couleur de fond",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Couleur du texte & icônes",
-      "default": "#1a1a1a"
-    },
-    {
-      "type": "color",
-      "id": "border_color",
-      "label": "Couleur de la bordure inférieure",
-      "default": "#e5e5e5"
-    },
-    {
-      "type": "range",
-      "id": "border_width",
-      "min": 0,
-      "max": 3,
-      "step": 1,
-      "default": 1,
-      "label": "Épaisseur de la bordure",
-      "unit": "px"
-    },
-    {
-      "type": "range",
-      "id": "header_height",
-      "min": 52,
-      "max": 100,
-      "step": 4,
-      "default": 72,
-      "label": "Hauteur de l'en-tête",
-      "unit": "px"
-    },
-    {
       "type": "checkbox",
-      "id": "sticky",
-      "label": "En-tête fixe (reste visible au scroll)",
+      "id": "transparent_on_hero",
+      "label": "Transparent sur la bannière hero",
+      "info": "L'en-tête commence transparent avec texte blanc, puis devient blanc au défilement.",
       "default": true
     }
   ]
