@@ -1,3 +1,28 @@
+{%- comment -%}
+  Detect sub-collection group from a nested menu.
+  Merchant builds a menu (e.g. main-menu) with a parent link pointing to the
+  parent collection and child links pointing to the sub-collections.
+  When viewing the parent OR any child, we surface the whole group.
+{%- endcomment -%}
+{% assign menu = linklists[section.settings.sidebar_menu] %}
+{% assign group_parent = null %}
+{% for top in menu.links %}
+  {% if top.links.size > 0 %}
+    {% assign matched = false %}
+    {% if top.url == collection.url %}{% assign matched = true %}{% endif %}
+    {% for child in top.links %}
+      {% if child.url == collection.url %}{% assign matched = true %}{% endif %}
+    {% endfor %}
+    {% if matched %}{% assign group_parent = top %}{% endif %}
+  {% endif %}
+{% endfor %}
+
+{% assign has_sidebar = false %}
+{% if group_parent and section.settings.show_sidebar %}{% assign has_sidebar = true %}{% endif %}
+
+{% assign is_parent = false %}
+{% if group_parent and group_parent.url == collection.url %}{% assign is_parent = true %}{% endif %}
+
 <!-- Collection Header -->
 <div class="collection-header">
   <div class="container">
@@ -15,114 +40,274 @@
 
 <section class="section">
   <div class="container">
-    <!-- Toolbar -->
-    <div class="collection-toolbar">
-      <span class="collection-count">{{ collection.products_count }} produits</span>
-      <div class="collection-sort">
-        <span>Trier par</span>
-        <select class="sort-select" onchange="window.location.href='?sort_by=' + this.value">
-          <option value="manual"{% if collection.sort_by == 'manual' %} selected{% endif %}>Recommandés</option>
-          <option value="best-selling"{% if collection.sort_by == 'best-selling' %} selected{% endif %}>Meilleures ventes</option>
-          <option value="title-ascending"{% if collection.sort_by == 'title-ascending' %} selected{% endif %}>A – Z</option>
-          <option value="title-descending"{% if collection.sort_by == 'title-descending' %} selected{% endif %}>Z – A</option>
-          <option value="price-ascending"{% if collection.sort_by == 'price-ascending' %} selected{% endif %}>Prix croissant</option>
-          <option value="price-descending"{% if collection.sort_by == 'price-descending' %} selected{% endif %}>Prix décroissant</option>
-          <option value="created-descending"{% if collection.sort_by == 'created-descending' %} selected{% endif %}>Nouveautés</option>
-        </select>
-      </div>
-    </div>
 
-    <!-- Products Grid -->
-    <div class="products-grid">
-      {% for product in collection.products %}
-        <div class="product-card reveal" style="animation-delay:{{ forloop.index0 | modulo: 4 | times: 60 }}ms;">
-          <div class="product-card__media">
-            <a href="{{ product.url }}">
-              {% if product.featured_image %}
-                {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
-              {% else %}
-                <div style="background:var(--color-surface);aspect-ratio:3/4;"></div>
-              {% endif %}
-              {% if product.images[1] %}
-                <div class="product-card__media-secondary">
-                  {{ product.images[1] | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
-                </div>
-              {% endif %}
-            </a>
-
-            <div class="product-card__badges">
-              {% if product.available == false %}
-                <span class="badge badge--sold">Épuisé</span>
-              {% endif %}
-              {% if product.compare_at_price > product.price %}
-                {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
-                <span class="badge badge--sale">-{{ discount }}%</span>
-              {% endif %}
-            </div>
-
-            <div class="product-card__actions">
-              {% if product.available %}
-                <button class="product-card__quick-add" onclick="CartDrawer.addItem({{ product.variants.first.id }})">
-                  Ajouter au panier
-                </button>
-              {% else %}
-                <button class="product-card__quick-add" disabled style="opacity:.5;cursor:not-allowed;">Épuisé</button>
-              {% endif %}
-            </div>
+    {%- comment -%} Promo banner {%- endcomment -%}
+    {% if section.settings.show_promo %}
+      <a class="collection-promo"
+         {% if section.settings.promo_link != blank %}href="{{ section.settings.promo_link }}"{% endif %}
+         style="background:{{ section.settings.promo_bg }};">
+        {% if section.settings.promo_image %}
+          <div class="collection-promo__media">
+            {{ section.settings.promo_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: section.settings.promo_heading }}
           </div>
-
-          <div class="product-card__info">
-            {% if product.vendor != blank %}
-              <div class="product-card__vendor">{{ product.vendor }}</div>
-            {% endif %}
-            <h2 class="product-card__title">
-              <a href="{{ product.url }}">{{ product.title }}</a>
-            </h2>
-            <div class="product-card__price">
-              <span class="price{% if product.compare_at_price > product.price %} price--sale{% endif %}">
-                {{ product.price | money }}
-              </span>
-              {% if product.compare_at_price > product.price %}
-                <span class="price price--compare">{{ product.compare_at_price | money }}</span>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      {% else %}
-        <div class="text-center" style="grid-column:1/-1;padding:4rem;color:var(--color-text-muted);">
-          <p>Aucun produit dans cette collection pour l'instant.</p>
-        </div>
-      {% endfor %}
-    </div>
-
-    <!-- Pagination -->
-    {% if paginate.pages > 1 %}
-      <div class="pagination">
-        {% if paginate.previous %}
-          <a href="{{ paginate.previous.url }}" class="pagination__item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          </a>
         {% endif %}
-        {% for part in paginate.parts %}
-          {% if part.is_link %}
-            <a href="{{ part.url }}" class="pagination__item">{{ part.title }}</a>
-          {% else %}
-            <span class="pagination__item{% if part.title == paginate.current_page %} active{% endif %}">{{ part.title }}</span>
+        <div class="collection-promo__body">
+          <span class="collection-promo__heading" style="color:{{ section.settings.promo_text_color }};">{{ section.settings.promo_heading }}</span>
+          {% if section.settings.promo_subheading != blank %}
+            <span class="collection-promo__sub" style="color:{{ section.settings.promo_text_color }};">{{ section.settings.promo_subheading }}</span>
           {% endif %}
-        {% endfor %}
-        {% if paginate.next %}
-          <a href="{{ paginate.next.url }}" class="pagination__item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
-        {% endif %}
-      </div>
+          {% if section.settings.promo_btn_text != blank %}
+            <span class="collection-promo__btn">{{ section.settings.promo_btn_text }}</span>
+          {% endif %}
+        </div>
+      </a>
     {% endif %}
+
+    <div class="collection-layout{% if has_sidebar %} collection-layout--with-sidebar{% endif %}">
+
+      {%- comment -%} Sidebar of sub-collections {%- endcomment -%}
+      {% if has_sidebar %}
+        <aside class="collection-sidebar">
+          <div class="collection-sidebar__title">{{ group_parent.title }}</div>
+          <ul class="collection-sidebar__links">
+            <li>
+              <a href="{{ group_parent.url }}"{% if group_parent.url == collection.url %} class="active"{% endif %}>{{ group_parent.title }} — Tout</a>
+            </li>
+            {% for child in group_parent.links %}
+              <li>
+                <a href="{{ child.url }}"{% if child.url == collection.url %} class="active"{% endif %}>{{ child.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </aside>
+      {% endif %}
+
+      <div class="collection-main">
+
+        {%- comment -%} Sub-collection cards when viewing a parent {%- endcomment -%}
+        {% if is_parent and group_parent.links.size > 0 %}
+          <div class="subcollections-grid">
+            {% for child in group_parent.links %}
+              {% assign child_col = child.object %}
+              <a href="{{ child.url }}" class="collection-card reveal" style="animation-delay:{{ forloop.index0 | times: 80 }}ms;">
+                <div class="collection-card__media">
+                  {% if child_col.image %}
+                    {{ child_col.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: child.title }}
+                  {% elsif child_col.products.first.featured_image %}
+                    {{ child_col.products.first.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: child.title }}
+                  {% else %}
+                    <div style="background:var(--color-surface);width:100%;height:100%;"></div>
+                  {% endif %}
+                </div>
+                <div class="collection-card__overlay"></div>
+                <div class="collection-card__content">
+                  <h3 class="collection-card__title">{{ child.title }}</h3>
+                  {% if child_col != blank %}
+                    <span class="collection-card__count">{{ child_col.all_products_count }} produits</span>
+                  {% endif %}
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <!-- Toolbar -->
+        <div class="collection-toolbar">
+          <span class="collection-count">{{ collection.products_count }} produits</span>
+          <div class="collection-sort">
+            <span>Trier par</span>
+            <select class="sort-select" onchange="window.location.href='?sort_by=' + this.value">
+              <option value="manual"{% if collection.sort_by == 'manual' %} selected{% endif %}>Recommandés</option>
+              <option value="best-selling"{% if collection.sort_by == 'best-selling' %} selected{% endif %}>Meilleures ventes</option>
+              <option value="title-ascending"{% if collection.sort_by == 'title-ascending' %} selected{% endif %}>A – Z</option>
+              <option value="title-descending"{% if collection.sort_by == 'title-descending' %} selected{% endif %}>Z – A</option>
+              <option value="price-ascending"{% if collection.sort_by == 'price-ascending' %} selected{% endif %}>Prix croissant</option>
+              <option value="price-descending"{% if collection.sort_by == 'price-descending' %} selected{% endif %}>Prix décroissant</option>
+              <option value="created-descending"{% if collection.sort_by == 'created-descending' %} selected{% endif %}>Nouveautés</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        {% paginate collection.products by section.settings.products_per_page %}
+          <div class="products-grid{% if has_sidebar %} products-grid--narrow{% endif %}">
+            {% for product in collection.products %}
+              <div class="product-card reveal" style="animation-delay:{{ forloop.index0 | modulo: 4 | times: 60 }}ms;">
+                <div class="product-card__media">
+                  <a href="{{ product.url }}">
+                    {% if product.featured_image %}
+                      {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
+                    {% else %}
+                      <div style="background:var(--color-surface);aspect-ratio:3/4;"></div>
+                    {% endif %}
+                    {% if product.images[1] %}
+                      <div class="product-card__media-secondary">
+                        {{ product.images[1] | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
+                      </div>
+                    {% endif %}
+                  </a>
+
+                  <div class="product-card__badges">
+                    {% if product.available == false %}
+                      <span class="badge badge--sold">Épuisé</span>
+                    {% endif %}
+                    {% if product.compare_at_price > product.price %}
+                      {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+                      <span class="badge badge--sale">-{{ discount }}%</span>
+                    {% endif %}
+                  </div>
+
+                  <div class="product-card__actions">
+                    {% if product.available %}
+                      <button class="product-card__quick-add" onclick="CartDrawer.addItem({{ product.variants.first.id }})">
+                        Ajouter au panier
+                      </button>
+                    {% else %}
+                      <button class="product-card__quick-add" disabled style="opacity:.5;cursor:not-allowed;">Épuisé</button>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="product-card__info">
+                  {% if product.vendor != blank %}
+                    <div class="product-card__vendor">{{ product.vendor }}</div>
+                  {% endif %}
+                  <h2 class="product-card__title">
+                    <a href="{{ product.url }}">{{ product.title }}</a>
+                  </h2>
+                  <div class="product-card__price">
+                    <span class="price{% if product.compare_at_price > product.price %} price--sale{% endif %}">
+                      {{ product.price | money }}
+                    </span>
+                    {% if product.compare_at_price > product.price %}
+                      <span class="price price--compare">{{ product.compare_at_price | money }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% else %}
+              <div class="text-center" style="grid-column:1/-1;padding:4rem;color:var(--color-text-muted);">
+                <p>Aucun produit dans cette collection pour l'instant.</p>
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- Pagination -->
+          {% if paginate.pages > 1 %}
+            <div class="pagination">
+              {% if paginate.previous %}
+                <a href="{{ paginate.previous.url }}" class="pagination__item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </a>
+              {% endif %}
+              {% for part in paginate.parts %}
+                {% if part.is_link %}
+                  <a href="{{ part.url }}" class="pagination__item">{{ part.title }}</a>
+                {% else %}
+                  <span class="pagination__item{% if part.title == paginate.current_page %} active{% endif %}">{{ part.title }}</span>
+                {% endif %}
+              {% endfor %}
+              {% if paginate.next %}
+                <a href="{{ paginate.next.url }}" class="pagination__item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endpaginate %}
+
+      </div>
+    </div>
   </div>
 </section>
 
 {% schema %}
 {
   "name": "Collection",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Sous-collections (sidebar)"
+    },
+    {
+      "type": "paragraph",
+      "content": "Créez un menu (Navigation) avec un lien vers la collection parente et des sous-liens vers les sous-collections. La sidebar et les vignettes s'afficheront automatiquement."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sidebar",
+      "label": "Afficher la sidebar des sous-collections",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "sidebar_menu",
+      "label": "Menu des collections",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Bannière promo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_promo",
+      "label": "Afficher la bannière promo",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "promo_heading",
+      "label": "Titre",
+      "default": "Ventes Flash"
+    },
+    {
+      "type": "text",
+      "id": "promo_subheading",
+      "label": "Sous-titre",
+      "default": "Jusqu'à -60%"
+    },
+    {
+      "type": "text",
+      "id": "promo_btn_text",
+      "label": "Texte du bouton",
+      "default": "Acheter Maintenant"
+    },
+    {
+      "type": "url",
+      "id": "promo_link",
+      "label": "Lien"
+    },
+    {
+      "type": "color",
+      "id": "promo_bg",
+      "label": "Couleur de fond",
+      "default": "#f0efed"
+    },
+    {
+      "type": "color",
+      "id": "promo_text_color",
+      "label": "Couleur du texte",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Grille produits"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "label": "Produits par page"
+    }
+  ]
 }
 {% endschema %}

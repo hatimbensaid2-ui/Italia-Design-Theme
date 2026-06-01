@@ -133,5 +133,45 @@
         "label": "TikTok URL"
       }
     ]
+  },
+  {
+    "name": "WhatsApp",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "whatsapp_enabled",
+        "label": "Activer le bouton WhatsApp",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "Numéro WhatsApp",
+        "info": "Format international sans + ni espaces. Ex : 212600000000",
+        "default": "212600000000"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_message",
+        "label": "Message pré-rempli",
+        "default": "Bonjour, je suis intéressé(e) par vos meubles."
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_tooltip",
+        "label": "Texte de la bulle",
+        "default": "Besoin d'aide ? Discutons !"
+      },
+      {
+        "type": "select",
+        "id": "whatsapp_position",
+        "label": "Position",
+        "options": [
+          { "value": "right", "label": "Bas droite" },
+          { "value": "left", "label": "Bas gauche" }
+        ],
+        "default": "right"
+      }
+    ]
   }
 ]
