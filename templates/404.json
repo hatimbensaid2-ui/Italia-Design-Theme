@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "404-template",
+      "settings": {
+        "overline": "Erreur 404",
+        "heading": "Page introuvable",
+        "subtext": "La page que vous recherchez n'existe pas ou a été déplacée.",
+        "btn1_text": "Accueil",
+        "btn2_text": "Voir nos produits"
+      }
+    }
+  },
+  "order": ["main"]
+}

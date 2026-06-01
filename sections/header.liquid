@@ -1,44 +1,71 @@
-<header class="site-header{% if settings.sticky_header %} sticky{% endif %}" role="banner">
-  <div class="header-inner">
+{% assign header_bg = section.settings.bg_color | default: '#ffffff' %}
+{% assign header_text = section.settings.text_color | default: '#1a1a1a' %}
+{% assign nav_list = section.settings.nav_menu | default: 'main-menu' %}
+
+<header class="site-header{% if section.settings.sticky %} sticky{% endif %}"
+  style="background:{{ header_bg }};border-bottom:{{ section.settings.border_width }}px solid {{ section.settings.border_color }};"
+  role="banner">
+
+  {% if section.settings.show_top_bar %}
+    <div style="background:{{ section.settings.top_bar_bg }};text-align:center;padding:.45rem 1rem;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:{{ section.settings.top_bar_text }};">
+      {{ section.settings.top_bar_message }}
+    </div>
+  {% endif %}
+
+  <div class="header-inner" style="height:{{ section.settings.header_height }}px;">
 
     <!-- Left Nav -->
     <nav class="header-nav" aria-label="Navigation principale">
-      {% for link in linklists.main-menu.links limit: 3 %}
-        <a href="{{ link.url }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a>
+      {% assign nav = linklists[nav_list] %}
+      {% for link in nav.links limit: 3 %}
+        <a href="{{ link.url }}"
+           style="color:{{ header_text }};font-size:{{ section.settings.nav_font_size }}px;"
+           {% if link.active %} class="active"{% endif %}>
+          {{ link.title }}
+        </a>
       {% endfor %}
     </nav>
 
     <!-- Logo -->
     <div class="header-logo">
       <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-        {% if settings.logo %}
-          {{ settings.logo | image_url: width: settings.logo_width | image_tag: loading: 'eager', alt: shop.name, style: 'max-width:' | append: settings.logo_width | append: 'px;' }}
+        {% if section.settings.logo %}
+          {{ section.settings.logo | image_url: width: section.settings.logo_width | image_tag:
+              loading: 'eager',
+              alt: shop.name,
+              style: 'max-width:' | append: section.settings.logo_width | append: 'px;height:auto;' }}
+        {% elsif section.settings.logo_text != blank %}
+          <span style="font-family:var(--font-heading);font-size:{{ section.settings.logo_text_size }}px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:{{ header_text }};">{{ section.settings.logo_text }}</span>
         {% else %}
-          <span class="header-logo-text">{{ shop.name | upcase }}</span>
+          <span style="font-family:var(--font-heading);font-size:{{ section.settings.logo_text_size }}px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:{{ header_text }};">{{ shop.name | upcase }}</span>
         {% endif %}
       </a>
     </div>
 
     <!-- Right Actions -->
     <div class="header-actions">
-      {% for link in linklists.main-menu.links offset: 3 limit: 2 %}
-        <a href="{{ link.url }}" class="header-nav" style="font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;">{{ link.title }}</a>
+      {% for link in nav.links offset: 3 limit: 2 %}
+        <a href="{{ link.url }}" style="font-size:{{ section.settings.nav_font_size }}px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:{{ header_text }};">{{ link.title }}</a>
       {% endfor %}
 
-      <button class="header-icon-btn" data-search-open aria-label="Rechercher">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-      </button>
+      {% if section.settings.show_search %}
+        <button class="header-icon-btn" data-search-open aria-label="Rechercher" style="color:{{ header_text }};">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </button>
+      {% endif %}
 
-      <a href="{{ routes.account_url }}" class="header-icon-btn" aria-label="Mon compte">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-      </a>
+      {% if section.settings.show_account %}
+        <a href="{{ routes.account_url }}" class="header-icon-btn" aria-label="Mon compte" style="color:{{ header_text }};">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        </a>
+      {% endif %}
 
-      <button class="header-icon-btn" data-cart-open aria-label="Panier ({{ cart.item_count }} articles)">
+      <button class="header-icon-btn" data-cart-open aria-label="Panier" style="color:{{ header_text }};">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 7H4l1-7z"/></svg>
         <span class="cart-count" {% if cart.item_count == 0 %}style="display:none"{% endif %}>{{ cart.item_count }}</span>
       </button>
 
-      <button class="mobile-menu-btn" aria-label="Menu">
+      <button class="mobile-menu-btn" aria-label="Menu" style="color:{{ header_text }};">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
@@ -49,6 +76,155 @@
 {% schema %}
 {
   "name": "En-tête",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Image du logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 60,
+      "max": 300,
+      "step": 10,
+      "default": 160,
+      "label": "Largeur du logo",
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Texte du logo (si pas d'image)",
+      "default": "ITALIA DESIGN"
+    },
+    {
+      "type": "range",
+      "id": "logo_text_size",
+      "min": 12,
+      "max": 36,
+      "step": 1,
+      "default": 22,
+      "label": "Taille du texte logo",
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "nav_menu",
+      "label": "Menu de navigation",
+      "default": "main-menu"
+    },
+    {
+      "type": "range",
+      "id": "nav_font_size",
+      "min": 10,
+      "max": 16,
+      "step": 1,
+      "default": 11,
+      "label": "Taille des liens",
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Icônes d'action"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Afficher la recherche",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_account",
+      "label": "Afficher le compte client",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Barre supérieure (optionnelle)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_bar",
+      "label": "Afficher la barre supérieure",
+      "default": false,
+      "info": "Distincte de la barre d'annonce défilante"
+    },
+    {
+      "type": "text",
+      "id": "top_bar_message",
+      "label": "Message",
+      "default": "Livraison gratuite au Maroc dès 5 000 MAD"
+    },
+    {
+      "type": "color",
+      "id": "top_bar_bg",
+      "label": "Fond de la barre",
+      "default": "#c9a96e"
+    },
+    {
+      "type": "color",
+      "id": "top_bar_text",
+      "label": "Couleur du texte",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Apparence"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Couleur de fond",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Couleur du texte & icônes",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Couleur de la bordure inférieure",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 3,
+      "step": 1,
+      "default": 1,
+      "label": "Épaisseur de la bordure",
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "header_height",
+      "min": 52,
+      "max": 100,
+      "step": 4,
+      "default": 72,
+      "label": "Hauteur de l'en-tête",
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "En-tête fixe (reste visible au scroll)",
+      "default": true
+    }
+  ]
 }
 {% endschema %}
