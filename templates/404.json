@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": {
+      "type": "not-found",
+      "settings": {
+        "overline": "Erreur 404",
+        "heading": "Page introuvable",
+        "subheading": "La page que vous recherchez n'existe pas ou a été déplacée. Utilisez la recherche ou revenez à l'accueil.",
+        "show_search": true,
+        "btn1_text": "Retour à l'accueil",
+        "btn1_url": "/",
+        "btn2_text": "Voir nos produits",
+        "btn2_url": "/collections/all"
+      }
+    }
+  },
+  "order": ["main"]
+}
