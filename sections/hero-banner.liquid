@@ -27,6 +27,12 @@
           frameborder="0" allow="autoplay; fullscreen" allowfullscreen
           title="{{ section.settings.heading | escape }}"></iframe>
       {% endif %}
+      {%- comment -%} Mobile poster: iOS blocks video autoplay (showing YouTube's button), so on phones we display a static image instead of the embed. {%- endcomment -%}
+      {% if section.settings.image %}
+        <img class="hero__media-mobile" src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.heading | escape }}" loading="eager">
+      {% else %}
+        <div class="hero__media-mobile" style="background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);"></div>
+      {% endif %}
     {% elsif section.settings.video_url != blank %}
       <video autoplay muted loop playsinline>
         <source src="{{ section.settings.video_url }}" type="video/mp4">

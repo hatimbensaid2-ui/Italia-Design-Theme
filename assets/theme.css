@@ -534,6 +534,9 @@ body.template-index main > section:first-child {
   pointer-events: none;
 }
 
+/* Mobile poster image (shown instead of the video embed on phones) */
+.hero__media-mobile { display: none; }
+
 /* Transparent cover over the YouTube iframe so clicks/hover never trigger player controls */
 .hero__video-cover {
   position: absolute;
@@ -559,6 +562,18 @@ body.template-index main > section:first-child {
 }
 @media (max-width: 680px) {
   .hero--video-letterbox { aspect-ratio: 16 / 9; min-height: 200px; }
+  /* On phones, hide the video embed (iOS blocks autoplay → shows YT button) and show the poster image */
+  .hero__video-embed,
+  .hero__video-cover { display: none !important; }
+  .hero__media-mobile {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
 }
 
 .hero__overlay {
