@@ -11,9 +11,11 @@
   if (!siteTop || !header) return;
 
   const root = document.documentElement;
+  const announcement = document.querySelector('.announcement-bar');
   const measure = () => {
     root.style.setProperty('--site-top-h', siteTop.offsetHeight + 'px');
     root.style.setProperty('--header-h', header.offsetHeight + 'px');
+    root.style.setProperty('--announcement-h', (announcement ? announcement.offsetHeight : 0) + 'px');
   };
   measure();
   window.addEventListener('resize', measure, { passive: true });

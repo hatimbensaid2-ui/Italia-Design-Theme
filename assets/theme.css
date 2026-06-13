@@ -132,15 +132,20 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 200;
 }
 
-/* Push page content below the fixed announcement+header bar */
+/* Default: push all content below the full announcement+header bar */
 body {
   padding-top: var(--site-top-h, 110px);
 }
 
-/* Homepage only: pull the hero up so the transparent header overlays it
-   (it still sits below the solid announcement bar) */
+/* Homepage: only clear the solid announcement bar; the transparent header
+   overlays the hero. The hero content is padded down so the header never
+   covers the hero text. */
+body.template-index {
+  padding-top: var(--announcement-h, 40px);
+}
+
 body.template-index main > section:first-child {
-  margin-top: calc(-1 * var(--header-h, 72px));
+  padding-top: var(--header-h, 72px);
 }
 
 .site-header {
@@ -166,9 +171,16 @@ body.template-index main > section:first-child {
 }
 
 .site-header--transparent:not(.scrolled) .header-nav a,
+.site-header--transparent:not(.scrolled) .header-nav__item > a,
 .site-header--transparent:not(.scrolled) .header-actions a,
 .site-header--transparent:not(.scrolled) .header-icon-btn,
 .site-header--transparent:not(.scrolled) .header-logo-text {
+  color: #ffffff !important;
+}
+
+.site-header--transparent:not(.scrolled) .header-nav svg,
+.site-header--transparent:not(.scrolled) .header-icon-btn svg {
+  stroke: #ffffff !important;
   color: #ffffff !important;
 }
 
