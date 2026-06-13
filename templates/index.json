@@ -1,8 +1,19 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "hero-banner",
       "settings": {
+        "image": "shopify://shop_images/canape-compact-645992.webp",
+        "video_url": "",
         "overline": "Collection 2025",
         "heading": "L'Art du\nMobilier Italien",
         "subheading": "Découvrez notre collection exclusive de meubles de luxe — élégance intemporelle, artisanat d'exception, livré partout au Maroc.",
@@ -10,36 +21,103 @@
         "btn1_url": "/collections/all",
         "btn2_text": "Notre Showroom",
         "btn2_url": "/pages/contact",
+        "alignment": "center",
+        "overlay_color": "#000000",
         "overlay_opacity": 45,
         "min_height": 90,
+        "full_height": false,
         "show_scroll": true
       }
     },
     "usp": {
       "type": "usp-bar",
       "blocks": {
-        "usp_1": { "type": "usp", "settings": { "icon": "truck", "title": "Livraison Gratuite", "description": "Partout au Maroc dès 5 000 MAD" } },
-        "usp_2": { "type": "usp", "settings": { "icon": "shield", "title": "Garantie 5 Ans", "description": "Sur tous nos produits" } },
-        "usp_3": { "type": "usp", "settings": { "icon": "phone", "title": "Conseils d'Experts", "description": "7j/7 — WhatsApp & Téléphone" } },
-        "usp_4": { "type": "usp", "settings": { "icon": "star", "title": "Qualité Premium", "description": "Matériaux haut de gamme sélectionnés" } }
+        "usp_1": {
+          "type": "usp",
+          "settings": {
+            "icon": "truck",
+            "title": "Livraison Gratuite",
+            "description": "Partout au Maroc dès 5 000 MAD"
+          }
+        },
+        "usp_2": {
+          "type": "usp",
+          "settings": {
+            "icon": "shield",
+            "title": "Garantie 5 Ans",
+            "description": "Sur tous nos produits"
+          }
+        },
+        "usp_3": {
+          "type": "usp",
+          "settings": {
+            "icon": "phone",
+            "title": "Conseils d'Experts",
+            "description": "7j/7 — WhatsApp & Téléphone"
+          }
+        },
+        "usp_4": {
+          "type": "usp",
+          "settings": {
+            "icon": "star",
+            "title": "Qualité Premium",
+            "description": "Matériaux haut de gamme sélectionnés"
+          }
+        }
       },
-      "block_order": ["usp_1", "usp_2", "usp_3", "usp_4"]
+      "block_order": [
+        "usp_1",
+        "usp_2",
+        "usp_3",
+        "usp_4"
+      ],
+      "settings": {}
     },
     "collections": {
       "type": "featured-collections",
+      "blocks": {
+        "col_1": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "overline": "Espace Vie",
+            "title": "Salon & Séjour",
+            "url": ""
+          }
+        },
+        "col_2": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "overline": "Espace Nuit",
+            "title": "Chambre",
+            "url": ""
+          }
+        },
+        "col_3": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "overline": "Espace Repas",
+            "title": "Salle à Manger",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "col_1",
+        "col_2",
+        "col_3"
+      ],
       "settings": {
         "overline": "Nos Univers",
         "title": "Explorez nos Collections",
         "description": "Du salon à la chambre, découvrez des espaces conçus pour sublimer votre intérieur.",
+        "first_featured": false,
         "btn_text": "Toutes les Collections",
-        "btn_url": "/collections/all"
-      },
-      "blocks": {
-        "col_1": { "type": "collection", "settings": { "title": "Salon & Séjour", "overline": "Espace Vie" } },
-        "col_2": { "type": "collection", "settings": { "title": "Chambre", "overline": "Espace Nuit" } },
-        "col_3": { "type": "collection", "settings": { "title": "Salle à Manger", "overline": "Espace Repas" } }
-      },
-      "block_order": ["col_1", "col_2", "col_3"]
+        "btn_url": "/collections/all",
+        "bg": "white"
+      }
     },
     "featured_products": {
       "type": "featured-products",
@@ -52,12 +130,41 @@
         "btn_text": "Voir Tout",
         "btn_url": "/collections/all",
         "bg": "surface"
-      },
-      "blocks": {},
-      "block_order": []
+      }
     },
     "split_about": {
       "type": "split-content",
+      "blocks": {
+        "f1": {
+          "type": "feature",
+          "settings": {
+            "icon": "check",
+            "title": "Artisanat Exceptionnel",
+            "description": "Chaque pièce est fabriquée selon des standards premium"
+          }
+        },
+        "f2": {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "Livraison & Montage",
+            "description": "Service complet dans tout le Maroc"
+          }
+        },
+        "f3": {
+          "type": "feature",
+          "settings": {
+            "icon": "star",
+            "title": "Garantie 5 Ans",
+            "description": "Tous nos meubles sont garantis fabricant"
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3"
+      ],
       "settings": {
         "overline": "Notre Savoir-Faire",
         "heading": "L'Excellence du Mobilier Italien au Maroc",
@@ -66,35 +173,64 @@
         "btn_url": "/pages/about",
         "reverse": false,
         "dark_bg": false
-      },
-      "blocks": {
-        "f1": { "type": "feature", "settings": { "icon": "check", "title": "Artisanat Exceptionnel", "description": "Chaque pièce est fabriquée selon des standards premium" } },
-        "f2": { "type": "feature", "settings": { "icon": "truck", "title": "Livraison & Montage", "description": "Service complet dans tout le Maroc" } },
-        "f3": { "type": "feature", "settings": { "icon": "star", "title": "Garantie 5 Ans", "description": "Tous nos meubles sont garantis fabricant" } }
-      },
-      "block_order": ["f1", "f2", "f3"]
+      }
     },
     "testimonials": {
       "type": "testimonials",
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Des meubles d'une qualité exceptionnelle. Le service de livraison et de montage était parfait. Je recommande vivement Italia Design !",
+            "name": "Fatima B.",
+            "location": "Casablanca"
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Notre salon a été complètement transformé. L'équipe est professionnelle et le suivi est impeccable. Vraiment le top du mobilier au Maroc.",
+            "name": "Youssef A.",
+            "location": "Rabat"
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Je cherchais des meubles haut de gamme depuis longtemps. Enfin trouvé ! La qualité est au rendez-vous et les prix sont justes.",
+            "name": "Nadia M.",
+            "location": "Marrakech"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3"
+      ],
       "settings": {
         "overline": "Témoignages",
         "title": "Ce que disent nos clients"
-      },
-      "blocks": {
-        "t1": { "type": "testimonial", "settings": { "text": "Des meubles d'une qualité exceptionnelle. Le service de livraison et de montage était parfait. Je recommande vivement Italia Design !", "name": "Fatima B.", "location": "Casablanca" } },
-        "t2": { "type": "testimonial", "settings": { "text": "Notre salon a été complètement transformé. L'équipe est professionnelle et le suivi est impeccable. Vraiment le top du mobilier au Maroc.", "name": "Youssef A.", "location": "Rabat" } },
-        "t3": { "type": "testimonial", "settings": { "text": "Je cherchais des meubles haut de gamme depuis longtemps. Enfin trouvé ! La qualité est au rendez-vous et les prix sont justes.", "name": "Nadia M.", "location": "Marrakech" } }
-      },
-      "block_order": ["t1", "t2", "t3"]
+      }
     },
     "newsletter": {
       "type": "newsletter",
       "settings": {
         "overline": "Restez Informé",
         "title": "Nouveautés & Offres Exclusives",
-        "description": "Inscrivez-vous pour recevoir nos nouvelles collections et bénéficier d'offres réservées à nos abonnés."
+        "description": "Inscrivez-vous pour recevoir nos nouvelles collections et bénéficier d'offres réservées à nos abonnés.",
+        "placeholder": "Votre adresse email",
+        "btn_text": "S'inscrire"
       }
     }
   },
-  "order": ["hero", "usp", "collections", "featured_products", "split_about", "testimonials", "newsletter"]
+  "order": [
+    "hero",
+    "usp",
+    "collections",
+    "featured_products",
+    "split_about",
+    "testimonials",
+    "newsletter"
+  ]
 }
