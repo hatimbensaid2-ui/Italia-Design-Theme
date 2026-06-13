@@ -41,6 +41,9 @@
       "header": {
         "type": "header",
         "settings": {
+          "logo_light": "shopify://shop_images/Logo_White.png",
+          "logo_dark": "shopify://shop_images/Logo_Black.png",
+          "logo_width": 200,
           "logo_text": "ITALIA DESIGN",
           "menu": "main-menu",
           "show_search": true,
@@ -51,6 +54,7 @@
       "footer": {
         "type": "footer",
         "settings": {
+          "logo_width": 120,
           "logo_text": "",
           "about_text": "",
           "col1_title": "Navigation",
