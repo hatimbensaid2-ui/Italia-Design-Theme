@@ -2491,6 +2491,11 @@ body.template-index main > section:first-child {
   .footer-bottom { flex-direction: column; text-align: center; }
   .footer-social { justify-content: center; }
   .footer-brand { text-align: center; }
+  /* Center the footer logo image */
+  .footer-brand__logo img { margin-left: auto; margin-right: auto; }
+  /* Reduce the dark gap between newsletter and footer */
+  .newsletter-section { padding: 3rem 0; }
+  .site-footer { padding-top: 2.5rem; }
   .header-inner { padding: 0 1rem; }
 
   /* Footer collapsible tabs on mobile */
