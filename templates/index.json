@@ -14,6 +14,7 @@
       "settings": {
         "image": "shopify://shop_images/canape-compact-645992.webp",
         "hero_video": "https://www.youtube.com/watch?v=2v_7UH_nLv4",
+        "video_display": "cover",
         "video_url": "",
         "overline": "Collection 2026",
         "heading": "",

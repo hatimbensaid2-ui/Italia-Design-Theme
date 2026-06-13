@@ -501,6 +501,24 @@ body.template-index main > section:first-child {
   pointer-events: none;
 }
 
+/* Hero horizontal / letterbox mode — video fills width at exact 16:9, no cropping */
+.hero--video-letterbox {
+  aspect-ratio: 16 / 9;
+  min-height: unset;
+}
+.hero--video-letterbox .hero__video-embed {
+  width: 100%;
+  height: 100%;
+  min-height: unset;
+  min-width: unset;
+  top: 0;
+  left: 0;
+  transform: none;
+}
+@media (max-width: 680px) {
+  .hero--video-letterbox { aspect-ratio: 16 / 9; min-height: 200px; }
+}
+
 .hero__overlay {
   position: absolute;
   inset: 0;
@@ -2448,7 +2466,10 @@ body.template-index main > section:first-child {
   .footer-bottom { flex-direction: column; text-align: center; }
   .footer-social { justify-content: center; }
   .footer-brand { text-align: center; }
-  .header-inner { padding: 0 1.25rem; }
+  .header-inner { padding: 0 1.25rem; position: relative; justify-content: flex-end; }
+  .header-logo { position: absolute; left: 50%; transform: translateX(-50%); }
+  /* Hide search & account on small phones to avoid crowding the centered logo */
+  .header-actions .header-icon-btn:not([data-cart-open]) { display: none; }
 
   /* Footer collapsible tabs on mobile */
   .footer-grid { gap: 0; }
@@ -2484,10 +2505,13 @@ body.template-index main > section:first-child {
   .product-page--center-mobile .product-info { text-align: center; }
   .product-page--center-mobile .product-info__price-wrap,
   .product-page--center-mobile .product-qty,
-  .product-page--center-mobile .variant-swatches,
   .product-page--center-mobile .product-meta__item { justify-content: center; }
   .product-page--center-mobile .product-divider { margin-left: auto; margin-right: auto; }
   .product-page--center-mobile .accordion-trigger { text-align: left; }
+  /* Variants always left-aligned (same position as quantity) */
+  .product-page--center-mobile .product-option { text-align: left; }
+  .product-page--center-mobile .product-option__label { justify-content: flex-start; }
+  .product-page--center-mobile .variant-swatches { justify-content: flex-start; }
   .product-gallery__thumbs { justify-content: center; }
   .product-info__title { font-size: 1.6rem; }
 
@@ -2500,6 +2524,10 @@ body.template-index main > section:first-child {
   /* Tighter headings on small screens */
   .section-header__title { font-size: 1.8rem; }
   .collection-header__title { font-size: 2rem; }
+
+  /* Related products — ensure cards fill their grid cells */
+  .grid--4 .product-card { min-width: 0; width: 100%; }
+  .grid--4 .product-card__media { min-width: 0; }
 }
 
 /* ============================================================
