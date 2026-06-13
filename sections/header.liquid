@@ -7,7 +7,7 @@
         {% if settings.logo %}
           {{ settings.logo | image_url: width: settings.logo_width | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img' }}
         {% else %}
-          <span class="header-logo-text">{{ settings.logo_text | default: shop.name | upcase }}</span>
+          <span class="header-logo-text">{{ section.settings.logo_text | default: shop.name | upcase }}</span>
         {% endif %}
       </a>
     </div>

@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "color_primary": "#000000",
@@ -20,6 +29,30 @@
     "whatsapp_position": "right",
     "social_instagram": "",
     "social_facebook": "",
-    "social_tiktok": ""
+    "social_tiktok": "",
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "show_bar": true,
+          "messages": "Livraison partout au Maroc | Fabrication sur mesure"
+        }
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo_text": "ITALIA DESIGN",
+          "menu": "main-menu",
+          "show_search": true,
+          "show_account": true,
+          "transparent_on_hero": true
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {}
+      }
+    },
+    "content_for_index": []
   }
 }
