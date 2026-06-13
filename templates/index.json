@@ -194,6 +194,60 @@
         "placeholder": "Votre adresse email",
         "btn_text": "S'inscrire"
       }
+    },
+    "photo_reels_9dbKcR": {
+      "type": "photo-reels",
+      "blocks": {
+        "photo_ryJ3d9": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/5.png",
+            "product": "pack-salon-complete-canape-2-fauteuils-table-basse-elysia",
+            "caption": "",
+            "url": ""
+          }
+        },
+        "photo_dWgHUG": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/2.png",
+            "product": "table-basse-elegance-gold",
+            "caption": "",
+            "url": ""
+          }
+        },
+        "photo_GwDUQN": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/4.png",
+            "product": "table-basse-elya-en-ceramique",
+            "caption": "",
+            "url": ""
+          }
+        },
+        "photo_gVtYQB": {
+          "type": "photo",
+          "settings": {
+            "product": "",
+            "caption": "",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "photo_ryJ3d9",
+        "photo_dWgHUG",
+        "photo_GwDUQN",
+        "photo_gVtYQB"
+      ],
+      "name": "Reels photos",
+      "settings": {
+        "overline": "Inspiration",
+        "title": "Shop the Look",
+        "description": "Cliquez sur une photo pour découvrir le produit.",
+        "scroll_mobile": true,
+        "bg": "white"
+      }
     }
   },
   "order": [
@@ -203,6 +257,7 @@
     "split_about",
     "featured_products_wzHK9T",
     "testimonials",
-    "newsletter"
+    "newsletter",
+    "photo_reels_9dbKcR"
   ]
 }
