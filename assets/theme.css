@@ -1856,6 +1856,9 @@ body.template-index main > section:first-child {
   transition: all var(--transition);
   background: var(--color-secondary);
   color: var(--color-text);
+  -webkit-text-fill-color: var(--color-text);
+  -webkit-appearance: none;
+  appearance: none;
   font-family: inherit;
 }
 
@@ -1864,6 +1867,7 @@ body.template-index main > section:first-child {
   border-color: var(--color-primary);
   background: var(--color-primary);
   color: var(--color-secondary);
+  -webkit-text-fill-color: var(--color-secondary);
 }
 
 .variant-swatch.unavailable {
