@@ -13,20 +13,10 @@
     </div>
 
     {% assign col = collections[section.settings.collection] %}
-    {% if section.settings.collection != blank and col != blank %}
-      {% assign products_list = col.products | limit: section.settings.products_count %}
-    {% else %}
-      {% assign products_list = section.blocks %}
-    {% endif %}
 
     <div class="grid grid--4 reveal">
-      {% for item in products_list limit: section.settings.products_count %}
-        {% if section.settings.collection != blank %}
-          {% assign product = item %}
-        {% else %}
-          {% assign product = item.settings.product %}
-        {% endif %}
-        {% if product %}
+      {% if section.settings.collection != blank and col != blank %}
+        {% for product in col.products limit: section.settings.products_count %}
           <div class="product-card" style="animation-delay:{{ forloop.index0 | times: 60 }}ms;">
             <div class="product-card__media">
               <a href="{{ product.url }}">
@@ -41,7 +31,6 @@
                   </div>
                 {% endif %}
               </a>
-
               <div class="product-card__badges">
                 {% if product.available == false %}
                   <span class="badge badge--sold">Épuisé</span>
@@ -51,14 +40,12 @@
                   <span class="badge badge--sale">-{{ discount }}%</span>
                 {% endif %}
               </div>
-
               <div class="product-card__actions">
                 <button class="product-card__quick-add" data-product-id="{{ product.variants.first.id }}" onclick="CartDrawer.addItem({{ product.variants.first.id }})">
                   Ajouter au panier
                 </button>
               </div>
             </div>
-
             <div class="product-card__info">
               {% if product.vendor != blank %}
                 <div class="product-card__vendor">{{ product.vendor }}</div>
@@ -76,8 +63,60 @@
               </div>
             </div>
           </div>
-        {% endif %}
-      {% endfor %}
+        {% endfor %}
+      {% else %}
+        {% for block in section.blocks limit: section.settings.products_count %}
+          {% assign product = block.settings.product %}
+          {% if product %}
+            <div class="product-card" style="animation-delay:{{ forloop.index0 | times: 60 }}ms;">
+              <div class="product-card__media">
+                <a href="{{ product.url }}">
+                  {% if product.featured_image %}
+                    {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
+                  {% else %}
+                    <div style="background:var(--color-surface);width:100%;height:100%;"></div>
+                  {% endif %}
+                  {% if product.images[1] %}
+                    <div class="product-card__media-secondary">
+                      {{ product.images[1] | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
+                    </div>
+                  {% endif %}
+                </a>
+                <div class="product-card__badges">
+                  {% if product.available == false %}
+                    <span class="badge badge--sold">Épuisé</span>
+                  {% endif %}
+                  {% if product.compare_at_price > product.price %}
+                    {% assign discount = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+                    <span class="badge badge--sale">-{{ discount }}%</span>
+                  {% endif %}
+                </div>
+                <div class="product-card__actions">
+                  <button class="product-card__quick-add" data-product-id="{{ product.variants.first.id }}" onclick="CartDrawer.addItem({{ product.variants.first.id }})">
+                    Ajouter au panier
+                  </button>
+                </div>
+              </div>
+              <div class="product-card__info">
+                {% if product.vendor != blank %}
+                  <div class="product-card__vendor">{{ product.vendor }}</div>
+                {% endif %}
+                <h3 class="product-card__title">
+                  <a href="{{ product.url }}">{{ product.title }}</a>
+                </h3>
+                <div class="product-card__price">
+                  <span class="price{% if product.compare_at_price > product.price %} price--sale{% endif %}">
+                    {{ product.price | money }}
+                  </span>
+                  {% if product.compare_at_price > product.price %}
+                    <span class="price price--compare">{{ product.compare_at_price | money }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
     </div>
 
     {% if section.settings.btn_text != blank %}
