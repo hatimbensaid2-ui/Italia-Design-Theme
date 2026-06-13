@@ -105,17 +105,24 @@
         onReady: function (e) {
           e.target.mute();
           e.target.playVideo();
-          // Poll and loop the trimmed segment so the end-screen never shows
+          // Keep the trimmed segment looping AND never let it sit paused
           setInterval(function () {
             try {
+              var state = player.getPlayerState();
+              // -1 unstarted, 2 paused, 5 cued → force play so the center play/pause button never shows
+              if (state === 2 || state === 5 || state === -1) {
+                player.mute();
+                player.playVideo();
+              }
               var t = player.getCurrentTime();
               if (end > start && t >= end - 0.25) { player.seekTo(start, true); }
             } catch (err) {}
-          }, 250);
+          }, 200);
         },
         onStateChange: function (e) {
-          // If the video ever ends, jump straight back to the start
+          // Resume immediately on end or pause so YouTube's center button never appears
           if (e.data === YT.PlayerState.ENDED) { player.seekTo(start, true); player.playVideo(); }
+          if (e.data === YT.PlayerState.PAUSED) { player.playVideo(); }
         }
       }
     });
