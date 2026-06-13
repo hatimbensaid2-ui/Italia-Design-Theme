@@ -2489,7 +2489,7 @@ body.template-index main > section:first-child {
   .header-icon-btn--desktop { display: none; }
   .collection-layout--with-sidebar { grid-template-columns: 1fr; gap: 1.5rem; }
   .collection-sidebar { position: static; }
-  .collection-sidebar__links { flex-direction: row; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
+  .collection-sidebar__links { flex-direction: row; flex-wrap: wrap; gap: 0.5rem 1.25rem; justify-content: center; }
   .products-grid--narrow { grid-template-columns: repeat(3, 1fr); }
   .collection-promo { flex-direction: column; }
   .collection-promo__media { flex: none; max-width: none; max-height: 220px; }
