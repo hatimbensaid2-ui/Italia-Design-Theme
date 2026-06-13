@@ -270,6 +270,14 @@ document.addEventListener('click', function (e) {
   }
 });
 
+/* ---- Footer collapsible tabs (mobile only) ---- */
+document.addEventListener('click', function (e) {
+  const title = e.target.closest('.footer-col--toggle .footer-col__title');
+  if (!title) return;
+  if (window.matchMedia('(min-width: 681px)').matches) return; // desktop: always open
+  title.parentElement.classList.toggle('is-open');
+});
+
 /* ---- Accordion ---- */
 document.addEventListener('click', function (e) {
   const trigger = e.target.closest('.accordion-trigger');

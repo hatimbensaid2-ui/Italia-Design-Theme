@@ -36,42 +36,47 @@
       </div>
 
       <!-- Navigation -->
-      <div class="footer-col">
-        <h3 class="footer-col__title">{{ section.settings.col1_title | default: 'Navigation' }}</h3>
-        <ul class="footer-col__links">
-          {% if linklists[section.settings.menu].links.size > 0 %}
-            {% for link in linklists[section.settings.menu].links %}
-              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {% endfor %}
-          {% else %}
-            <li><a href="{{ routes.root_url }}">Accueil</a></li>
-            <li><a href="/collections/all">Collections</a></li>
-            <li><a href="/pages/about">À propos</a></li>
-            <li><a href="/pages/contact">Contact</a></li>
-          {% endif %}
-        </ul>
+      <div class="footer-col footer-col--toggle">
+        <h3 class="footer-col__title">{{ section.settings.col1_title | default: 'Navigation' }}<span class="footer-col__chevron"></span></h3>
+        <div class="footer-col__body">
+          <ul class="footer-col__links">
+            {% if linklists[section.settings.menu].links.size > 0 %}
+              {% for link in linklists[section.settings.menu].links %}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+            {% else %}
+              <li><a href="{{ routes.root_url }}">Accueil</a></li>
+              <li><a href="/collections/all">Collections</a></li>
+              <li><a href="/pages/about">À propos</a></li>
+              <li><a href="/pages/contact">Contact</a></li>
+            {% endif %}
+          </ul>
+        </div>
       </div>
 
       <!-- Info -->
-      <div class="footer-col">
-        <h3 class="footer-col__title">{{ section.settings.col2_title | default: 'Informations' }}</h3>
-        <ul class="footer-col__links">
-          {% if linklists[section.settings.menu2].links.size > 0 %}
-            {% for link in linklists[section.settings.menu2].links %}
-              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {% endfor %}
-          {% else %}
-            <li><a href="/policies/shipping-policy">Livraison</a></li>
-            <li><a href="/policies/refund-policy">Retours</a></li>
-            <li><a href="/policies/privacy-policy">Confidentialité</a></li>
-            <li><a href="/policies/terms-of-service">Conditions</a></li>
-          {% endif %}
-        </ul>
+      <div class="footer-col footer-col--toggle">
+        <h3 class="footer-col__title">{{ section.settings.col2_title | default: 'Informations' }}<span class="footer-col__chevron"></span></h3>
+        <div class="footer-col__body">
+          <ul class="footer-col__links">
+            {% if linklists[section.settings.menu2].links.size > 0 %}
+              {% for link in linklists[section.settings.menu2].links %}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+            {% else %}
+              <li><a href="/policies/shipping-policy">Livraison</a></li>
+              <li><a href="/policies/refund-policy">Retours</a></li>
+              <li><a href="/policies/privacy-policy">Confidentialité</a></li>
+              <li><a href="/policies/terms-of-service">Conditions</a></li>
+            {% endif %}
+          </ul>
+        </div>
       </div>
 
       <!-- Contact -->
-      <div class="footer-col">
-        <h3 class="footer-col__title">{{ section.settings.col3_title | default: 'Contact' }}</h3>
+      <div class="footer-col footer-col--toggle">
+        <h3 class="footer-col__title">{{ section.settings.col3_title | default: 'Contact' }}<span class="footer-col__chevron"></span></h3>
+        <div class="footer-col__body">
         {% assign f_address = section.settings.address | default: settings.footer_address %}
         {% assign f_phone = section.settings.phone | default: settings.footer_phone %}
         {% assign f_email = section.settings.email | default: settings.footer_email %}
@@ -103,6 +108,7 @@
             </p>
           </div>
         {% endif %}
+        </div>
       </div>
 
     </div>
