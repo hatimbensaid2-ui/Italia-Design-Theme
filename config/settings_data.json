@@ -54,7 +54,8 @@
       "footer": {
         "type": "footer",
         "settings": {
-          "logo_width": 120,
+          "logo_image": "shopify://shop_images/Logo_White.png",
+          "logo_width": 240,
           "logo_text": "",
           "about_text": "",
           "col1_title": "Navigation",
@@ -63,7 +64,7 @@
           "menu2": "footer",
           "col3_title": "Contact",
           "address": "",
-          "phone": "",
+          "phone": "+212 661 668 321",
           "email": "",
           "show_hours": true,
           "hours_weekday": "9h – 18h",
