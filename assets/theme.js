@@ -13,17 +13,13 @@
   }, { passive: true });
 })();
 
-/* ---- Transparent Header Layout ---- */
+/* ---- Transparent Header scroll effect ---- */
 (function () {
-  const header = document.querySelector('.site-header[data-transparent]');
+  const header = document.querySelector('.site-header--transparent');
   if (!header) return;
-  const update = () => {
-    const h = header.offsetHeight;
-    document.documentElement.style.setProperty('--header-height', h + 'px');
-  };
-  update();
-  document.body.classList.add('header-is-fixed');
-  window.addEventListener('resize', update, { passive: true });
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
 })();
 
 /* ---- Mobile Menu ---- */
