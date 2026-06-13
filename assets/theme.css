@@ -1855,6 +1855,8 @@ body.template-index main > section:first-child {
   cursor: pointer;
   transition: all var(--transition);
   background: var(--color-secondary);
+  color: var(--color-text);
+  font-family: inherit;
 }
 
 .variant-swatch:hover,
