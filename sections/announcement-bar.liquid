@@ -4,9 +4,12 @@
     {% if messages.size > 1 %}
       <div class="marquee-section" style="padding:.55rem 0;">
         <div class="marquee-track">
-          {% for m in messages %}{% for m in messages %}
-            <span class="marquee-item">{{ m | strip }}</span>
-          {% endfor %}{% endfor %}
+          {% for msg in messages %}
+            <span class="marquee-item">{{ msg | strip }}</span>
+          {% endfor %}
+          {% for msg in messages %}
+            <span class="marquee-item">{{ msg | strip }}</span>
+          {% endfor %}
         </div>
       </div>
     {% else %}

@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "color_primary": "#000000",
@@ -12,6 +21,58 @@
     "footer_about": "<p>Italia Design — Mobilier de luxe inspiré de l'Italie, fabriqué pour le Maroc.</p>",
     "footer_phone": "+212 5XX-XXXXXX",
     "footer_email": "contact@italiadesign.ma",
-    "footer_address": "Casablanca, Maroc"
+    "footer_address": "Casablanca, Maroc",
+    "whatsapp_enabled": true,
+    "whatsapp_number": "212661668321",
+    "whatsapp_message": "Bonjour, je souhaite avoir des informations sur vos meubles.",
+    "whatsapp_tooltip": "Contactez-nous sur WhatsApp",
+    "whatsapp_position": "right",
+    "social_instagram": "",
+    "social_facebook": "",
+    "social_tiktok": "",
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "show_bar": true,
+          "messages": "Livraison partout au Maroc | Fabrication sur mesure"
+        }
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo_light": "shopify://shop_images/Logo_White.png",
+          "logo_dark": "shopify://shop_images/Logo_Black.png",
+          "logo_width": 200,
+          "logo_text": "ITALIA DESIGN",
+          "menu": "main-menu",
+          "show_search": true,
+          "show_account": true,
+          "transparent_on_hero": true
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "logo_image": "shopify://shop_images/Logo_White.png",
+          "logo_width": 240,
+          "logo_text": "",
+          "about_text": "<p>Italia Design, Mobilier de luxe inspiré de l'Italie, fabriqué pour le Maroc.</p>",
+          "col1_title": "Navigation",
+          "menu": "main-menu",
+          "col2_title": "Informations",
+          "menu2": "footer",
+          "col3_title": "Contact",
+          "address": "",
+          "phone": "+212 661 668 321",
+          "email": "contact@italiadesign.ma",
+          "show_hours": true,
+          "hours_weekday": "9h – 18h",
+          "hours_saturday": "9h – 12h",
+          "hours_sunday": ""
+        }
+      }
+    },
+    "content_for_index": []
   }
 }

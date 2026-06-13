@@ -6,16 +6,15 @@
     <h2 class="newsletter-section__title">{{ section.settings.title }}</h2>
     <p class="newsletter-section__desc">{{ section.settings.description }}</p>
 
-    {% form 'customer', id: 'newsletter-form' %}
+    <form method="post" action="/contact#newsletter-form" id="newsletter-form" accept-charset="UTF-8">
+      <input type="hidden" name="form_type" value="customer">
+      <input type="hidden" name="utf8" value="✓">
       <input type="hidden" name="contact[tags]" value="newsletter">
       <div class="newsletter-form">
         <input type="email" name="contact[email]" placeholder="{{ section.settings.placeholder | default: 'Votre adresse email' }}" required>
-        <button type="submit">{{ section.settings.btn_text | default: 'S\'inscrire' }}</button>
+        <button type="submit">{{ section.settings.btn_text | default: "S'inscrire" }}</button>
       </div>
-      {% if form.posted_successfully? %}
-        <p style="color:var(--color-accent);margin-top:1rem;font-size:.85rem;">Merci ! Vous êtes bien inscrit(e).</p>
-      {% endif %}
-    {% endform %}
+    </form>
   </div>
 </section>
 

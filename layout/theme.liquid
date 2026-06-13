@@ -35,11 +35,11 @@
 
 <body class="template-{{ template | split: '.' | first }}{% if template.suffix %} template-{{ template.suffix }}{% endif %}">
 
-  <!-- Announcement Bar -->
-  {% section 'announcement-bar' %}
-
-  <!-- Header -->
-  {% section 'header' %}
+  <!-- Sticky top wrapper: announcement + header stick together -->
+  <div class="site-top" id="site-top">
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+  </div>
 
   <!-- Mobile Menu Overlay -->
   <div class="mobile-menu-overlay" aria-hidden="true"></div>
@@ -55,6 +55,13 @@
     <div class="mobile-menu-nav">
       {% for link in linklists.main-menu.links %}
         <a href="{{ link.url }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a>
+        {% if link.links.size > 0 %}
+          <div class="mobile-menu-sub">
+            {% for child in link.links %}
+              <a href="{{ child.url }}" class="mobile-menu-sub__link{% if child.active %} active{% endif %}">{{ child.title }}</a>
+            {% endfor %}
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
     <div class="mobile-menu-footer">

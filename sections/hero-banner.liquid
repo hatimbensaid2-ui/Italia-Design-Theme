@@ -1,12 +1,32 @@
-<section class="hero{% if section.settings.full_height %} hero--full{% endif %}" style="min-height:{{ section.settings.min_height }}vh;">
+<section class="hero{% if section.settings.full_height %} hero--full{% endif %}{% if section.settings.video_display == 'letterbox' and section.settings.hero_video != blank %} hero--video-letterbox{% endif %}" style="{% unless section.settings.video_display == 'letterbox' and section.settings.hero_video != blank %}min-height:{{ section.settings.min_height }}vh;{% endunless %}">
 
   <div class="hero__media">
-    {% if section.settings.video_url != blank %}
+    {% if section.settings.hero_video != blank %}
+      {% assign vid = section.settings.hero_video %}
+      {% assign vid_class = 'hero__video-embed' %}
+      {% if section.settings.video_display == 'letterbox' %}{% assign vid_class = 'hero__video-embed hero__video-embed--letterbox' %}{% endif %}
+      {% if vid.type == 'youtube' %}
+        {% assign yt_src = 'https://www.youtube.com/embed/' | append: vid.id | append: '?autoplay=1&mute=1&loop=1&playlist=' | append: vid.id | append: '&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1' %}
+        {% if section.settings.video_start != blank %}{% assign yt_src = yt_src | append: '&start=' | append: section.settings.video_start %}{% endif %}
+        {% if section.settings.video_end != blank %}{% assign yt_src = yt_src | append: '&end=' | append: section.settings.video_end %}{% endif %}
+        <iframe class="{{ vid_class }}"
+          src="{{ yt_src }}"
+          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
+          title="{{ section.settings.heading | escape }}"></iframe>
+      {% elsif vid.type == 'vimeo' %}
+        {% assign vm_src = 'https://player.vimeo.com/video/' | append: vid.id | append: '?autoplay=1&muted=1&loop=1&background=1' %}
+        {% if section.settings.video_start != blank %}{% assign vm_src = vm_src | append: '#t=' | append: section.settings.video_start | append: 's' %}{% endif %}
+        <iframe class="{{ vid_class }}"
+          src="{{ vm_src }}"
+          frameborder="0" allow="autoplay; fullscreen" allowfullscreen
+          title="{{ section.settings.heading | escape }}"></iframe>
+      {% endif %}
+    {% elsif section.settings.video_url != blank %}
       <video autoplay muted loop playsinline>
         <source src="{{ section.settings.video_url }}" type="video/mp4">
       </video>
     {% elsif section.settings.image %}
-      {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', alt: section.settings.heading }}
+      {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', alt: section.settings.heading }}
     {% else %}
       <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);"></div>
     {% endif %}
@@ -52,7 +72,11 @@
   "name": "Bannière héro",
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "text", "id": "video_url", "label": "URL vidéo (.mp4)" },
+    { "type": "video_url", "id": "hero_video", "accept": ["youtube", "vimeo"], "label": "Vidéo YouTube / Vimeo", "info": "Collez le lien YouTube ou Vimeo. La vidéo s'affiche en fond, en lecture automatique et muette." },
+    { "type": "select", "id": "video_display", "label": "Mode d'affichage vidéo", "options": [{"value":"cover","label":"Plein écran (recadré)"},{"value":"letterbox","label":"Mode horizontal — H (sans recadrage)"}], "default": "cover" },
+    { "type": "number", "id": "video_start", "label": "Début vidéo (secondes)", "info": "Laissez vide pour commencer au début (YouTube uniquement)." },
+    { "type": "number", "id": "video_end", "label": "Fin vidéo (secondes)", "info": "Laissez vide pour aller jusqu'à la fin (YouTube uniquement)." },
+    { "type": "text", "id": "video_url", "label": "URL vidéo (.mp4)", "info": "Alternative : lien direct vers un fichier .mp4." },
     { "type": "text", "id": "overline", "label": "Surtitre", "default": "Collection 2025" },
     { "type": "textarea", "id": "heading", "label": "Titre", "default": "L'Art du\nMobilier Italien" },
     { "type": "textarea", "id": "subheading", "label": "Sous-titre", "default": "Découvrez notre collection exclusive de meubles de luxe — élégance intemporelle, artisanat d'exception." },

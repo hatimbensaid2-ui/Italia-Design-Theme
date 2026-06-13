@@ -32,47 +32,19 @@
       </div>
     {% endif %}
     <h1 class="collection-header__title">{{ collection.title }}</h1>
-    {% if collection.description != blank %}
-      <div class="collection-header__desc">{{ collection.description }}</div>
-    {% endif %}
   </div>
 </div>
 
 <section class="section">
   <div class="container">
 
-    {%- comment -%} Promo banner {%- endcomment -%}
-    {% if section.settings.show_promo %}
-      <a class="collection-promo"
-         {% if section.settings.promo_link != blank %}href="{{ section.settings.promo_link }}"{% endif %}
-         style="background:{{ section.settings.promo_bg }};">
-        {% if section.settings.promo_image %}
-          <div class="collection-promo__media">
-            {{ section.settings.promo_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: section.settings.promo_heading }}
-          </div>
-        {% endif %}
-        <div class="collection-promo__body">
-          <span class="collection-promo__heading" style="color:{{ section.settings.promo_text_color }};">{{ section.settings.promo_heading }}</span>
-          {% if section.settings.promo_subheading != blank %}
-            <span class="collection-promo__sub" style="color:{{ section.settings.promo_text_color }};">{{ section.settings.promo_subheading }}</span>
-          {% endif %}
-          {% if section.settings.promo_btn_text != blank %}
-            <span class="collection-promo__btn">{{ section.settings.promo_btn_text }}</span>
-          {% endif %}
-        </div>
-      </a>
-    {% endif %}
-
     <div class="collection-layout{% if has_sidebar %} collection-layout--with-sidebar{% endif %}">
 
       {%- comment -%} Sidebar of sub-collections {%- endcomment -%}
       {% if has_sidebar %}
         <aside class="collection-sidebar">
-          <div class="collection-sidebar__title">{{ group_parent.title }}</div>
+          <a class="collection-sidebar__title" href="{{ group_parent.url }}">{{ group_parent.title }}</a>
           <ul class="collection-sidebar__links">
-            <li>
-              <a href="{{ group_parent.url }}"{% if group_parent.url == collection.url %} class="active"{% endif %}>{{ group_parent.title }} — Tout</a>
-            </li>
             {% for child in group_parent.links %}
               <li>
                 <a href="{{ child.url }}"{% if child.url == collection.url %} class="active"{% endif %}>{{ child.title }}</a>
@@ -83,6 +55,33 @@
       {% endif %}
 
       <div class="collection-main">
+
+        {%- comment -%} Promo banner {%- endcomment -%}
+        {% if section.settings.show_promo %}
+          <a class="collection-promo"
+             {% if section.settings.promo_link != blank %}href="{{ section.settings.promo_link }}"{% endif %}
+             style="background:{{ section.settings.promo_bg }};">
+            {% if section.settings.promo_image %}
+              <div class="collection-promo__media">
+                {{ section.settings.promo_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: section.settings.promo_heading }}
+              </div>
+            {% endif %}
+            <div class="collection-promo__body">
+              <span class="collection-promo__heading" style="color:{{ section.settings.promo_text_color }};">{{ section.settings.promo_heading }}</span>
+              {% if section.settings.promo_subheading != blank %}
+                <span class="collection-promo__sub" style="color:{{ section.settings.promo_text_color }};">{{ section.settings.promo_subheading }}</span>
+              {% endif %}
+              {% if section.settings.promo_btn_text != blank %}
+                <span class="collection-promo__btn">{{ section.settings.promo_btn_text }}</span>
+              {% endif %}
+            </div>
+          </a>
+        {% endif %}
+
+        {%- comment -%} Collection description (left-aligned, like the reference) {%- endcomment -%}
+        {% if collection.description != blank %}
+          <div class="collection-main__desc">{{ collection.description }}</div>
+        {% endif %}
 
         {%- comment -%} Sub-collection cards when viewing a parent {%- endcomment -%}
         {% if is_parent and group_parent.links.size > 0 %}
@@ -138,7 +137,7 @@
                     {% if product.featured_image %}
                       {{ product.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: product.title }}
                     {% else %}
-                      <div style="background:var(--color-surface);aspect-ratio:3/4;"></div>
+                      <div style="background:var(--color-surface);aspect-ratio:1/1;"></div>
                     {% endif %}
                     {% if product.images[1] %}
                       <div class="product-card__media-secondary">
@@ -253,7 +252,7 @@
       "type": "checkbox",
       "id": "show_promo",
       "label": "Afficher la bannière promo",
-      "default": false
+      "default": true
     },
     {
       "type": "image_picker",

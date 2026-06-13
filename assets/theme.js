@@ -4,26 +4,26 @@
 
 'use strict';
 
-/* ---- Sticky Header ---- */
+/* ---- Header heights + scroll state ---- */
 (function () {
+  const siteTop = document.querySelector('.site-top');
   const header = document.querySelector('.site-header');
-  if (!header) return;
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 10);
-  }, { passive: true });
-})();
+  if (!siteTop || !header) return;
 
-/* ---- Transparent Header Layout ---- */
-(function () {
-  const header = document.querySelector('.site-header[data-transparent]');
-  if (!header) return;
-  const update = () => {
-    const h = header.offsetHeight;
-    document.documentElement.style.setProperty('--header-height', h + 'px');
+  const root = document.documentElement;
+  const announcement = document.querySelector('.announcement-bar');
+  const measure = () => {
+    root.style.setProperty('--site-top-h', siteTop.offsetHeight + 'px');
+    root.style.setProperty('--header-h', header.offsetHeight + 'px');
+    root.style.setProperty('--announcement-h', (announcement ? announcement.offsetHeight : 0) + 'px');
   };
-  update();
-  document.body.classList.add('header-is-fixed');
-  window.addEventListener('resize', update, { passive: true });
+  measure();
+  window.addEventListener('resize', measure, { passive: true });
+  window.addEventListener('load', measure);
+
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 10);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 })();
 
 /* ---- Mobile Menu ---- */
@@ -268,6 +268,14 @@ document.addEventListener('click', function (e) {
     if (txt === '−') val = Math.max(val - 1, 1);
     input.value = val;
   }
+});
+
+/* ---- Footer collapsible tabs (mobile only) ---- */
+document.addEventListener('click', function (e) {
+  const title = e.target.closest('.footer-col--toggle .footer-col__title');
+  if (!title) return;
+  if (window.matchMedia('(min-width: 681px)').matches) return; // desktop: always open
+  title.parentElement.classList.toggle('is-open');
 });
 
 /* ---- Accordion ---- */
