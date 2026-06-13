@@ -5,8 +5,9 @@
       <!-- Brand Column -->
       <div class="footer-brand">
         <div class="footer-brand__logo">
-          {% if settings.logo %}
-            {{ settings.logo | image_url: width: 120 | image_tag: alt: shop.name, style: 'filter:brightness(0)invert(1);max-width:120px;margin-bottom:1.25rem;' }}
+          {% assign footer_logo = section.settings.logo_image | default: settings.logo %}
+          {% if footer_logo %}
+            {{ footer_logo | image_url: width: 240 | image_tag: alt: shop.name, style: 'filter:brightness(0)invert(1);max-width:' | append: section.settings.logo_width | append: 'px;margin-bottom:1.25rem;' }}
           {% else %}
             {{ section.settings.logo_text | default: settings.logo_text | default: shop.name | upcase }}
           {% endif %}
@@ -123,6 +124,22 @@
     {
       "type": "header",
       "content": "Logo / Marque"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo (image)",
+      "info": "Téléchargez votre logo. Il sera affiché en blanc sur le fond sombre."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 80,
+      "max": 240,
+      "step": 10,
+      "default": 120,
+      "unit": "px",
+      "label": "Largeur du logo"
     },
     {
       "type": "text",

@@ -4,22 +4,24 @@
 
 'use strict';
 
-/* ---- Sticky Header ---- */
+/* ---- Header heights + scroll state ---- */
 (function () {
+  const siteTop = document.querySelector('.site-top');
   const header = document.querySelector('.site-header');
-  if (!header) return;
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 10);
-  }, { passive: true });
-})();
+  if (!siteTop || !header) return;
 
-/* ---- Transparent Header scroll effect ---- */
-(function () {
-  const header = document.querySelector('.site-header--transparent');
-  if (!header) return;
-  const update = () => header.classList.toggle('scrolled', window.scrollY > 10);
-  update();
-  window.addEventListener('scroll', update, { passive: true });
+  const root = document.documentElement;
+  const measure = () => {
+    root.style.setProperty('--site-top-h', siteTop.offsetHeight + 'px');
+    root.style.setProperty('--header-h', header.offsetHeight + 'px');
+  };
+  measure();
+  window.addEventListener('resize', measure, { passive: true });
+  window.addEventListener('load', measure);
+
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 10);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 })();
 
 /* ---- Mobile Menu ---- */

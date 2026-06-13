@@ -4,8 +4,9 @@
     <!-- Logo (left) -->
     <div class="header-logo">
       <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-        {% if settings.logo %}
-          {{ settings.logo | image_url: width: settings.logo_width | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img' }}
+        {% assign header_logo = section.settings.logo_image | default: settings.logo %}
+        {% if header_logo %}
+          {{ header_logo | image_url: width: section.settings.logo_width | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img', style: 'max-width:' | append: section.settings.logo_width | append: 'px;' }}
         {% else %}
           <span class="header-logo-text">{{ section.settings.logo_text | default: shop.name | upcase }}</span>
         {% endif %}
@@ -69,8 +70,20 @@
       "content": "Logo"
     },
     {
-      "type": "paragraph",
-      "content": "Pour changer le logo, allez dans Paramètres du thème → En-tête → Logo."
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo (image)",
+      "info": "Téléchargez votre logo ici. Si vide, le logo global ou le texte ci-dessous est utilisé."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 80,
+      "max": 320,
+      "step": 10,
+      "default": 160,
+      "unit": "px",
+      "label": "Largeur du logo"
     },
     {
       "type": "text",

@@ -123,11 +123,24 @@ h1, h2, h3, h4, h5, h6 {
    HEADER
    ============================================================ */
 
-/* Sticky wrapper holds announcement bar + header together */
+/* Fixed wrapper holds announcement bar + header together at the top */
 .site-top {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 200;
+}
+
+/* Push page content below the fixed announcement+header bar */
+body {
+  padding-top: var(--site-top-h, 110px);
+}
+
+/* Homepage only: pull the hero up so the transparent header overlays it
+   (it still sits below the solid announcement bar) */
+body.template-index main > section:first-child {
+  margin-top: calc(-1 * var(--header-h, 72px));
 }
 
 .site-header {
@@ -162,16 +175,6 @@ h1, h2, h3, h4, h5, h6 {
 .site-header--transparent:not(.scrolled) .header-logo__img {
   filter: brightness(0) invert(1);
   transition: filter 0.35s ease;
-}
-
-/* Hero slides under sticky header */
-main > section:first-child,
-main > div:first-child {
-  margin-top: 0;
-}
-
-.site-header--transparent ~ * main > section:first-child {
-  margin-top: 0;
 }
 
 .header-inner {
