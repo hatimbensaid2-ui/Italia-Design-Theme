@@ -6,7 +6,7 @@
       {% assign vid_class = 'hero__video-embed' %}
       {% if section.settings.video_display == 'letterbox' %}{% assign vid_class = 'hero__video-embed hero__video-embed--letterbox' %}{% endif %}
       {% if vid.type == 'youtube' %}
-        {% assign yt_src = 'https://www.youtube.com/embed/' | append: vid.id | append: '?autoplay=1&mute=1&loop=1&playlist=' | append: vid.id | append: '&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1' %}
+        {% assign yt_src = 'https://www.youtube.com/embed/' | append: vid.id | append: '?autoplay=1&mute=1&loop=1&playlist=' | append: vid.id | append: '&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1&disablekb=1&iv_load_policy=3&cc_load_policy=0&fs=0&color=white' %}
         {% if section.settings.video_start != blank %}{% assign yt_src = yt_src | append: '&start=' | append: section.settings.video_start %}{% endif %}
         {% if section.settings.video_end != blank %}{% assign yt_src = yt_src | append: '&end=' | append: section.settings.video_end %}{% endif %}
         <iframe class="{{ vid_class }}"

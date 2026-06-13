@@ -496,7 +496,8 @@ body.template-index main > section:first-child {
   height: 56.25vw; /* 16:9 */
   min-height: 100%;
   min-width: 177.78vh; /* 16:9 */
-  transform: translate(-50%, -50%);
+  /* Scale up 25% so YouTube title bar (top) and end-screen buttons are clipped */
+  transform: translate(-50%, -50%) scale(1.25);
   border: 0;
   pointer-events: none;
 }
@@ -2461,14 +2462,15 @@ body.template-index main > section:first-child {
   .newsletter-form input { border-right: 1px solid rgba(255,255,255,0.25); }
   .newsletter-form button { border-left: none; }
   .hero__content { padding: 3rem 1.25rem; }
-  /* Always centered on mobile, even if "left" alignment is set on desktop */
+  /* Always centered on mobile regardless of desktop alignment setting */
   .hero__content,
   .hero__content--left {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
-  .hero__content--left .hero__actions { justify-content: center; }
+  .hero__content--left .hero__actions,
+  .hero__actions { justify-content: center !important; }
   .hero__actions { flex-direction: column; align-items: center; }
   .hero__actions .btn { width: 100%; }
   .cart-drawer { width: 100%; }
