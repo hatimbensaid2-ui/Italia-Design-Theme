@@ -12,13 +12,14 @@
         {% assign logo_dark = section.settings.logo_dark | default: settings.logo %}
         {% assign logo_light = section.settings.logo_light | default: logo_dark %}
         {% assign logo_w = section.settings.logo_width | default: 160 %}
+        {% assign logo_w_2x = logo_w | times: 2 %}
         {% if logo_dark or logo_light %}
           {% capture logo_style %}max-width:{{ logo_w }}px;height:auto;{% endcapture %}
           {% if logo_light %}
-            {{ logo_light | image_url: width: logo_w | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img header-logo__light', style: logo_style }}
+            {{ logo_light | image_url: width: logo_w_2x | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img header-logo__light', style: logo_style }}
           {% endif %}
           {% if logo_dark %}
-            {{ logo_dark | image_url: width: logo_w | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img header-logo__dark', style: logo_style }}
+            {{ logo_dark | image_url: width: logo_w_2x | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img header-logo__dark', style: logo_style }}
           {% endif %}
         {% else %}
           <span class="header-logo-text">{{ section.settings.logo_text | default: shop.name | upcase }}</span>
