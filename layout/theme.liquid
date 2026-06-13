@@ -48,7 +48,7 @@
   <nav class="mobile-menu" aria-label="Menu principal">
     <div class="mobile-menu-header">
       <a href="{{ routes.root_url }}" class="mobile-menu-logo" aria-label="{{ shop.name }}">
-        {% if settings.logo %}
+        {% if settings.logo != blank and settings.logo.width %}
           {{ settings.logo | image_url: width: 320 | image_tag: loading: 'eager', alt: shop.name, style: 'max-width:150px;height:auto;' }}
         {% else %}
           <span class="header-logo-text">{{ shop.name | upcase }}</span>
