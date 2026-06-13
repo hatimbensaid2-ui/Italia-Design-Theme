@@ -469,7 +469,10 @@ body.template-index main > section:first-child {
   min-height: 90vh;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
+
+.hero > .container { width: 100%; }
 
 .hero--full { min-height: 100vh; }
 
