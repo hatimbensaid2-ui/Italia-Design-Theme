@@ -2471,8 +2471,14 @@ body.template-index main > section:first-child {
   }
   .hero__content--left .hero__actions,
   .hero__actions { justify-content: center !important; }
-  .hero__actions { flex-direction: column; align-items: center; }
-  .hero__actions .btn { width: 100%; }
+  .hero__actions { flex-direction: column; align-items: center !important; }
+  /* Compact buttons centered (not stretched full-width) */
+  .hero__actions .btn {
+    width: auto;
+    align-self: center !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .cart-drawer { width: 100%; }
   .footer-bottom { flex-direction: column; text-align: center; }
   .footer-social { justify-content: center; }
