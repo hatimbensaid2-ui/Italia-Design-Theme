@@ -15,13 +15,13 @@
         "show_breadcrumb": true,
         "center_mobile": true,
         "shipping_text": "Livraison partout au Maroc",
-        "warranty_text": "Garantie 5 ans fabricant",
+        "warranty_text": "Garantie 2 ans fabricant",
         "acc1_title": "",
         "acc1_content": "",
         "acc2_title": "Livraison & Montage",
-        "acc2_content": "<p>Livraison gratuite dans tout le Maroc. Délai de livraison : 7 à 21 jours ouvrés selon votre région. Service de montage disponible sur demande.</p>",
+        "acc2_content": "<p>Livraison partout au Maroc. Délai de livraison : 7 à 21 jours ouvrés selon votre région. Service de montage disponible sur demande.</p>",
         "acc3_title": "Retours & Garantie",
-        "acc3_content": "<p>Tous nos produits sont couverts par une garantie de 5 ans. En cas de défaut, nous nous engageons à réparer ou remplacer votre meuble.</p>"
+        "acc3_content": "<p>Tous nos produits sont couverts par une garantie de 2 ans. En cas de défaut, nous nous engageons à réparer ou remplacer votre meuble.</p>"
       }
     },
     "related_products": {
