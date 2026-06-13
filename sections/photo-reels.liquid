@@ -1,0 +1,79 @@
+<section class="section{% if section.settings.bg == 'surface' %} bg-surface{% endif %}">
+  <div class="container">
+    <div class="section-header reveal">
+      {% if section.settings.overline != blank %}
+        <span class="overline">{{ section.settings.overline }}</span>
+      {% endif %}
+      {% if section.settings.title != blank %}
+        <h2 class="section-header__title">{{ section.settings.title }}</h2>
+      {% endif %}
+      {% if section.settings.description != blank %}
+        <p class="section-header__desc">{{ section.settings.description }}</p>
+      {% endif %}
+    </div>
+
+    <div class="photo-reels{% if section.settings.scroll_mobile %} photo-reels--scroll{% endif %}">
+      {% for block in section.blocks %}
+        {% assign prod = all_products[block.settings.product] %}
+        {% assign reel_url = block.settings.url | default: prod.url | default: '#' %}
+        <a href="{{ reel_url }}" class="photo-reel reveal" style="animation-delay:{{ forloop.index0 | times: 80 }}ms;" {{ block.shopify_attributes }}>
+          <div class="photo-reel__media">
+            {% if block.settings.image %}
+              {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: block.settings.caption | default: prod.title }}
+            {% elsif prod.featured_image %}
+              {{ prod.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: prod.title }}
+            {% else %}
+              <div class="photo-reel__placeholder"></div>
+            {% endif %}
+            <span class="photo-reel__tag">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+            </span>
+          </div>
+          {% if prod != blank or block.settings.caption != blank %}
+            <div class="photo-reel__info">
+              <span class="photo-reel__title">{{ block.settings.caption | default: prod.title }}</span>
+              {% if prod != blank %}
+                <span class="photo-reel__price">{{ prod.price | money }}</span>
+              {% endif %}
+            </div>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Reels photos",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "text", "id": "overline", "label": "Surtitre", "default": "Inspiration" },
+    { "type": "text", "id": "title", "label": "Titre", "default": "Shop the Look" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Cliquez sur une photo pour découvrir le produit." },
+    { "type": "checkbox", "id": "scroll_mobile", "label": "Défilement horizontal sur mobile", "default": true },
+    { "type": "select", "id": "bg", "label": "Fond", "options": [{"value":"white","label":"Blanc"},{"value":"surface","label":"Gris clair"}], "default": "white" }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "product", "id": "product", "label": "Produit lié" },
+        { "type": "text", "id": "caption", "label": "Légende (optionnel)" },
+        { "type": "url", "id": "url", "label": "Lien personnalisé (si pas de produit)" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Reels photos",
+    "blocks": [
+      { "type": "photo" },
+      { "type": "photo" },
+      { "type": "photo" },
+      { "type": "photo" }
+    ]
+  }]
+}
+{% endschema %}
