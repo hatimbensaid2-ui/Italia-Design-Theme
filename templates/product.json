@@ -1,8 +1,28 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "product_main": {
       "type": "product-template",
-      "settings": {}
+      "settings": {
+        "show_breadcrumb": true,
+        "center_mobile": true,
+        "shipping_text": "Livraison gratuite partout au Maroc",
+        "warranty_text": "Garantie 5 ans fabricant",
+        "acc1_title": "",
+        "acc1_content": "",
+        "acc2_title": "Livraison & Montage",
+        "acc2_content": "<p>Livraison gratuite dans tout le Maroc. Délai de livraison : 7 à 21 jours ouvrés selon votre région. Service de montage disponible sur demande.</p>",
+        "acc3_title": "Retours & Garantie",
+        "acc3_content": "<p>Tous nos produits sont couverts par une garantie de 5 ans. En cas de défaut, nous nous engageons à réparer ou remplacer votre meuble.</p>"
+      }
     },
     "related_products": {
       "type": "related-products",
@@ -12,5 +32,8 @@
       }
     }
   },
-  "order": ["product_main", "related_products"]
+  "order": [
+    "product_main",
+    "related_products"
+  ]
 }
