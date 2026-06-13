@@ -484,6 +484,20 @@ body.template-index main > section:first-child {
   object-position: center;
 }
 
+/* Background YouTube/Vimeo iframe scaled to cover the hero */
+.hero__video-embed {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 56.25vw; /* 16:9 */
+  min-height: 100%;
+  min-width: 177.78vh; /* 16:9 */
+  transform: translate(-50%, -50%);
+  border: 0;
+  pointer-events: none;
+}
+
 .hero__overlay {
   position: absolute;
   inset: 0;
@@ -1448,6 +1462,17 @@ body.template-index main > section:first-child {
   max-width: 540px;
   margin: 0 auto;
 }
+
+.collection-main__desc {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: var(--color-text);
+  text-align: left;
+  margin: 0 0 2rem;
+}
+
+.collection-main__desc p { margin: 0 0 0.75rem; }
+.collection-main__desc p:last-child { margin-bottom: 0; }
 
 .collection-toolbar {
   display: flex;

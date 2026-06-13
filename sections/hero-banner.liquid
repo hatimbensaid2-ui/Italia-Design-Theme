@@ -1,7 +1,20 @@
 <section class="hero{% if section.settings.full_height %} hero--full{% endif %}" style="min-height:{{ section.settings.min_height }}vh;">
 
   <div class="hero__media">
-    {% if section.settings.video_url != blank %}
+    {% if section.settings.hero_video != blank %}
+      {% assign vid = section.settings.hero_video %}
+      {% if vid.type == 'youtube' %}
+        <iframe class="hero__video-embed"
+          src="https://www.youtube.com/embed/{{ vid.id }}?autoplay=1&mute=1&loop=1&playlist={{ vid.id }}&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1"
+          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
+          title="{{ section.settings.heading | escape }}"></iframe>
+      {% elsif vid.type == 'vimeo' %}
+        <iframe class="hero__video-embed"
+          src="https://player.vimeo.com/video/{{ vid.id }}?autoplay=1&muted=1&loop=1&background=1"
+          frameborder="0" allow="autoplay; fullscreen" allowfullscreen
+          title="{{ section.settings.heading | escape }}"></iframe>
+      {% endif %}
+    {% elsif section.settings.video_url != blank %}
       <video autoplay muted loop playsinline>
         <source src="{{ section.settings.video_url }}" type="video/mp4">
       </video>
@@ -52,7 +65,8 @@
   "name": "Bannière héro",
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "text", "id": "video_url", "label": "URL vidéo (.mp4)" },
+    { "type": "video_url", "id": "hero_video", "accept": ["youtube", "vimeo"], "label": "Vidéo YouTube / Vimeo", "info": "Collez le lien YouTube ou Vimeo. La vidéo s'affiche en fond, en lecture automatique et muette." },
+    { "type": "text", "id": "video_url", "label": "URL vidéo (.mp4)", "info": "Alternative : lien direct vers un fichier .mp4." },
     { "type": "text", "id": "overline", "label": "Surtitre", "default": "Collection 2025" },
     { "type": "textarea", "id": "heading", "label": "Titre", "default": "L'Art du\nMobilier Italien" },
     { "type": "textarea", "id": "subheading", "label": "Sous-titre", "default": "Découvrez notre collection exclusive de meubles de luxe — élégance intemporelle, artisanat d'exception." },
