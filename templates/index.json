@@ -228,7 +228,8 @@
         "photo_gVtYQB": {
           "type": "photo",
           "settings": {
-            "product": "",
+            "image": "shopify://shop_images/3.png",
+            "product": "fauteuil-aura-tendance",
             "caption": "",
             "url": ""
           }
