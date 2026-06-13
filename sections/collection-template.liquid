@@ -68,11 +68,8 @@
       {%- comment -%} Sidebar of sub-collections {%- endcomment -%}
       {% if has_sidebar %}
         <aside class="collection-sidebar">
-          <div class="collection-sidebar__title">{{ group_parent.title }}</div>
+          <a class="collection-sidebar__title" href="{{ group_parent.url }}">{{ group_parent.title }}</a>
           <ul class="collection-sidebar__links">
-            <li>
-              <a href="{{ group_parent.url }}"{% if group_parent.url == collection.url %} class="active"{% endif %}>{{ group_parent.title }} — Tout</a>
-            </li>
             {% for child in group_parent.links %}
               <li>
                 <a href="{{ child.url }}"{% if child.url == collection.url %} class="active"{% endif %}>{{ child.title }}</a>
@@ -253,7 +250,7 @@
       "type": "checkbox",
       "id": "show_promo",
       "label": "Afficher la bannière promo",
-      "default": false
+      "default": true
     },
     {
       "type": "image_picker",
