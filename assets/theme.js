@@ -48,6 +48,15 @@
   btn.addEventListener('click', openMenu);
   closeBtn && closeBtn.addEventListener('click', closeMenu);
   overlay && overlay.addEventListener('click', closeMenu);
+
+  // Collapsible sub-menus — expand only when the parent is tapped
+  menu.querySelectorAll('.mobile-menu-toggle').forEach(function (toggle) {
+    toggle.addEventListener('click', function () {
+      var item = toggle.closest('.mobile-menu-item--has-sub');
+      var isOpen = item.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  });
 })();
 
 /* ---- Cart Drawer ---- */

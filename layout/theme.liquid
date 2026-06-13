@@ -47,20 +47,34 @@
   <!-- Mobile Menu -->
   <nav class="mobile-menu" aria-label="Menu principal">
     <div class="mobile-menu-header">
-      <span class="header-logo-text">ITALIA DESIGN</span>
+      <a href="{{ routes.root_url }}" class="mobile-menu-logo" aria-label="{{ shop.name }}">
+        {% if settings.logo %}
+          {{ settings.logo | image_url: width: 320 | image_tag: loading: 'eager', alt: shop.name, style: 'max-width:150px;height:auto;' }}
+        {% else %}
+          <span class="header-logo-text">{{ shop.name | upcase }}</span>
+        {% endif %}
+      </a>
       <button class="mobile-menu-close" aria-label="Fermer">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
     <div class="mobile-menu-nav">
       {% for link in linklists.main-menu.links %}
-        <a href="{{ link.url }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a>
         {% if link.links.size > 0 %}
-          <div class="mobile-menu-sub">
-            {% for child in link.links %}
-              <a href="{{ child.url }}" class="mobile-menu-sub__link{% if child.active %} active{% endif %}">{{ child.title }}</a>
-            {% endfor %}
+          <div class="mobile-menu-item mobile-menu-item--has-sub">
+            <button class="mobile-menu-toggle" type="button" aria-expanded="false">
+              <span>{{ link.title }}</span>
+              <svg class="mobile-menu-caret" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="mobile-menu-sub">
+              <a href="{{ link.url }}" class="mobile-menu-sub__link mobile-menu-sub__link--parent">Voir tout</a>
+              {% for child in link.links %}
+                <a href="{{ child.url }}" class="mobile-menu-sub__link{% if child.active %} active{% endif %}">{{ child.title }}</a>
+              {% endfor %}
+            </div>
           </div>
+        {% else %}
+          <a class="mobile-menu-item" href="{{ link.url }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a>
         {% endif %}
       {% endfor %}
     </div>
