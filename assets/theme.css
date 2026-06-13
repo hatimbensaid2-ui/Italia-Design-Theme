@@ -2593,7 +2593,7 @@ body.template-index main > section:first-child {
   .product-info__title { font-size: 1.6rem; }
 
   /* Collection — center text on mobile */
-  .collection-main__desc { text-align: center; }
+  .collection-main__desc { display: none; }
   .collection-sidebar { text-align: center; }
   .collection-sidebar__title { border-bottom: none; }
   .collection-toolbar { flex-direction: column; gap: 0.75rem; align-items: center; text-align: center; }
