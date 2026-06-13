@@ -2531,28 +2531,31 @@ body.template-index main > section:first-child {
   .footer-col__links { align-items: flex-start; }
   .footer-contact-item { justify-content: flex-start; }
 
-  /* Compact collection promo on mobile — full image, no crop */
+  /* Compact collection promo on mobile — full image, no crop, minimal empty space */
   .collection-promo { flex-direction: column; }
   .collection-promo__media {
     flex: none;
     max-width: none;
     max-height: none;
     height: auto;
-    background: rgba(0,0,0,0.03);
+    background: transparent;
+    padding-top: 0.5rem;
   }
   .collection-promo__media img {
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     height: auto;
-    max-height: 200px;
+    max-height: 110px;
     object-fit: contain;
+    margin: 0 auto;
   }
   .collection-promo__body {
-    padding: 1rem 1.25rem;
-    gap: 0.25rem;
+    padding: 0.5rem 1rem 0.9rem;
+    gap: 0.15rem;
   }
-  .collection-promo__heading { font-size: 1.3rem; }
-  .collection-promo__sub { font-size: 0.85rem; }
-  .collection-promo__btn { padding: 0.65rem 1.25rem; font-size: 0.7rem; }
+  .collection-promo__heading { font-size: 1.1rem; }
+  .collection-promo__sub { font-size: 0.78rem; }
+  .collection-promo__btn { padding: 0.5rem 1rem; font-size: 0.66rem; }
 
   /* Product page — centered on mobile */
   .product-page--center-mobile .product-info { text-align: center; }
