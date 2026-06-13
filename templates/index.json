@@ -82,7 +82,7 @@
         "collection": "all",
         "products_count": 8,
         "btn_text": "Voir Tout",
-        "btn_url": "/collections/all",
+        "btn_url": "shopify://collections/fauteuils",
         "bg": "surface"
       }
     },
