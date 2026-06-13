@@ -16,7 +16,23 @@
     <nav class="header-nav" aria-label="Navigation principale">
       {% assign nav_menu = section.settings.menu | default: 'main-menu' %}
       {% for link in linklists[nav_menu].links %}
-        <a href="{{ link.url }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a>
+        {% if link.links.size > 0 %}
+          <div class="header-nav__item header-nav__item--has-dropdown">
+            <a href="{{ link.url }}"{% if link.active or link.child_active %} class="active"{% endif %}>
+              {{ link.title }}
+              <svg class="header-nav__caret" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+            </a>
+            <div class="header-dropdown">
+              <ul class="header-dropdown__list">
+                {% for child in link.links %}
+                  <li><a href="{{ child.url }}"{% if child.active %} class="active"{% endif %}>{{ child.title }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        {% else %}
+          <a class="header-nav__item" href="{{ link.url }}"{% if link.active %} class="active"{% endif %}>{{ link.title }}</a>
+        {% endif %}
       {% endfor %}
     </nav>
 

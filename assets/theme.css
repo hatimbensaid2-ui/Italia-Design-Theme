@@ -214,6 +214,94 @@ main > div:first-child {
 .header-nav a:hover::after,
 .header-nav a.active::after { width: 100%; }
 
+/* Nav dropdown (parent collection -> sub-collections) */
+.header-nav__item--has-dropdown { position: relative; }
+
+.header-nav__item--has-dropdown > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.header-nav__caret {
+  transition: transform var(--transition);
+}
+
+.header-nav__item--has-dropdown:hover .header-nav__caret {
+  transform: rotate(180deg);
+}
+
+.header-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  min-width: 220px;
+  background: var(--color-secondary, #fff);
+  border: 1px solid var(--color-border, #e8e6e1);
+  box-shadow: 0 12px 40px rgba(0,0,0,.12);
+  padding: 0.75rem 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+  z-index: 250;
+}
+
+.header-nav__item--has-dropdown:hover .header-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.header-dropdown__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header-dropdown__list li { display: block; }
+
+.header-dropdown__list a {
+  display: block;
+  padding: 0.6rem 1.5rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  white-space: nowrap;
+  transition: background var(--transition), color var(--transition);
+}
+
+.header-dropdown__list a::after { display: none; }
+
+.header-dropdown__list a:hover,
+.header-dropdown__list a.active {
+  background: var(--color-surface, #f7f6f4);
+  color: var(--color-accent, #c9a96e);
+}
+
+/* Transparent header: keep dropdown panel readable (dark text on white) */
+.site-header--transparent:not(.scrolled) .header-dropdown a { color: var(--color-text) !important; }
+
+/* Mobile sub-menu */
+.mobile-menu-sub {
+  padding: 0.25rem 0 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  border-left: 2px solid var(--color-border, #e8e6e1);
+}
+
+.mobile-menu-sub__link {
+  display: block;
+  padding: 0.4rem 0;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.05em !important;
+  text-transform: none !important;
+  color: var(--color-text-muted, #777) !important;
+}
+
+.mobile-menu-sub__link.active { color: var(--color-accent, #c9a96e) !important; }
+
 .header-logo {
   display: flex;
   align-items: center;
