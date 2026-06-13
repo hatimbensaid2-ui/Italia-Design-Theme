@@ -502,6 +502,15 @@ body.template-index main > section:first-child {
   pointer-events: none;
 }
 
+/* Transparent cover over the YouTube iframe so clicks/hover never trigger player controls */
+.hero__video-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  cursor: default;
+  background: transparent;
+}
+
 /* Hero horizontal / letterbox mode — video fills width at exact 16:9, no cropping */
 .hero--video-letterbox {
   aspect-ratio: 16 / 9;

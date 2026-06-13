@@ -7,7 +7,8 @@
       {% if section.settings.video_display == 'letterbox' %}{% assign vid_class = 'hero__video-embed hero__video-embed--letterbox' %}{% endif %}
       {% if vid.type == 'youtube' %}
         {% assign yt_start = section.settings.video_start | default: 0 %}
-        {% assign yt_src = 'https://www.youtube.com/embed/' | append: vid.id | append: '?autoplay=1&mute=1&loop=1&playlist=' | append: vid.id | append: '&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1&disablekb=1&iv_load_policy=3&cc_load_policy=0&fs=0&color=white&enablejsapi=1&start=' | append: yt_start %}
+        {% comment %} No loop/playlist params — the IFrame API below handles looping, which avoids YouTube's prev/next controls {% endcomment %}
+        {% assign yt_src = 'https://www.youtube.com/embed/' | append: vid.id | append: '?autoplay=1&mute=1&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1&disablekb=1&iv_load_policy=3&cc_load_policy=0&fs=0&color=white&enablejsapi=1&start=' | append: yt_start %}
         <iframe id="hero-yt-{{ section.id }}"
           class="{{ vid_class }}"
           data-hero-yt
@@ -17,6 +18,7 @@
           src="{{ yt_src }}"
           frameborder="0" allow="autoplay; encrypted-media"
           title="{{ section.settings.heading | escape }}"></iframe>
+        <div class="hero__video-cover" aria-hidden="true"></div>
       {% elsif vid.type == 'vimeo' %}
         {% assign vm_src = 'https://player.vimeo.com/video/' | append: vid.id | append: '?autoplay=1&muted=1&loop=1&background=1' %}
         {% if section.settings.video_start != blank %}{% assign vm_src = vm_src | append: '#t=' | append: section.settings.video_start | append: 's' %}{% endif %}
