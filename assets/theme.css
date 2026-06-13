@@ -2620,7 +2620,7 @@ body.template-index main > section:first-child {
   gap: 0.65rem;
 }
 
-.whatsapp-widget--right { right: 16px; flex-direction: row; }
+.whatsapp-widget--right { right: 32px; flex-direction: row; }
 .whatsapp-widget--left { left: 24px; flex-direction: row; }
 
 .whatsapp-widget__btn {
@@ -2671,7 +2671,7 @@ body.template-index main > section:first-child {
 
 @media (max-width: 680px) {
   .whatsapp-widget { bottom: 16px; }
-  .whatsapp-widget--right { right: 12px; }
+  .whatsapp-widget--right { right: 24px; }
   .whatsapp-widget--left { left: 16px; }
   .whatsapp-widget__btn { width: 52px; height: 52px; }
   .whatsapp-widget__tooltip { display: none; }
