@@ -1057,7 +1057,7 @@ body.template-index main > section:first-child {
 .marquee-track {
   display: flex;
   gap: 4rem;
-  animation: marquee 25s linear infinite;
+  animation: marquee 15s linear infinite;
   white-space: nowrap;
 }
 
