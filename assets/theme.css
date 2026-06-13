@@ -2430,8 +2430,9 @@ body.template-index main > section:first-child {
   .instafeed { grid-template-columns: repeat(3, 1fr); }
   .header-nav { display: none; }
   .mobile-menu-btn { display: flex; }
-  .header-inner { gap: 1rem; padding: 0 1.25rem; }
-  .header-nav { display: none; }
+  .header-inner { gap: 0; padding: 0 1rem; justify-content: space-between; position: relative; }
+  .header-logo { position: absolute; left: 50%; transform: translateX(-50%); }
+  .header-icon-btn--desktop { display: none; }
   .collection-layout--with-sidebar { grid-template-columns: 1fr; gap: 1.5rem; }
   .collection-sidebar { position: static; }
   .collection-sidebar__links { flex-direction: row; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
@@ -2466,10 +2467,7 @@ body.template-index main > section:first-child {
   .footer-bottom { flex-direction: column; text-align: center; }
   .footer-social { justify-content: center; }
   .footer-brand { text-align: center; }
-  .header-inner { padding: 0 1.25rem; position: relative; justify-content: flex-end; }
-  .header-logo { position: absolute; left: 50%; transform: translateX(-50%); }
-  /* Hide search & account on small phones to avoid crowding the centered logo */
-  .header-actions .header-icon-btn:not([data-cart-open]) { display: none; }
+  .header-inner { padding: 0 1rem; }
 
   /* Footer collapsible tabs on mobile */
   .footer-grid { gap: 0; }

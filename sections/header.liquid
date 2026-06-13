@@ -1,7 +1,12 @@
 <header class="site-header{% if section.settings.transparent_on_hero and template == 'index' %} site-header--transparent{% endif %}" role="banner">
   <div class="header-inner">
 
-    <!-- Logo (left) -->
+    <!-- Hamburger — left on mobile, hidden on desktop -->
+    <button class="mobile-menu-btn" aria-label="Menu">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+
+    <!-- Logo (left on desktop, center on mobile) -->
     <div class="header-logo">
       <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
         {% assign logo_dark = section.settings.logo_dark | default: settings.logo %}
@@ -21,7 +26,7 @@
       </a>
     </div>
 
-    <!-- Nav (right) -->
+    <!-- Nav (desktop only) -->
     <nav class="header-nav" aria-label="Navigation principale">
       {% assign nav_menu = section.settings.menu | default: 'main-menu' %}
       {% for link in linklists[nav_menu].links %}
@@ -45,24 +50,21 @@
       {% endfor %}
     </nav>
 
-    <!-- Actions (far right) -->
+    <!-- Actions (right) — cart always visible; search & account desktop only -->
     <div class="header-actions">
       {% if section.settings.show_search %}
-        <button class="header-icon-btn" data-search-open aria-label="Rechercher">
+        <button class="header-icon-btn header-icon-btn--desktop" data-search-open aria-label="Rechercher">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </button>
       {% endif %}
       {% if section.settings.show_account %}
-        <a href="{{ routes.account_url }}" class="header-icon-btn" aria-label="Mon compte">
+        <a href="{{ routes.account_url }}" class="header-icon-btn header-icon-btn--desktop" aria-label="Mon compte">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
         </a>
       {% endif %}
       <button class="header-icon-btn" data-cart-open aria-label="Panier ({{ cart.item_count }} articles)">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 7H4l1-7z"/></svg>
         <span class="cart-count" {% if cart.item_count == 0 %}style="display:none"{% endif %}>{{ cart.item_count }}</span>
-      </button>
-      <button class="mobile-menu-btn" aria-label="Menu">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
 
