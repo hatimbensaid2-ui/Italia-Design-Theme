@@ -305,18 +305,39 @@ document.addEventListener('click', function (e) {
   }
 });
 
-/* ---- Product Gallery Thumbnails ---- */
+/* ---- Product Gallery (swipe track + thumbnails) ---- */
 (function () {
-  const thumbs = document.querySelectorAll('.product-gallery__thumb');
-  const mainImg = document.querySelector('.product-gallery__main img');
+  const track = document.getElementById('product-gallery-track');
+  const thumbs = Array.from(document.querySelectorAll('.product-gallery__thumb'));
+  if (!track) return;
+  const slides = Array.from(track.querySelectorAll('.product-gallery__slide'));
+
+  function setActive(i) {
+    thumbs.forEach(t => t.classList.remove('active'));
+    thumbs[i] && thumbs[i].classList.add('active');
+  }
+
+  // Click a thumbnail → scroll the track to that image
   thumbs.forEach(thumb => {
     thumb.addEventListener('click', () => {
-      thumbs.forEach(t => t.classList.remove('active'));
-      thumb.classList.add('active');
-      if (mainImg) mainImg.src = thumb.querySelector('img')?.src || mainImg.src;
+      const i = parseInt(thumb.dataset.index, 10) || 0;
+      const slide = slides[i];
+      if (slide) track.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+      setActive(i);
     });
   });
-  thumbs[0]?.classList.add('active');
+
+  // Swiping the track → highlight the matching thumbnail
+  let raf;
+  track.addEventListener('scroll', () => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      const i = Math.round(track.scrollLeft / track.clientWidth);
+      setActive(i);
+    });
+  }, { passive: true });
+
+  setActive(0);
 })();
 
 /* ---- Reveal on scroll ---- */
