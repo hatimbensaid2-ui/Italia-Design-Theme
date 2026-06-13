@@ -2531,8 +2531,16 @@ body.template-index main > section:first-child {
   .footer-col__links { align-items: flex-start; }
   .footer-contact-item { justify-content: flex-start; }
 
+  /* Smaller collection header background */
+  .collection-header { padding: 1.75rem 0; }
+
   /* Compact collection promo on mobile — full image, no crop, minimal empty space */
-  .collection-promo { flex-direction: column; }
+  .collection-promo {
+    flex-direction: column;
+    min-height: 0;
+    gap: 0;
+    margin-bottom: 1.5rem;
+  }
   .collection-promo__media {
     flex: none;
     max-width: none;
