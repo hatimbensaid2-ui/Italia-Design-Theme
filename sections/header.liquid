@@ -6,7 +6,9 @@
       <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
         {% assign header_logo = section.settings.logo_image | default: settings.logo %}
         {% if header_logo %}
-          {{ header_logo | image_url: width: section.settings.logo_width | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img', style: 'max-width:' | append: section.settings.logo_width | append: 'px;' }}
+          {% assign logo_w = section.settings.logo_width | default: 160 %}
+          {% capture logo_style %}max-width:{{ logo_w }}px;height:auto;{% endcapture %}
+          {{ header_logo | image_url: width: logo_w | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img', style: logo_style }}
         {% else %}
           <span class="header-logo-text">{{ section.settings.logo_text | default: shop.name | upcase }}</span>
         {% endif %}

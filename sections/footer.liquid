@@ -7,7 +7,9 @@
         <div class="footer-brand__logo">
           {% assign footer_logo = section.settings.logo_image | default: settings.logo %}
           {% if footer_logo %}
-            {{ footer_logo | image_url: width: 240 | image_tag: alt: shop.name, style: 'filter:brightness(0)invert(1);max-width:' | append: section.settings.logo_width | append: 'px;margin-bottom:1.25rem;' }}
+            {% assign flogo_w = section.settings.logo_width | default: 120 %}
+            {% capture flogo_style %}filter:brightness(0) invert(1);max-width:{{ flogo_w }}px;height:auto;margin-bottom:1.25rem;{% endcapture %}
+            {{ footer_logo | image_url: width: 480 | image_tag: alt: shop.name, style: flogo_style }}
           {% else %}
             {{ section.settings.logo_text | default: settings.logo_text | default: shop.name | upcase }}
           {% endif %}
