@@ -41,14 +41,14 @@
           "settings": {
             "icon": "truck",
             "title": "Livraison Gratuite",
-            "description": "Partout au Maroc dès 5 000 MAD"
+            "description": "Partout au Maroc dès 6 000 MAD"
           }
         },
         "usp_2": {
           "type": "usp",
           "settings": {
             "icon": "shield",
-            "title": "Garantie 5 Ans",
+            "title": "Garantie 2 Ans",
             "description": "Sur tous nos produits"
           }
         },
