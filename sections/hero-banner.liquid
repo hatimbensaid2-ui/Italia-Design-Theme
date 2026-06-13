@@ -6,7 +6,7 @@
         <source src="{{ section.settings.video_url }}" type="video/mp4">
       </video>
     {% elsif section.settings.image %}
-      {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', alt: section.settings.heading }}
+      {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', alt: section.settings.heading }}
     {% else %}
       <div style="position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);"></div>
     {% endif %}
