@@ -80,7 +80,11 @@
         {% endif %}
         <div style="margin-top:1.5rem;">
           <p style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:.75rem;">Horaires</p>
-          <p style="font-size:.8rem;color:rgba(255,255,255,.4);line-height:1.6;">Lun – Ven : 9h – 18h<br>Samedi : 9h – 12h</p>
+          <p style="font-size:.8rem;color:rgba(255,255,255,.4);line-height:1.6;">
+            Lun – Ven : {{ section.settings.hours_weekday | default: '9h – 18h' }}<br>
+            Samedi : {{ section.settings.hours_saturday | default: '9h – 12h' }}
+            {%- if section.settings.hours_sunday != blank %}<br>Dimanche : {{ section.settings.hours_sunday }}{%- endif %}
+          </p>
         </div>
       </div>
 
@@ -101,6 +105,58 @@
 {% schema %}
 {
   "name": "Pied de page",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "À propos"
+    },
+    {
+      "type": "richtext",
+      "id": "about_text",
+      "label": "Texte de présentation",
+      "info": "Affiché dans la colonne gauche du pied de page."
+    },
+    {
+      "type": "header",
+      "content": "Coordonnées"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Téléphone"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email"
+    },
+    {
+      "type": "text",
+      "id": "address",
+      "label": "Adresse"
+    },
+    {
+      "type": "header",
+      "content": "Horaires"
+    },
+    {
+      "type": "text",
+      "id": "hours_weekday",
+      "label": "Lundi – Vendredi",
+      "default": "9h – 18h"
+    },
+    {
+      "type": "text",
+      "id": "hours_saturday",
+      "label": "Samedi",
+      "default": "9h – 12h"
+    },
+    {
+      "type": "text",
+      "id": "hours_sunday",
+      "label": "Dimanche (laisser vide si fermé)",
+      "default": ""
+    }
+  ]
 }
 {% endschema %}
