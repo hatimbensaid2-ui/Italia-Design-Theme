@@ -17,9 +17,9 @@
 (function () {
   const header = document.querySelector('.site-header--transparent');
   if (!header) return;
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 10);
-  }, { passive: true });
+  const update = () => header.classList.toggle('scrolled', window.scrollY > 10);
+  update();
+  window.addEventListener('scroll', update, { passive: true });
 })();
 
 /* ---- Mobile Menu ---- */
