@@ -81,6 +81,33 @@
   var start = parseFloat(iframe.dataset.ytStart) || 0;
   var end = parseFloat(iframe.dataset.ytEnd) || 0;
 
+  // Raw postMessage keep-alive — works even if the full IFrame API object never
+  // initializes (e.g. origin handshake fails). Continuously re-issues play and
+  // loops the trimmed segment so YouTube's center play/pause button never shows.
+  function cmd(func, args) {
+    if (!iframe.contentWindow) return;
+    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: func, args: args || [] }), '*');
+  }
+  function startKeepAlive() {
+    // Register to receive state messages from the player
+    cmd('addEventListener', ['onStateChange']);
+    setInterval(function () { cmd('playVideo'); }, 800);
+  }
+  // Listen for player state; on ended/paused, jump back to start and resume.
+  window.addEventListener('message', function (ev) {
+    if (typeof ev.data !== 'string' || ev.data.indexOf('"info"') === -1) return;
+    var data;
+    try { data = JSON.parse(ev.data); } catch (e) { return; }
+    if (!data || !data.info) return;
+    var ps = data.info.playerState;
+    if (ps === 0 || ps === 2) { cmd('seekTo', [start, true]); cmd('playVideo'); }
+    if (end > start && typeof data.info.currentTime === 'number' && data.info.currentTime >= end - 0.25) {
+      cmd('seekTo', [start, true]); cmd('playVideo');
+    }
+  });
+  if (iframe.contentWindow) { startKeepAlive(); }
+  else { iframe.addEventListener('load', startKeepAlive); }
+
   function loadApi(cb) {
     if (window.YT && window.YT.Player) { cb(); return; }
     window.__heroYtCallbacks = window.__heroYtCallbacks || [];
@@ -109,15 +136,12 @@
           setInterval(function () {
             try {
               var state = player.getPlayerState();
-              // -1 unstarted, 2 paused, 5 cued → force play so the center play/pause button never shows
-              if (state === 2 || state === 5 || state === -1) {
-                player.mute();
-                player.playVideo();
-              }
+              // Force play on anything that isn't actively playing (1) so the center button never shows
+              if (state !== 1) { player.mute(); player.playVideo(); }
               var t = player.getCurrentTime();
               if (end > start && t >= end - 0.25) { player.seekTo(start, true); }
             } catch (err) {}
-          }, 200);
+          }, 150);
         },
         onStateChange: function (e) {
           // Resume immediately on end or pause so YouTube's center button never appears
