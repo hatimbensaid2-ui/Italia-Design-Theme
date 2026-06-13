@@ -11,7 +11,7 @@
         "btn2_text": "Notre Showroom",
         "btn2_url": "/pages/contact",
         "overlay_opacity": 45,
-        "min_height": 88,
+        "min_height": 90,
         "show_scroll": true
       }
     },
