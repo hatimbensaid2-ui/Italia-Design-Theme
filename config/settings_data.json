@@ -50,7 +50,22 @@
       },
       "footer": {
         "type": "footer",
-        "settings": {}
+        "settings": {
+          "logo_text": "",
+          "about_text": "",
+          "col1_title": "Navigation",
+          "menu": "main-menu",
+          "col2_title": "Informations",
+          "menu2": "footer",
+          "col3_title": "Contact",
+          "address": "",
+          "phone": "",
+          "email": "",
+          "show_hours": true,
+          "hours_weekday": "9h – 18h",
+          "hours_saturday": "9h – 12h",
+          "hours_sunday": ""
+        }
       }
     },
     "content_for_index": []
