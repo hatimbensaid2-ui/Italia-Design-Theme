@@ -12,6 +12,14 @@
     "footer_about": "<p>Italia Design — Mobilier de luxe inspiré de l'Italie, fabriqué pour le Maroc.</p>",
     "footer_phone": "+212 5XX-XXXXXX",
     "footer_email": "contact@italiadesign.ma",
-    "footer_address": "Casablanca, Maroc"
+    "footer_address": "Casablanca, Maroc",
+    "whatsapp_enabled": true,
+    "whatsapp_number": "212600000000",
+    "whatsapp_message": "Bonjour, je souhaite avoir des informations sur vos meubles.",
+    "whatsapp_tooltip": "Contactez-nous sur WhatsApp",
+    "whatsapp_position": "right",
+    "social_instagram": "",
+    "social_facebook": "",
+    "social_tiktok": ""
   }
 }
