@@ -4,11 +4,17 @@
     <!-- Logo (left) -->
     <div class="header-logo">
       <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
-        {% assign header_logo = section.settings.logo_image | default: settings.logo %}
-        {% if header_logo %}
-          {% assign logo_w = section.settings.logo_width | default: 160 %}
+        {% assign logo_dark = section.settings.logo_dark | default: settings.logo %}
+        {% assign logo_light = section.settings.logo_light | default: logo_dark %}
+        {% assign logo_w = section.settings.logo_width | default: 160 %}
+        {% if logo_dark or logo_light %}
           {% capture logo_style %}max-width:{{ logo_w }}px;height:auto;{% endcapture %}
-          {{ header_logo | image_url: width: logo_w | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img', style: logo_style }}
+          {% if logo_light %}
+            {{ logo_light | image_url: width: logo_w | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img header-logo__light', style: logo_style }}
+          {% endif %}
+          {% if logo_dark %}
+            {{ logo_dark | image_url: width: logo_w | image_tag: loading: 'eager', alt: shop.name, class: 'header-logo__img header-logo__dark', style: logo_style }}
+          {% endif %}
         {% else %}
           <span class="header-logo-text">{{ section.settings.logo_text | default: shop.name | upcase }}</span>
         {% endif %}
@@ -73,9 +79,15 @@
     },
     {
       "type": "image_picker",
-      "id": "logo_image",
-      "label": "Logo (image)",
-      "info": "Téléchargez votre logo ici. Si vide, le logo global ou le texte ci-dessous est utilisé."
+      "id": "logo_light",
+      "label": "Logo blanc (en-tête transparent)",
+      "info": "Affiché en haut de la page d'accueil, sur la bannière. Utilisez un logo blanc."
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_dark",
+      "label": "Logo noir (en-tête blanc / au défilement)",
+      "info": "Affiché sur les autres pages et quand l'en-tête devient blanc au défilement. Utilisez un logo noir."
     },
     {
       "type": "range",

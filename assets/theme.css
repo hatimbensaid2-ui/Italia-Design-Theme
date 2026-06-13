@@ -184,10 +184,12 @@ body.template-index main > section:first-child {
   color: #ffffff !important;
 }
 
-.site-header--transparent:not(.scrolled) .header-logo__img {
-  filter: brightness(0) invert(1);
-  transition: filter 0.35s ease;
-}
+/* Two-logo swap: white logo over transparent hero, black logo when solid */
+.header-logo__light { display: none; }
+.header-logo__dark { display: block; }
+
+.site-header--transparent:not(.scrolled) .header-logo__light { display: block; }
+.site-header--transparent:not(.scrolled) .header-logo__dark { display: none; }
 
 .header-inner {
   display: flex;
