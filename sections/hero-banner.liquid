@@ -8,7 +8,7 @@
       {% if vid.type == 'youtube' %}
         {% assign yt_start = section.settings.video_start | default: 0 %}
         {% comment %} No loop/playlist params — the IFrame API below handles looping, which avoids YouTube's prev/next controls {% endcomment %}
-        {% assign yt_src = 'https://www.youtube.com/embed/' | append: vid.id | append: '?autoplay=1&mute=1&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1&disablekb=1&iv_load_policy=3&cc_load_policy=0&fs=0&color=white&enablejsapi=1&start=' | append: yt_start %}
+        {% assign yt_src = 'https://www.youtube.com/embed/' | append: vid.id | append: '?autoplay=1&mute=1&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1&disablekb=1&iv_load_policy=3&cc_load_policy=0&fs=0&color=white&enablejsapi=1&origin=' | append: request.origin | append: '&start=' | append: yt_start %}
         <iframe id="hero-yt-{{ section.id }}"
           class="{{ vid_class }}"
           data-hero-yt
