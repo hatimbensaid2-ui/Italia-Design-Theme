@@ -73,52 +73,6 @@
       ],
       "settings": {}
     },
-    "collections": {
-      "type": "featured-collections",
-      "blocks": {
-        "col_1": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "overline": "Espace Vie",
-            "title": "Salon & Séjour",
-            "url": ""
-          }
-        },
-        "col_2": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "overline": "Espace Nuit",
-            "title": "Chambre",
-            "url": ""
-          }
-        },
-        "col_3": {
-          "type": "collection",
-          "settings": {
-            "collection": "",
-            "overline": "Espace Repas",
-            "title": "Salle à Manger",
-            "url": ""
-          }
-        }
-      },
-      "block_order": [
-        "col_1",
-        "col_2",
-        "col_3"
-      ],
-      "settings": {
-        "overline": "Nos Univers",
-        "title": "Explorez nos Collections",
-        "description": "Du salon à la chambre, découvrez des espaces conçus pour sublimer votre intérieur.",
-        "first_featured": false,
-        "btn_text": "Toutes les Collections",
-        "btn_url": "/collections/all",
-        "bg": "white"
-      }
-    },
     "featured_products": {
       "type": "featured-products",
       "settings": {
@@ -227,7 +181,6 @@
   "order": [
     "hero",
     "usp",
-    "collections",
     "featured_products",
     "split_about",
     "testimonials",
