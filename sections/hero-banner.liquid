@@ -6,12 +6,16 @@
       {% assign vid_class = 'hero__video-embed' %}
       {% if section.settings.video_display == 'letterbox' %}{% assign vid_class = 'hero__video-embed hero__video-embed--letterbox' %}{% endif %}
       {% if vid.type == 'youtube' %}
-        {% assign yt_src = 'https://www.youtube.com/embed/' | append: vid.id | append: '?autoplay=1&mute=1&loop=1&playlist=' | append: vid.id | append: '&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1&disablekb=1&iv_load_policy=3&cc_load_policy=0&fs=0&color=white' %}
-        {% if section.settings.video_start != blank %}{% assign yt_src = yt_src | append: '&start=' | append: section.settings.video_start %}{% endif %}
-        {% if section.settings.video_end != blank %}{% assign yt_src = yt_src | append: '&end=' | append: section.settings.video_end %}{% endif %}
-        <iframe class="{{ vid_class }}"
+        {% assign yt_start = section.settings.video_start | default: 0 %}
+        {% assign yt_src = 'https://www.youtube.com/embed/' | append: vid.id | append: '?autoplay=1&mute=1&loop=1&playlist=' | append: vid.id | append: '&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1&disablekb=1&iv_load_policy=3&cc_load_policy=0&fs=0&color=white&enablejsapi=1&start=' | append: yt_start %}
+        <iframe id="hero-yt-{{ section.id }}"
+          class="{{ vid_class }}"
+          data-hero-yt
+          data-yt-id="{{ vid.id }}"
+          data-yt-start="{{ yt_start }}"
+          data-yt-end="{{ section.settings.video_end | default: 0 }}"
           src="{{ yt_src }}"
-          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen
+          frameborder="0" allow="autoplay; encrypted-media"
           title="{{ section.settings.heading | escape }}"></iframe>
       {% elsif vid.type == 'vimeo' %}
         {% assign vm_src = 'https://player.vimeo.com/video/' | append: vid.id | append: '?autoplay=1&muted=1&loop=1&background=1' %}
@@ -66,6 +70,57 @@
   {% endif %}
 
 </section>
+
+{% if section.settings.hero_video != blank and vid.type == 'youtube' %}
+<script>
+(function () {
+  var iframe = document.getElementById('hero-yt-{{ section.id }}');
+  if (!iframe) return;
+  var start = parseFloat(iframe.dataset.ytStart) || 0;
+  var end = parseFloat(iframe.dataset.ytEnd) || 0;
+
+  function loadApi(cb) {
+    if (window.YT && window.YT.Player) { cb(); return; }
+    window.__heroYtCallbacks = window.__heroYtCallbacks || [];
+    window.__heroYtCallbacks.push(cb);
+    if (!document.getElementById('yt-iframe-api')) {
+      var tag = document.createElement('script');
+      tag.id = 'yt-iframe-api';
+      tag.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(tag);
+    }
+    var prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function () {
+      if (typeof prev === 'function') prev();
+      (window.__heroYtCallbacks || []).forEach(function (fn) { fn(); });
+      window.__heroYtCallbacks = [];
+    };
+  }
+
+  loadApi(function () {
+    var player = new YT.Player(iframe.id, {
+      events: {
+        onReady: function (e) {
+          e.target.mute();
+          e.target.playVideo();
+          // Poll and loop the trimmed segment so the end-screen never shows
+          setInterval(function () {
+            try {
+              var t = player.getCurrentTime();
+              if (end > start && t >= end - 0.25) { player.seekTo(start, true); }
+            } catch (err) {}
+          }, 250);
+        },
+        onStateChange: function (e) {
+          // If the video ever ends, jump straight back to the start
+          if (e.data === YT.PlayerState.ENDED) { player.seekTo(start, true); player.playVideo(); }
+        }
+      }
+    });
+  });
+})();
+</script>
+{% endif %}
 
 {% schema %}
 {
