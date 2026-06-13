@@ -65,7 +65,14 @@
       {
         "type": "image_picker",
         "id": "logo",
-        "label": "Logo"
+        "label": "Logo (image)"
+      },
+      {
+        "type": "text",
+        "id": "logo_text",
+        "label": "Texte du logo",
+        "info": "Affiché dans l'en-tête et le pied de page quand aucune image logo n'est choisie.",
+        "default": "ITALIA DESIGN"
       },
       {
         "type": "range",

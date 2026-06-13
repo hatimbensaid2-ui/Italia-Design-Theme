@@ -8,7 +8,7 @@
           {% if settings.logo %}
             {{ settings.logo | image_url: width: 120 | image_tag: alt: shop.name, style: 'filter:brightness(0)invert(1);max-width:120px;margin-bottom:1.25rem;' }}
           {% else %}
-            {{ shop.name | upcase }}
+            {{ settings.logo_text | default: shop.name | upcase }}
           {% endif %}
         </div>
         <div class="footer-brand__desc">{{ settings.footer_about }}</div>
