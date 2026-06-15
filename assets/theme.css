@@ -1747,7 +1747,7 @@ body.template-index main > section:first-child {
    ============================================================ */
 
 .product-page {
-  padding: 4rem 0;
+  padding: 0 0 4rem;
 }
 
 .product-layout {
